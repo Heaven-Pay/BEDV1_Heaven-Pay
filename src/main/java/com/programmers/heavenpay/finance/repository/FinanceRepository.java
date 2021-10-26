@@ -6,4 +6,8 @@ import org.springframework.stereotype.Repository;
 
 @Repository
 public interface FinanceRepository extends JpaRepository<Finance, Long> {
+    boolean existsByName(String name);
+
+    @Override
+    Finance save(Finance finance);
 }

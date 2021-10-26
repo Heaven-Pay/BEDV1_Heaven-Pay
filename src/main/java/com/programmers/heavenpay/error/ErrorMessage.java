@@ -13,7 +13,8 @@ public enum ErrorMessage {
     NOT_EXIST_GENDER_TYPE(HttpStatus.NOT_FOUND, "존재하지 않는 성별(gender) 값"),
     NOT_EXIST_STORE_TYPE(HttpStatus.NOT_FOUND, "존재하지 않는 Store Type"),
     NOT_EXIST_STORE(HttpStatus.NOT_FOUND, "존재하지 않는 Store"),
-    NOT_EXIST_FINANCE_TYPE(HttpStatus.NOT_FOUND, "존재하지 않는 금융 조건");
+    NOT_EXIST_FINANCE_TYPE(HttpStatus.NOT_FOUND, "존재하지 않는 금융 조건"),
+    DUPLICATION_FINANCE_NAME(HttpStatus.NOT_FOUND, "중복된 이름");
 
     private final HttpStatus status;
     private final String message;

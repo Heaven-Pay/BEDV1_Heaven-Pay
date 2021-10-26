@@ -1,7 +1,6 @@
 package com.programmers.heavenpay.finance.entity;
 
 import com.programmers.heavenpay.common.entity.BaseEntity;
-import com.programmers.heavenpay.finance.entity.vo.Accounts;
 import com.programmers.heavenpay.finance.entity.vo.FinanceType;
 import lombok.*;
 
@@ -24,7 +23,4 @@ public class Finance extends BaseEntity<Long> {
     @Enumerated(EnumType.STRING)
     @Column(name = "finance_type")
     private FinanceType financeType;
-
-    @Embedded
-    private Accounts accounts;
 }
