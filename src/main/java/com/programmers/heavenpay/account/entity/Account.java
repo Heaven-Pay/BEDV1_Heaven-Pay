@@ -22,7 +22,7 @@ public class Account extends BaseEntity<Long> {
     @Column(name = "account_title", length = 50)
     private String title;
 
-    @Column(name = "accout_description", length = 100)
+    @Column(name = "account_description", length = 100)
     private String description;
 
     @Column(name = "account_number", unique = true, nullable = false)
