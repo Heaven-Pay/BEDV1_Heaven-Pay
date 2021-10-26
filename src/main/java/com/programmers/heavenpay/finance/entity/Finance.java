@@ -23,4 +23,10 @@ public class Finance extends BaseEntity<Long> {
     @Enumerated(EnumType.STRING)
     @Column(name = "finance_type")
     private FinanceType financeType;
+
+    public void update(Long memberId, String name, String financeType) {
+        this.name = name.isBlank() ? this.name : name;
+        this.financeType = FinanceType.of(financeType);
+        updateLastModifiedMember(memberId);
+    }
 }
