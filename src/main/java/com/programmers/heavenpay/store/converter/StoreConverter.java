@@ -19,7 +19,7 @@ public class StoreConverter {
         return StoreInfoResponse.builder()
                 .id(store.getId())
                 .name(store.getName())
-                .type(store.getType())
+                .type(StoreType.of(store.getType()))
                 .vendorCode(store.getVendorCode())
                 .createdAt(store.getCreatedDate())
                 .modifiedAt(store.getModifiedDate())
