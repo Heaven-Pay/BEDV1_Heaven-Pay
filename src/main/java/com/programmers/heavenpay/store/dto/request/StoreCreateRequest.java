@@ -15,6 +15,6 @@ public class StoreCreateRequest {
     @NotBlank(message = "store type validation fail")
     private String type;
 
-    @Pattern(regexp = "[a-zA-Z1-9]{6,12}", message = "vendor code validation fail")
+    @Pattern(regexp = "\\S{8,10}", message = "vendor code validation fail")
     private String vendorCode;
 }
