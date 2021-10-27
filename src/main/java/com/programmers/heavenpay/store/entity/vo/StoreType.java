@@ -2,9 +2,11 @@ package com.programmers.heavenpay.store.entity.vo;
 
 import com.programmers.heavenpay.error.ErrorMessage;
 import com.programmers.heavenpay.error.exception.NotExistsException;
+import lombok.Getter;
 
 import java.util.Arrays;
 
+@Getter
 public enum StoreType {
     FOOD("식품"),
     DEPARTMENT_STORE("백화점"),
@@ -27,9 +29,5 @@ public enum StoreType {
                 .filter(v -> v.storeType.equals(storeType))
                 .findFirst()
                 .orElseThrow(() -> new NotExistsException(ErrorMessage.NOT_EXIST_STORE_TYPE));
-    }
-
-    public static String toKorean(StoreType type){
-        return type.storeType;
     }
 }

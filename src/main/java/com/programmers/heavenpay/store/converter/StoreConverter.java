@@ -22,7 +22,7 @@ public class StoreConverter {
         return StoreInfoResponse.builder()
                 .id(store.getId())
                 .name(store.getName())
-                .type(StoreType.toKorean(store.getType()))
+                .type(store.getType().getStoreType())
                 .vendorCode(store.getVendorCode())
                 .createdAt(store.getCreatedDate())
                 .modifiedAt(store.getModifiedDate())
