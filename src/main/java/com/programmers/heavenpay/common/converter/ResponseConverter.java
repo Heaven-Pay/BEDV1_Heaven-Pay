@@ -13,7 +13,7 @@ import org.springframework.stereotype.Component;
 
 @Component
 public class ResponseConverter {
-    public <T> ResponseEntity<ResponseDto> toResponseEntity(HttpStatus status, ResponseMessage message, EntityModel model) {
+    public ResponseEntity<ResponseDto> toResponseEntity(HttpStatus status, ResponseMessage message, EntityModel model) {
         return ResponseEntity
                 .status(status)
                 .body(ResponseDto.of(message, model));
@@ -25,7 +25,7 @@ public class ResponseConverter {
                 .body(ResponseDto.of(message, pages, link));
     }
 
-    public <T> ResponseEntity<ErrorResponseDto> toResponseEntity(HttpStatus status, ErrorMessage message) {
+    public ResponseEntity<ErrorResponseDto> toResponseEntity(HttpStatus status, ErrorMessage message) {
         return ResponseEntity
                 .status(status)
                 .body(ErrorResponseDto.of(message));
