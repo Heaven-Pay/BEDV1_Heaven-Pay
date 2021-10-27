@@ -7,10 +7,12 @@ import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.autoconfigure.orm.jpa.DataJpaTest;
 
-import java.util.UUID;
-
 import static org.hamcrest.Matchers.*;
 import static org.hamcrest.MatcherAssert.*;
+
+/**
+ * repository test에서는 값 테스트와 연관관계 테스트를 진행한다.
+ */
 
 @DataJpaTest
 class StoreRepositoryTest {
@@ -18,19 +20,20 @@ class StoreRepositoryTest {
     private StoreRepository storeRepository;
 
     @Test
-    @DisplayName("stroe 를 삽입 할 수 있다.")
+    @DisplayName("store 를 삽입 할 수 있다.")
     void saveTest(){
         //given
-        Store store = Store.builder()
-                .name("store1")
-                .vendorCode(UUID.randomUUID().toString())
+        Store expected = Store.builder()
+                .name("파리바게뜨")
+                .vendorCode("108-15-84292")
                 .type(StoreType.BAKERY)
                 .build();
 
         //when
-        Store savedStore = storeRepository.save(store);
+        Store actual = storeRepository.save(expected);
 
         //then
-        assertThat(savedStore.getId(), is(not(nullValue())));
+        assertThat(actual.getId(), is(not(nullValue())));
+        assertThat(actual.getVendorCode(), is(expected.getVendorCode()));
     }
 }
