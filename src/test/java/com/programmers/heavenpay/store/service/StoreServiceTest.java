@@ -34,10 +34,10 @@ class StoreServiceTest {
     @Mock
     Store store;
 
-    String name = "name1";
-    String typeStr = "식품";
-    String vendorCode = "2240363A";
-    StoreType storeType = StoreType.FOOD;
+    String name = "파리바게뜨";
+    String typeStr = "베이커리";
+    String vendorCode = "108-15-84292";
+    StoreType storeType = StoreType.BAKERY;
 
     @Test
     @DisplayName("store를 삽입할 수 있다.")
