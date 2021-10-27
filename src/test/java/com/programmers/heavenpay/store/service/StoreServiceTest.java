@@ -20,7 +20,7 @@ import java.util.Optional;
 
 import static org.mockito.Mockito.*;
 
-@ExtendWith(MockitoExtension.class)
+@ExtendWith(MockitoExtension.class) // Mockito의 Mock 객체를 사용하기 위한 Annotation
 class StoreServiceTest {
     @InjectMocks
     StoreService storeService;

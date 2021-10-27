@@ -16,14 +16,14 @@ import static org.hamcrest.MatcherAssert.*;
  * repository test에서는 값 테스트와 연관관계 테스트를 진행한다.
  */
 
-@DataJpaTest
+@DataJpaTest  // JPA 관련 테스트 설정만 로드함
 class StoreRepositoryTest {
     @Autowired
     private StoreRepository storeRepository;
 
     @Test
     @DisplayName("store 를 삽입 할 수 있다.")
-    void saveTest(){
+    void saveTest() {
         //given
         Store expected = Store.builder()
                 .name("파리바게뜨")
@@ -41,7 +41,7 @@ class StoreRepositoryTest {
 
     @Test
     @DisplayName("store name으로 조회할 수 있다.")
-    void findByNameTest(){
+    void findByNameTest() {
         //given
         Store expected = Store.builder()
                 .name("파리바게뜨")
@@ -63,7 +63,7 @@ class StoreRepositoryTest {
 
     @Test
     @DisplayName("store id로 조회할 수 있다.")
-    void findByIdTest(){
+    void findByIdTest() {
         //given
         Store tmp = Store.builder()
                 .name("파리바게뜨")
@@ -85,7 +85,7 @@ class StoreRepositoryTest {
 
     @Test
     @DisplayName("store를 삭제할 수 있다.")
-    void deleteTest(){
+    void deleteTest() {
         //given
         String tmpVendorCode = "108-15-84292";
         Store tmp = Store.builder()
