@@ -1,4 +1,4 @@
-package com.programmers.heavenpay.utill;
+package com.programmers.heavenpay.common.dto;
 
 public class HateoasMethodType {
     public static final String CREATE_METHOD = "create";
