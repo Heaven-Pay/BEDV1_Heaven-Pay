@@ -7,6 +7,8 @@ import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.autoconfigure.orm.jpa.DataJpaTest;
 
+import java.util.Optional;
+
 import static org.hamcrest.Matchers.*;
 import static org.hamcrest.MatcherAssert.*;
 
@@ -35,5 +37,71 @@ class StoreRepositoryTest {
         //then
         assertThat(actual.getId(), is(not(nullValue())));
         assertThat(actual.getVendorCode(), is(expected.getVendorCode()));
+    }
+
+    @Test
+    @DisplayName("store name으로 조회할 수 있다.")
+    void findByNameTest(){
+        //given
+        Store expected = Store.builder()
+                .name("파리바게뜨")
+                .vendorCode("108-15-84292")
+                .type(StoreType.BAKERY)
+                .build();
+
+        storeRepository.save(expected);
+
+        //when
+        Optional<Store> actual = storeRepository.findByName(expected.getName());
+
+        //then
+        assertThat(actual.isPresent(), is(true));
+        assertThat(actual.get().getId(), is(not(nullValue())));
+        assertThat(actual.get().getVendorCode(), is(expected.getVendorCode()));
+        assertThat(actual.get().getName(), is(expected.getName()));
+    }
+
+    @Test
+    @DisplayName("store id로 조회할 수 있다.")
+    void findByIdTest(){
+        //given
+        Store tmp = Store.builder()
+                .name("파리바게뜨")
+                .vendorCode("108-15-84292")
+                .type(StoreType.BAKERY)
+                .build();
+
+        Store expected = storeRepository.save(tmp);
+
+        //when
+        Optional<Store> actual = storeRepository.findById(expected.getId());
+
+        //then
+        assertThat(actual.isPresent(), is(true));
+        assertThat(actual.get().getId(), is(expected.getId()));
+        assertThat(actual.get().getVendorCode(), is(expected.getVendorCode()));
+        assertThat(actual.get().getName(), is(expected.getName()));
+    }
+
+    @Test
+    @DisplayName("store를 삭제할 수 있다.")
+    void deleteTest(){
+        //given
+        String tmpVendorCode = "108-15-84292";
+        Store tmp = Store.builder()
+                .name("파리바게뜨")
+                .vendorCode(tmpVendorCode)
+                .type(StoreType.BAKERY)
+                .build();
+
+        Store expected = storeRepository.save(tmp);
+
+        //when
+        storeRepository.delete(expected);
+        Optional<Store> actual = storeRepository.findById(expected.getId());
+
+        //then
+        boolean result = storeRepository.existsStoreByVendorCode(tmpVendorCode);
+        assertThat(result, is(false));
     }
 }
