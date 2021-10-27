@@ -1,6 +1,7 @@
 package com.programmers.heavenpay.store.service;
 
 import com.programmers.heavenpay.error.ErrorMessage;
+import com.programmers.heavenpay.error.exception.DuplicateDataException;
 import com.programmers.heavenpay.error.exception.NotExistsException;
 import com.programmers.heavenpay.store.converter.StoreConverter;
 import com.programmers.heavenpay.store.dto.response.StoreCreateResponse;
@@ -24,30 +25,27 @@ public class StoreService {
 
     @Transactional
     public StoreCreateResponse create(String name, String typeStr, String vendorCode) {
+        validateVendorCode(vendorCode);
+
         StoreType type = StoreType.of(typeStr);
 
         Store store = storeConverter.toStoreEntity(name, type, vendorCode);
         Store savedStore = storeRepository.save(store);
 
-        return StoreCreateResponse.builder()
-                .id(savedStore.getId())
-                .build();
+        return storeConverter.toStoreCreateResponse(savedStore.getId());
     }
 
     @Transactional
     public StoreUpdateResponse update(Long id, String name, String typeStr, String vendorCode) {
+        validateVendorCode(vendorCode);
+
         Store store = storeRepository.findById(id)
                 .orElseThrow(() -> new NotExistsException(ErrorMessage.NOT_EXIST_STORE));
 
         StoreType type = StoreType.of(typeStr);
         store.changeInfo(name, type, vendorCode);
 
-        return StoreUpdateResponse.builder()
-                .id(id)
-                .name(name)
-                .type(typeStr)
-                .vendorCode(vendorCode)
-                .build();
+        return storeConverter.toStoreUpdateResponse(id, name, typeStr, vendorCode);
     }
 
     @Transactional(readOnly = true)
@@ -71,8 +69,12 @@ public class StoreService {
 
         storeRepository.delete(store);
 
-        return StoreDeleteResponse.builder()
-                .id(id)
-                .build();
+        return storeConverter.toStoreDeleteResponse(id);
+    }
+
+    private void validateVendorCode(String vendorCode) {
+        if (storeRepository.existsStoreByVendorCode(vendorCode)) {
+            throw new DuplicateDataException(ErrorMessage.ALREADY_EXISTS_VENDOR_CODE);
+        }
     }
 }
