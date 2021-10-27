@@ -22,9 +22,6 @@ public enum StoreType {
         this.storeType = storeType;
     }
 
-    /**
-     * store tpye에 해당하는 문자열(한글)을 StoreType 타입으로 변환합니다.
-     */
     public static StoreType of(String storeType) {
         return Arrays.stream(StoreType.values())
                 .filter(v -> v.storeType.equals(storeType))
@@ -32,10 +29,7 @@ public enum StoreType {
                 .orElseThrow(() -> new NotExistsException(ErrorMessage.NOT_EXIST_STORE_TYPE));
     }
 
-    /**
-     * StoreType을 해당하는 문자열(한글)로 변환합니다.
-     */
-    public static String of(StoreType type){
+    public static String toKorean(StoreType type){
         return type.storeType;
     }
 }
