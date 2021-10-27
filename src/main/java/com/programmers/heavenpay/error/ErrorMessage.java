@@ -12,7 +12,8 @@ public enum ErrorMessage {
     NOT_EXIST_MEMBER_ID(HttpStatus.NOT_FOUND, "존재하지 않는 Member Id"),
     NOT_EXIST_GENDER_TYPE(HttpStatus.NOT_FOUND, "존재하지 않는 성별(gender) 값"),
     NOT_EXIST_STORE_TYPE(HttpStatus.NOT_FOUND, "존재하지 않는 Store Type"),
-    NOT_EXIST_STORE(HttpStatus.NOT_FOUND, "존재하지 않는 Store");
+    NOT_EXIST_STORE(HttpStatus.NOT_FOUND, "존재하지 않는 Store"),
+    ALREADY_EXISTS_VENDOR_CODE(HttpStatus.ALREADY_REPORTED, "이미 존재하는 사업자번호");
 
     private final HttpStatus status;
     private final String message;
