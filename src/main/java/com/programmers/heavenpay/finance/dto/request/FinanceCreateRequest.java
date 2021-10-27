@@ -1,11 +1,13 @@
 package com.programmers.heavenpay.finance.dto.request;
 
 import com.programmers.heavenpay.annotation.ArbitraryAuthenticationPrincipal;
+import lombok.Builder;
 import lombok.Getter;
 
 import javax.validation.constraints.Pattern;
 
 @Getter
+@Builder
 public class FinanceCreateRequest {
     @ArbitraryAuthenticationPrincipal
     private Long memberId;

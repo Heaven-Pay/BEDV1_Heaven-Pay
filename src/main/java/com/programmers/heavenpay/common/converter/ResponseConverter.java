@@ -21,8 +21,12 @@ public class ResponseConverter {
     }
 
     public <T> ResponseEntity<ResponseDto> toResponseEntity(HttpStatus status, ResponseMessage message, Page<T> pages, Link link) {
-        return ResponseEntity
-                .status(status)
-                .body(ResponseDto.of(message, pages, link));
+        return ResponseEntity.ok(
+                ResponseDto.of(
+                        message,
+                        pages,
+                        link
+                )
+        );
     }
 }

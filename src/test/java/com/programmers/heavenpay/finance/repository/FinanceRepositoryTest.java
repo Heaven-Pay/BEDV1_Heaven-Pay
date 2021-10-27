@@ -100,7 +100,7 @@ class FinanceRepositoryTest {
                 .name(name)
                 .financeType(type)
                 .build();
-        Finance savedEntity = financeRepository.save(finance);
+        financeRepository.save(finance);
 
         // when
         boolean actual = financeRepository.existsByName(name);
