@@ -13,6 +13,6 @@ public class StoreUpdateRequest {
     @NotBlank(message = "store type validation fail")
     private String type;
 
-    @Pattern(regexp = "\\S{8,10}", message = "vendor code validation fail")
+    @Pattern(regexp = "^(\\S{3,3})+[-]+(\\S{2,2})+[-]+(\\S{5,5})", message = "vendor code validation fail")
     private String vendorCode;
 }
