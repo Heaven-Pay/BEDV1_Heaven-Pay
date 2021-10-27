@@ -49,15 +49,15 @@ public class StoreController {
     @ApiOperation("Store 신규 추가, 성공시 생성된 Store ID 반환")
     @PostMapping(consumes = MediaTypes.HAL_JSON_VALUE)
     public ResponseEntity<ResponseDto> insert(@Valid @RequestBody StoreCreateRequest request) {
-        StoreCreateResponse responseDto = storeService.create(request.getName(), request.getType(), request.getVendorCode());
+        StoreCreateResponse response = storeService.create(request.getName(), request.getType(), request.getVendorCode());
 
         EntityModel<StoreCreateResponse> entityModel = EntityModel.of(
-                responseDto,
+                response,
                 getLinkToAddress().withSelfRel().withType(HttpMethod.POST.name()),
-                getLinkToAddress().slash(responseDto.getId()).withRel(GET_METHOD).withType(HttpMethod.GET.name()),
+                getLinkToAddress().slash(response.getId()).withRel(GET_METHOD).withType(HttpMethod.GET.name()),
                 getLinkToAddress().withRel(GET_ALL_METHOD).withType(HttpMethod.GET.name()),
-                getLinkToAddress().slash(responseDto.getId()).withRel(UPDATE_METHOD).withType(HttpMethod.PATCH.name()),
-                getLinkToAddress().slash(responseDto.getId()).withRel(DELETE_METHOD).withType(HttpMethod.DELETE.name())
+                getLinkToAddress().slash(response.getId()).withRel(UPDATE_METHOD).withType(HttpMethod.PATCH.name()),
+                getLinkToAddress().slash(response.getId()).withRel(DELETE_METHOD).withType(HttpMethod.DELETE.name())
         );
 
         return responseConverter.toResponseEntity(
