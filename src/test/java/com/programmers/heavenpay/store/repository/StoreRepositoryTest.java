@@ -19,7 +19,7 @@ class StoreRepositoryTest {
 
     @Test
     @DisplayName("stroe 를 삽입 할 수 있다.")
-    void saveTest(){
+    void saveTest() {
         //given
         Store store = Store.builder()
                 .name("store1")
