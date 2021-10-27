@@ -30,9 +30,9 @@ public class StoreService {
         StoreType type = StoreType.of(typeStr);
 
         Store store = storeConverter.toStoreEntity(name, type, vendorCode);
-        Store savedStore = storeRepository.save(store);
+        Store storeEntity = storeRepository.save(store);
 
-        return storeConverter.toStoreCreateResponse(savedStore.getId());
+        return storeConverter.toStoreCreateResponse(storeEntity.getId());
     }
 
     @Transactional
