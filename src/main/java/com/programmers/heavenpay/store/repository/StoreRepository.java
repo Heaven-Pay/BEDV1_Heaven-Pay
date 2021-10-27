@@ -16,4 +16,6 @@ public interface StoreRepository extends JpaRepository<Store, Long> {
     <S extends Store> S save(S entity);
 
     Optional<Store> findByName(String name);
+
+    boolean existsStoreByVendorCode(String vendorCode);
 }
