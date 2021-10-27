@@ -54,10 +54,10 @@ public class StoreController {
         EntityModel<StoreCreateResponse> entityModel = EntityModel.of(
                 responseDto,
                 getLinkToAddress().withSelfRel().withType(HttpMethod.POST.name()),
-                getLinkToAddress().slash(responseDto.getId()).withRel(DELETE_METHOD).withType(HttpMethod.DELETE.name()),
-                getLinkToAddress().slash(responseDto.getId()).withRel(UPDATE_METHOD).withType(HttpMethod.PATCH.name()),
                 getLinkToAddress().slash(responseDto.getId()).withRel(GET_METHOD).withType(HttpMethod.GET.name()),
-                getLinkToAddress().withRel(GET_ALL_METHOD).withType(HttpMethod.GET.name())
+                getLinkToAddress().withRel(GET_ALL_METHOD).withType(HttpMethod.GET.name()),
+                getLinkToAddress().slash(responseDto.getId()).withRel(UPDATE_METHOD).withType(HttpMethod.PATCH.name()),
+                getLinkToAddress().slash(responseDto.getId()).withRel(DELETE_METHOD).withType(HttpMethod.DELETE.name())
         );
 
         return responseConverter.toResponseEntity(
@@ -74,9 +74,9 @@ public class StoreController {
 
         EntityModel<StoreDeleteResponse> entityModel = EntityModel.of(
                 response,
-                getLinkToAddress().slash(response.getId()).withSelfRel().withType(HttpMethod.DELETE.name()),
                 getLinkToAddress().withRel(INSERT_METHOD).withType(HttpMethod.POST.name()),
-                getLinkToAddress().withRel(GET_ALL_METHOD).withType(HttpMethod.GET.name())
+                getLinkToAddress().withRel(GET_ALL_METHOD).withType(HttpMethod.GET.name()),
+                getLinkToAddress().slash(response.getId()).withSelfRel().withType(HttpMethod.DELETE.name())
         );
 
         return responseConverter.toResponseEntity(
@@ -93,11 +93,11 @@ public class StoreController {
 
         EntityModel<StoreUpdateResponse> entityModel = EntityModel.of(
                 response,
-                getLinkToAddress().slash(response.getId()).withSelfRel().withType(HttpMethod.PATCH.name()),
                 getLinkToAddress().withRel(INSERT_METHOD).withType(HttpMethod.POST.name()),
-                getLinkToAddress().slash(response.getId()).withRel(DELETE_METHOD).withType(HttpMethod.DELETE.name()),
                 getLinkToAddress().slash(response.getId()).withRel(GET_METHOD).withType(HttpMethod.GET.name()),
-                getLinkToAddress().withRel(GET_ALL_METHOD).withType(HttpMethod.GET.name())
+                getLinkToAddress().withRel(GET_ALL_METHOD).withType(HttpMethod.GET.name()),
+                getLinkToAddress().slash(response.getId()).withSelfRel().withType(HttpMethod.PATCH.name()),
+                getLinkToAddress().slash(response.getId()).withRel(DELETE_METHOD).withType(HttpMethod.DELETE.name())
         );
 
         return responseConverter.toResponseEntity(
@@ -114,11 +114,11 @@ public class StoreController {
 
         EntityModel<StoreInfoResponse> entityModel = EntityModel.of(
                 response,
-                getLinkToAddress().slash(response.getId()).withSelfRel().withType(HttpMethod.GET.name()),
                 getLinkToAddress().withRel(INSERT_METHOD).withType(HttpMethod.POST.name()),
-                getLinkToAddress().slash(response.getId()).withRel(DELETE_METHOD).withType(HttpMethod.DELETE.name()),
+                getLinkToAddress().slash(response.getId()).withSelfRel().withType(HttpMethod.GET.name()),
+                getLinkToAddress().withRel(GET_ALL_METHOD).withType(HttpMethod.GET.name()),
                 getLinkToAddress().slash(response.getId()).withRel(UPDATE_METHOD).withType(HttpMethod.PATCH.name()),
-                getLinkToAddress().withRel(GET_ALL_METHOD).withType(HttpMethod.GET.name())
+                getLinkToAddress().slash(response.getId()).withRel(DELETE_METHOD).withType(HttpMethod.DELETE.name())
         );
 
         return responseConverter.toResponseEntity(
