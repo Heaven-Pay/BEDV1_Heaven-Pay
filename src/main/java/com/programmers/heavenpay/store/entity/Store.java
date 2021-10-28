@@ -1,10 +1,15 @@
 package com.programmers.heavenpay.store.entity;
 
 import com.programmers.heavenpay.common.entity.BaseEntity;
+import com.programmers.heavenpay.error.ErrorMessage;
+import com.programmers.heavenpay.error.exception.DuplicationException;
+import com.programmers.heavenpay.product.entitiy.Product;
 import com.programmers.heavenpay.store.entity.vo.StoreType;
 import lombok.*;
 
 import javax.persistence.*;
+import java.util.ArrayList;
+import java.util.List;
 
 @Entity
 @Getter
@@ -31,5 +36,16 @@ public class Store extends BaseEntity<Long> {
         this.name = name;
         this.type = type;
         this.vendorCode = vendorCode;
+    }
+
+    @OneToMany(mappedBy = "store", cascade = CascadeType.ALL, orphanRemoval = true)
+    private List<Product> products = new ArrayList<>();
+
+    public void addProduct(Product product) {
+        if (this.products.contains(products)) {
+            throw new DuplicationException(ErrorMessage.ALREADY_EXISTS_PRODUCT);
+        }
+
+        this.products.add(product);
     }
 }
