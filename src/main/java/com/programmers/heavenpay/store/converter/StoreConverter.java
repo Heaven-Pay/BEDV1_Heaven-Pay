@@ -8,6 +8,8 @@ import com.programmers.heavenpay.store.entity.Store;
 import com.programmers.heavenpay.store.entity.vo.StoreType;
 import org.springframework.stereotype.Component;
 
+import java.time.LocalDateTime;
+
 @Component
 public class StoreConverter {
     public Store toStoreEntity(String name, StoreType type, String vendorCode) {
@@ -35,18 +37,21 @@ public class StoreConverter {
                 .build();
     }
 
-    public StoreCreateResponse toStoreCreateResponse(Long id) {
+    public StoreCreateResponse toStoreCreateResponse(Long id, LocalDateTime createdAt) {
         return StoreCreateResponse.builder()
                 .id(id)
+                .createdAt(createdAt)
                 .build();
     }
 
-    public StoreUpdateResponse toStoreUpdateResponse(Long id, String name, String typeStr, String vendorCode) {
+    public StoreUpdateResponse toStoreUpdateResponse(Long id, String name, String typeStr, String vendorCode, LocalDateTime createdAt, LocalDateTime modifiedAt) {
         return StoreUpdateResponse.builder()
                 .id(id)
                 .name(name)
                 .type(typeStr)
                 .vendorCode(vendorCode)
+                .createdAt(createdAt)
+                .modifiedAt(modifiedAt)
                 .build();
     }
 }

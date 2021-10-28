@@ -32,7 +32,7 @@ public class StoreService {
         Store store = storeConverter.toStoreEntity(name, type, vendorCode);
         Store storeEntity = storeRepository.save(store);
 
-        return storeConverter.toStoreCreateResponse(storeEntity.getId());
+        return storeConverter.toStoreCreateResponse(storeEntity.getId(), storeEntity.getCreatedDate());
     }
 
     @Transactional
@@ -45,7 +45,7 @@ public class StoreService {
         StoreType type = StoreType.of(typeStr);
         store.changeInfo(name, type, vendorCode);
 
-        return storeConverter.toStoreUpdateResponse(id, name, typeStr, vendorCode);
+        return storeConverter.toStoreUpdateResponse(id, name, typeStr, vendorCode, store.getCreatedDate(), store.getModifiedDate());
     }
 
     @Transactional(readOnly = true)
