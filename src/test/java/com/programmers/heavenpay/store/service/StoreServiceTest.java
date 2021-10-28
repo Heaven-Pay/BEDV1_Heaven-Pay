@@ -35,9 +35,9 @@ class StoreServiceTest {
     Store store;
 
     String name = "파리바게뜨";
-    String typeStr = "베이커리";
+    String typeStr = "식품업";
     String vendorCode = "108-15-84292";
-    StoreType storeType = StoreType.BAKERY;
+    StoreType storeType = StoreType.RESTAURANT;
 
     @Test
     @DisplayName("store를 삽입할 수 있다.")
@@ -100,15 +100,29 @@ class StoreServiceTest {
 
         storeServiceMock.create(name, typeStr, vendorCode);
         when(storeRepository.findById(1L)).thenReturn(Optional.of(store));
-        when(storeConverter.toStoreUpdateResponse(1L, "updated-name", typeStr, "UPDATEDVC"))
+        when(storeConverter.toStoreUpdateResponse(
+                1L,
+                "updated-name",
+                typeStr,
+                "111-11-11111",
+                storeUpdateResponseMock.getCreatedAt(),
+                storeUpdateResponseMock.getModifiedAt())
+        )
                 .thenReturn(storeUpdateResponseMock);
 
         //when
-        storeService.update(1L, "updated-name", typeStr, "UPDATEDVC");
+        storeService.update(1L, "updated-name", typeStr, "111-11-11111");
 
         //then
         verify(storeRepository).findById(1L); // storeRepository의 findById가 호출되었는지 확인
-        verify(storeConverter).toStoreUpdateResponse(1L, "updated-name", typeStr, "UPDATEDVC"); // storeRepository의 findById가 호출되었는지 확인
+        verify(storeConverter).toStoreUpdateResponse(
+                1L,
+                "updated-name",
+                typeStr,
+                "111-11-11111",
+                storeUpdateResponseMock.getCreatedAt(),
+                storeUpdateResponseMock.getModifiedAt()
+        ); // storeRepository의 findById가 호출되었는지 확인
     }
 
     @Test

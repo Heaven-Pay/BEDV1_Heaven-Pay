@@ -44,7 +44,7 @@ class StoreControllerTest {
     private StoreRepository storeRepository;
 
     String name = "파리바게뜨";
-    String typeStr = "베이커리";
+    String typeStr = "서비스업";
     String vendorCode = "108-15-84292";
 
     @AfterEach
@@ -58,7 +58,7 @@ class StoreControllerTest {
         // Given
         StoreCreateRequest request = StoreCreateRequest.builder()
                 .vendorCode("108-15-84292")
-                .type("식품")
+                .type("식품업")
                 .name("신세게")
                 .build();
 
@@ -71,7 +71,7 @@ class StoreControllerTest {
         // Then
         mockMvc.perform(requestBuilder)  // 컨트롤러 실행
                 .andDo(print())  // 결과 출력
-                .andExpect(status().isCreated());   // 응답 결과 검증
+                .andExpect(status().isOk());   // 응답 결과 검증
     }
 
     @Test
@@ -98,7 +98,7 @@ class StoreControllerTest {
         StoreCreateResponse storeCreateResponse = storeService.create(name, typeStr, vendorCode);
 
         String updateName = "BBQ";
-        String updateTypeStr = "식품";
+        String updateTypeStr = "식품업";
         String updateVendorCode = "111-11-11111";
         StoreUpdateRequest request = StoreUpdateRequest.builder()
                 .name(updateName)
@@ -139,9 +139,9 @@ class StoreControllerTest {
     @DisplayName("get 요청으로 모든 스토어를 조회할 수 있다.")
     void getAllTest() throws Exception {
         // Given
-        storeService.create("store1", "식품", "111-11-11111");
-        storeService.create("store2", "백화점", "111-11-11112");
-        storeService.create("store3", "전자제품", "111-11-11113");
+        storeService.create("store1", "소매업", "111-11-11111");
+        storeService.create("store2", "서비스업", "111-11-11112");
+        storeService.create("store3", "식품업", "111-11-11113");
 
         // When
         MockHttpServletRequestBuilder requestBuilder = get("/api/v1/stores");
