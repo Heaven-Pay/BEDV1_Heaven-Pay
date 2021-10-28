@@ -2,6 +2,7 @@ package com.programmers.heavenpay.error;
 
 import com.programmers.heavenpay.error.exception.DuplicationException;
 import com.programmers.heavenpay.error.exception.NotDefinitionException;
+import com.programmers.heavenpay.product.exception.LackStockException;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.MethodArgumentNotValidException;
 import org.springframework.web.bind.annotation.ExceptionHandler;
@@ -21,6 +22,11 @@ public class GlobalExceptionHandler {
 
     @ExceptionHandler(DuplicationException.class)
     public ResponseEntity<ErrorResponseDto> duplicateDataException(DuplicationException exception){
+        return makeErrorResponse(exception);
+    }
+
+    @ExceptionHandler(LackStockException.class)
+    public ResponseEntity<ErrorResponseDto> duplicateDataException(LackStockException exception){
         return makeErrorResponse(exception);
     }
 
