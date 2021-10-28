@@ -1,6 +1,6 @@
 package com.programmers.heavenpay.store.service;
 
-import com.programmers.heavenpay.error.exception.DuplicateDataException;
+import com.programmers.heavenpay.error.exception.DuplicationException;
 import com.programmers.heavenpay.error.exception.NotExistsException;
 import com.programmers.heavenpay.store.converter.StoreConverter;
 import com.programmers.heavenpay.store.dto.response.StoreDeleteResponse;
@@ -62,12 +62,12 @@ class StoreServiceTest {
 
         //when
         when(storeServiceMock.create(name, typeStr, vendorCode))
-                .thenThrow(DuplicateDataException.class);
+                .thenThrow(DuplicationException.class);
 
         //then
         try{
             storeServiceMock.create(name, typeStr, vendorCode);
-        }catch (DuplicateDataException e){
+        }catch (DuplicationException e){
             System.out.println("DuplicateDataException occurred");
         }
     }

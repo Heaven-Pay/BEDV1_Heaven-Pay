@@ -1,7 +1,7 @@
 package com.programmers.heavenpay.store.service;
 
 import com.programmers.heavenpay.error.ErrorMessage;
-import com.programmers.heavenpay.error.exception.DuplicateDataException;
+import com.programmers.heavenpay.error.exception.DuplicationException;
 import com.programmers.heavenpay.error.exception.NotExistsException;
 import com.programmers.heavenpay.store.converter.StoreConverter;
 import com.programmers.heavenpay.store.dto.response.StoreCreateResponse;
@@ -74,7 +74,7 @@ public class StoreService {
 
     private void validateVendorCode(String vendorCode) {
         if (storeRepository.existsStoreByVendorCode(vendorCode)) {
-            throw new DuplicateDataException(ErrorMessage.ALREADY_EXISTS_VENDOR_CODE);
+            throw new DuplicationException(ErrorMessage.ALREADY_EXISTS_VENDOR_CODE);
         }
     }
 }

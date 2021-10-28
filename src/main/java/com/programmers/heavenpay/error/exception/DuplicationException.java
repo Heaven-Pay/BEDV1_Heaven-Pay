@@ -2,8 +2,8 @@ package com.programmers.heavenpay.error.exception;
 
 import com.programmers.heavenpay.error.ErrorMessage;
 
-public class DuplicateDataException extends RuntimeException{
-    public DuplicateDataException(ErrorMessage message) {
+public class DuplicationException extends RuntimeException{
+    public DuplicationException(ErrorMessage message) {
         super(message.getMessage());
     }
 }
