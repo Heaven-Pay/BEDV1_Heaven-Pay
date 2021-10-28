@@ -56,7 +56,6 @@ public class StoreController {
         );
 
         return responseConverter.toResponseEntity(
-                HttpStatus.CREATED,
                 ResponseMessage.STORE_INSERT_SUCCESS,
                 entityModel
         );
@@ -75,7 +74,6 @@ public class StoreController {
         );
 
         return responseConverter.toResponseEntity(
-                HttpStatus.OK,
                 ResponseMessage.STORE_DELETE_SUCCESS,
                 entityModel
         );
@@ -96,7 +94,6 @@ public class StoreController {
         );
 
         return responseConverter.toResponseEntity(
-                HttpStatus.OK,
                 ResponseMessage.STORE_UPDATE_SUCCESS,
                 entityModel
         );
@@ -117,7 +114,6 @@ public class StoreController {
         );
 
         return responseConverter.toResponseEntity(
-                HttpStatus.OK,
                 ResponseMessage.STORE_SEARCH_SUCCESS,
                 entityModel
         );
