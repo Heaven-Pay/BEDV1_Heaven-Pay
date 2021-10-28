@@ -10,13 +10,17 @@ import java.time.LocalDateTime;
 @Builder
 public class FinanceDetailResponse {
     @NonNull
-    private Long id;
+    private final Long id;
+
     @NonNull
-    private String financeName;
+    private final String financeName;
+
     @NonNull
-    private String financeType;
+    private final String financeType;
+
     @NonNull
     private final LocalDateTime createdAt;
+
     @NonNull
     private final LocalDateTime modifiedAt;
 }

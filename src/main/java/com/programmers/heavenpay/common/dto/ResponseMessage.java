@@ -13,7 +13,8 @@ public enum ResponseMessage {
     STORE_INSERT_SUCCESS(HttpStatus.CREATED, "store 추가 성공"),
     STORE_DELETE_SUCCESS(HttpStatus.OK, "store 단건 삭제 성공"),
     STORE_UPDATE_SUCCESS(HttpStatus.OK, "store 수정 성공"),
-    STORE_SEARCH_SUCCESS(HttpStatus.OK, "store 조회 성공");
+    STORE_SEARCH_SUCCESS(HttpStatus.OK, "store 조회 성공"),
+    ACCOUNT_CREATE_SUCCESS(HttpStatus.OK, "계좌 생성 성공");
 
     private final HttpStatus status;
     private final String message;

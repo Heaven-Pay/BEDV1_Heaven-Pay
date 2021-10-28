@@ -1,9 +1,12 @@
 package com.programmers.heavenpay.account.repository;
 
 import com.programmers.heavenpay.account.entity.Account;
+import com.programmers.heavenpay.finance.entity.Finance;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.stereotype.Repository;
 
 @Repository
 public interface AccountRepository extends JpaRepository<Account, Long> {
+    @Override
+    Account save(Account account);
 }

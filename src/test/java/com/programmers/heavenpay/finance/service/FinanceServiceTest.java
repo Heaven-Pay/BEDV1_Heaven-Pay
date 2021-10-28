@@ -19,24 +19,24 @@ import static org.mockito.Mockito.*;
 
 @ExtendWith(MockitoExtension.class)
 class FinanceServiceTest {
+    private static final Long memberId = 1L;
+    private static final Long financeId = 1L;
+    private static final String name = "국민은행";
+    private static final String type = "은행";
+    private static final String updatedName = "신한은행";
+    private static final String updatedType = "증권";
+
     @InjectMocks
-    FinanceService financeService;
+    private FinanceService financeService;
 
     @Mock
-    FinanceRepository financeRepository;
+    private FinanceRepository financeRepository;
 
     @Mock
-    FinanceConverter financeConverter;
+    private FinanceConverter financeConverter;
 
     @Mock
-    Finance finance;
-
-    Long memberId = 1L;
-    Long financeId = 1L;
-    String name = "국민은행";
-    String type = "은행";
-    String updatedName = "신한은행";
-    String updatedType = "증권";
+    private Finance finance;
 
     @DisplayName("금융_정보_생성")
     @Test
