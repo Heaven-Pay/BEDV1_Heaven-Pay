@@ -10,7 +10,7 @@ import com.programmers.heavenpay.finance.dto.response.FinanceDeleteResponse;
 import com.programmers.heavenpay.finance.dto.response.FinanceDetailResponse;
 import com.programmers.heavenpay.finance.dto.response.FinanceUpdateResponse;
 import com.programmers.heavenpay.finance.service.FinanceService;
-import com.programmers.heavenpay.common.dto.HateoasMethodType;
+import com.programmers.heavenpay.common.dto.LinkType;
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiOperation;
 import lombok.RequiredArgsConstructor;
@@ -49,10 +49,10 @@ public class FinanceController {
 
         EntityModel<FinanceCreateResponse> entityModel = EntityModel.of(response,
                 getLinkToAddress().withSelfRel().withType(HttpMethod.POST.name()),
-                getLinkToAddress().slash(response.getId()).withRel(HateoasMethodType.READ_METHOD).withType(HttpMethod.GET.name()),
-                getLinkToAddress().withRel(HateoasMethodType.READ_ALL_METHOD).withType(HttpMethod.GET.name()),
-                getLinkToAddress().slash(response.getId()).withRel(HateoasMethodType.UPDATE_METHOD).withType(HttpMethod.PATCH.name()),
-                getLinkToAddress().slash(response.getId()).withRel(HateoasMethodType.DELETE_METHOD).withType(HttpMethod.DELETE.name())
+                getLinkToAddress().slash(response.getId()).withRel(LinkType.READ_METHOD).withType(HttpMethod.GET.name()),
+                getLinkToAddress().withRel(LinkType.READ_ALL_METHOD).withType(HttpMethod.GET.name()),
+                getLinkToAddress().slash(response.getId()).withRel(LinkType.UPDATE_METHOD).withType(HttpMethod.PATCH.name()),
+                getLinkToAddress().slash(response.getId()).withRel(LinkType.DELETE_METHOD).withType(HttpMethod.DELETE.name())
         );
 
         return responseConverter.toResponseEntity(
@@ -67,11 +67,11 @@ public class FinanceController {
         FinanceDetailResponse response = financeService.getOne(financeId);
 
         EntityModel<FinanceDetailResponse> entityModel = EntityModel.of(response,
-                getLinkToAddress().withRel(HateoasMethodType.CREATE_METHOD).withType(HttpMethod.POST.name()),
+                getLinkToAddress().withRel(LinkType.CREATE_METHOD).withType(HttpMethod.POST.name()),
                 getLinkToAddress().withSelfRel().withType(HttpMethod.GET.name()),
-                getLinkToAddress().withRel(HateoasMethodType.READ_ALL_METHOD).withType(HttpMethod.GET.name()),
-                getLinkToAddress().slash(response.getId()).withRel(HateoasMethodType.UPDATE_METHOD).withType(HttpMethod.PATCH.name()),
-                getLinkToAddress().slash(response.getId()).withRel(HateoasMethodType.DELETE_METHOD).withType(HttpMethod.DELETE.name())
+                getLinkToAddress().withRel(LinkType.READ_ALL_METHOD).withType(HttpMethod.GET.name()),
+                getLinkToAddress().slash(response.getId()).withRel(LinkType.UPDATE_METHOD).withType(HttpMethod.PATCH.name()),
+                getLinkToAddress().slash(response.getId()).withRel(LinkType.DELETE_METHOD).withType(HttpMethod.DELETE.name())
         );
 
         return responseConverter.toResponseEntity(
@@ -101,11 +101,11 @@ public class FinanceController {
         FinanceUpdateResponse response = financeService.update(request.getMemberId(), financeId, request.getFinanceName(), request.getFinanceType());
 
         EntityModel<FinanceUpdateResponse> entityModel = EntityModel.of(response,
-                getLinkToAddress().withRel(HateoasMethodType.CREATE_METHOD).withType(HttpMethod.POST.name()),
-                getLinkToAddress().slash(response.getId()).withRel(HateoasMethodType.READ_METHOD).withType(HttpMethod.GET.name()),
-                getLinkToAddress().withRel(HateoasMethodType.READ_ALL_METHOD).withType(HttpMethod.GET.name()),
+                getLinkToAddress().withRel(LinkType.CREATE_METHOD).withType(HttpMethod.POST.name()),
+                getLinkToAddress().slash(response.getId()).withRel(LinkType.READ_METHOD).withType(HttpMethod.GET.name()),
+                getLinkToAddress().withRel(LinkType.READ_ALL_METHOD).withType(HttpMethod.GET.name()),
                 getLinkToAddress().withSelfRel().withType(HttpMethod.PATCH.name()),
-                getLinkToAddress().slash(response.getId()).withRel(HateoasMethodType.DELETE_METHOD).withType(HttpMethod.DELETE.name())
+                getLinkToAddress().slash(response.getId()).withRel(LinkType.DELETE_METHOD).withType(HttpMethod.DELETE.name())
         );
 
         return responseConverter.toResponseEntity(
@@ -120,10 +120,10 @@ public class FinanceController {
         FinanceDeleteResponse response = financeService.delete(financeId);
 
         EntityModel<FinanceDeleteResponse> entityModel = EntityModel.of(response,
-                getLinkToAddress().withRel(HateoasMethodType.CREATE_METHOD).withType(HttpMethod.POST.name()),
-                getLinkToAddress().slash(response.getId()).withRel(HateoasMethodType.READ_METHOD).withType(HttpMethod.GET.name()),
-                getLinkToAddress().withRel(HateoasMethodType.READ_ALL_METHOD).withType(HttpMethod.GET.name()),
-                getLinkToAddress().slash(response.getId()).withRel(HateoasMethodType.UPDATE_METHOD).withType(HttpMethod.PATCH.name()),
+                getLinkToAddress().withRel(LinkType.CREATE_METHOD).withType(HttpMethod.POST.name()),
+                getLinkToAddress().slash(response.getId()).withRel(LinkType.READ_METHOD).withType(HttpMethod.GET.name()),
+                getLinkToAddress().withRel(LinkType.READ_ALL_METHOD).withType(HttpMethod.GET.name()),
+                getLinkToAddress().slash(response.getId()).withRel(LinkType.UPDATE_METHOD).withType(HttpMethod.PATCH.name()),
                 getLinkToAddress().withSelfRel().withType(HttpMethod.DELETE.name())
         );
 
