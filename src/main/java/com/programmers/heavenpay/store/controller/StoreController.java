@@ -81,7 +81,7 @@ public class StoreController {
 
         return responseConverter.toResponseEntity(
                 HttpStatus.OK,
-                ResponseMessage.STORE_DELETE_SUCCCESS,
+                ResponseMessage.STORE_DELETE_SUCCESS,
                 entityModel
         );
     }
@@ -102,7 +102,7 @@ public class StoreController {
 
         return responseConverter.toResponseEntity(
                 HttpStatus.OK,
-                ResponseMessage.STORE_UPDATE_SUCCCESS,
+                ResponseMessage.STORE_UPDATE_SUCCESS,
                 entityModel
         );
     }
@@ -123,7 +123,7 @@ public class StoreController {
 
         return responseConverter.toResponseEntity(
                 HttpStatus.OK,
-                ResponseMessage.STORE_SEARCH_SUCCCESS,
+                ResponseMessage.STORE_SEARCH_SUCCESS,
                 entityModel
         );
     }
@@ -137,7 +137,7 @@ public class StoreController {
 
         return responseConverter.toResponseEntity(
                 HttpStatus.OK,
-                ResponseMessage.STORE_SEARCH_SUCCCESS,
+                ResponseMessage.STORE_SEARCH_SUCCESS,
                 responses,
                 link
         );
