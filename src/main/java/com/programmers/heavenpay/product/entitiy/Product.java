@@ -65,4 +65,8 @@ public class Product extends BaseEntity<Long> {
         this.store = store;
         this.store.getProducts().add(this);
     }
+
+    public synchronized void deleteFromStore(){
+        this.store.getProducts().remove(this);
+    }
 }
