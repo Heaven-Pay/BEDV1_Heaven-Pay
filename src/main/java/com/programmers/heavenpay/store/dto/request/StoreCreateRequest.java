@@ -15,6 +15,6 @@ public class StoreCreateRequest {
     @NotBlank(message = "store type validation fail")
     private String type;
 
-    @Pattern(regexp = "[a-zA-Z1-9]{6,12}", message = "vendor code validation fail")
+    @Pattern(regexp = "^(\\S{3,3})+[-]+(\\S{2,2})+[-]+(\\S{5,5})", message = "사업자코드 형식이 올바르지 않습니다.")
     private String vendorCode;
 }

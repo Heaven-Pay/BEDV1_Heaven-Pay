@@ -1,5 +1,6 @@
 package com.programmers.heavenpay.error;
 
+import com.programmers.heavenpay.error.exception.DuplicationException;
 import com.programmers.heavenpay.error.exception.NotDefinitionException;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.MethodArgumentNotValidException;
@@ -15,6 +16,11 @@ public class GlobalExceptionHandler {
 
     @ExceptionHandler(MethodArgumentNotValidException.class)
     public ResponseEntity<ErrorResponseDto> methodValidException(MethodArgumentNotValidException exception){
+        return makeErrorResponse(exception);
+    }
+
+    @ExceptionHandler(DuplicationException.class)
+    public ResponseEntity<ErrorResponseDto> duplicateDataException(DuplicationException exception){
         return makeErrorResponse(exception);
     }
 
