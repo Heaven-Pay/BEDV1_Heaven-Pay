@@ -40,12 +40,4 @@ public class Store extends BaseEntity<Long> {
 
     @OneToMany(mappedBy = "store", cascade = CascadeType.ALL, orphanRemoval = true)
     private List<Product> products = new ArrayList<>();
-
-    public void addProduct(Product product) {
-        if (this.products.contains(products)) {
-            throw new DuplicationException(ErrorMessage.ALREADY_EXISTS_PRODUCT);
-        }
-
-        this.products.add(product);
-    }
 }
