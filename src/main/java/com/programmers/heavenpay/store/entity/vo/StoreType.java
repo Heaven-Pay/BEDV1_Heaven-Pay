@@ -8,6 +8,7 @@ import java.util.Arrays;
 
 @Getter
 public enum StoreType {
+    DEFAULT("미정"),
     FINANCIAL("금융업"),
     RESTAURANT("식품업"),
     RETAIL_BUSINESS("소매업"),
