@@ -7,7 +7,7 @@ import lombok.*;
 
 import javax.persistence.*;
 import java.util.ArrayList;
-import java.util.List;
+import java.util.Collection;
 
 @Entity
 @Getter
@@ -37,5 +37,5 @@ public class Store extends BaseEntity<Long> {
     }
 
     @OneToMany(mappedBy = "store", cascade = CascadeType.ALL, orphanRemoval = true)
-    private List<Product> products = new ArrayList<>();
+    private Collection<Product> products = new ArrayList<>();
 }

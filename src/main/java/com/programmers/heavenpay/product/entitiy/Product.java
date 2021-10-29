@@ -11,7 +11,7 @@ import lombok.*;
 
 import javax.persistence.*;
 import java.util.ArrayList;
-import java.util.List;
+import java.util.Collection;
 import java.util.Objects;
 
 @Entity
@@ -53,7 +53,7 @@ public class Product extends BaseEntity<Long> {
     private Store store;
 
     @OneToMany(mappedBy = "product", cascade = CascadeType.ALL, orphanRemoval = true)
-    private List<Review> reviews = new ArrayList<>();
+    private Collection<Review> reviews = new ArrayList<>();
 
     public synchronized void updateInfos(String description, int price, String s3Path, String title, String categoryStr, int stock) {
         this.description = description;
