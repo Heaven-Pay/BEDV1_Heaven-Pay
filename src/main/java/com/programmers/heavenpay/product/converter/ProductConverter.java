@@ -19,9 +19,10 @@ public class ProductConverter {
                 .build();
     }
 
-    public ProductCreateResponse toProductCreateResponse(Long id, LocalDateTime createdDate, Object o) {
+    public ProductCreateResponse toProductCreateResponse(Long id, LocalDateTime createdDate, String s3Path) {
         return ProductCreateResponse.builder()
                 .createdAt(createdDate)
+                .s3Path(s3Path)
                 .id(id)
                 .build();
     }
