@@ -4,6 +4,7 @@ import com.programmers.heavenpay.common.entity.BaseEntity;
 import com.programmers.heavenpay.error.ErrorMessage;
 import com.programmers.heavenpay.product.entitiy.vo.Category;
 import com.programmers.heavenpay.product.exception.LackStockException;
+import com.programmers.heavenpay.review.entity.Review;
 import com.programmers.heavenpay.store.entity.Store;
 import lombok.*;
 
@@ -51,6 +52,10 @@ public class Product extends BaseEntity<Long> {
 
     @OneToMany(mappedBy = "product", cascade = CascadeType.ALL, orphanRemoval = true)
     private List<Review> reviews = new ArrayList<>();
+
+    public synchronized void updateS3Path(String s3Path){
+        this.s3Path = s3Path;
+    }
 
     public synchronized void updatePrice(int price) {
         this.price = price;
