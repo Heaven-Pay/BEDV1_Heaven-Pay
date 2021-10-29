@@ -12,10 +12,10 @@ import java.time.LocalDateTime;
 
 @Component
 public class StoreConverter {
-    public Store toStoreEntity(String name, StoreType type, String vendorCode) {
+    public Store toStoreEntity(String name, String typeStr, String vendorCode) {
         return Store.builder()
                 .name(name)
-                .type(type)
+                .type(StoreType.of(typeStr))
                 .vendorCode(vendorCode)
                 .build();
     }

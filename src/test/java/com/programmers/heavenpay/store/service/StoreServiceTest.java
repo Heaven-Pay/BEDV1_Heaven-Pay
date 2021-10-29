@@ -7,7 +7,6 @@ import com.programmers.heavenpay.store.dto.response.StoreDeleteResponse;
 import com.programmers.heavenpay.store.dto.response.StoreInfoResponse;
 import com.programmers.heavenpay.store.dto.response.StoreUpdateResponse;
 import com.programmers.heavenpay.store.entity.Store;
-import com.programmers.heavenpay.store.entity.vo.StoreType;
 import com.programmers.heavenpay.store.repository.StoreRepository;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
@@ -37,13 +36,12 @@ class StoreServiceTest {
     String name = "파리바게뜨";
     String typeStr = "식품업";
     String vendorCode = "108-15-84292";
-    StoreType storeType = StoreType.RESTAURANT;
 
     @Test
     @DisplayName("store를 삽입할 수 있다.")
     void createSuccessTest() {
         //given
-        when(storeConverter.toStoreEntity(name, storeType, vendorCode)).thenReturn(store);
+        when(storeConverter.toStoreEntity(name, typeStr, vendorCode)).thenReturn(store);
         when(storeRepository.save(store)).thenReturn(store);
 
         //when

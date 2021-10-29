@@ -1,8 +1,6 @@
 package com.programmers.heavenpay.store.entity;
 
 import com.programmers.heavenpay.common.entity.BaseEntity;
-import com.programmers.heavenpay.error.ErrorMessage;
-import com.programmers.heavenpay.error.exception.DuplicationException;
 import com.programmers.heavenpay.product.entitiy.Product;
 import com.programmers.heavenpay.store.entity.vo.StoreType;
 import lombok.*;
@@ -32,9 +30,9 @@ public class Store extends BaseEntity<Long> {
     @Column(name = "store_vendor_code", nullable = false, unique = true)
     private String vendorCode;
 
-    public void changeInfo(String name, StoreType type, String vendorCode) {
+    public void changeInfo(String name, String typeStr, String vendorCode) {
         this.name = name;
-        this.type = type;
+        this.type = StoreType.of(typeStr);
         this.vendorCode = vendorCode;
     }
 
