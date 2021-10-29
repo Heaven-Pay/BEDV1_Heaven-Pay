@@ -15,7 +15,9 @@ public enum ErrorMessage {
     NOT_EXIST_STORE(HttpStatus.NOT_FOUND, "존재하지 않는 Store"),
     ALREADY_EXISTS_VENDOR_CODE(HttpStatus.BAD_REQUEST, "이미 존재하는 사업자번호"),
     LACK_OF_STOCK(HttpStatus.BAD_REQUEST, "상품 수량 부족"),
-    NOT_EXIST_PRODUCT_CATEGORY(HttpStatus.BAD_REQUEST, "존재하지 않는 상품");
+    NOT_EXIST_PRODUCT_CATEGORY(HttpStatus.BAD_REQUEST, "존재하지 않는 상품 카테고리"),
+    NOT_EXIST_PRODUCT(HttpStatus.BAD_REQUEST, "존재하지 않는 상품"),
+    MISMATCH_BETWEEN_PRODUCT_AND_STORE(HttpStatus.BAD_REQUEST, "상품과 소토어가 불일치");
 
     private final HttpStatus status;
     private final String message;
