@@ -30,7 +30,7 @@ public class Product extends BaseEntity<Long> {
     private Category category;
 
     @Column(name = "product_score", nullable = false)
-    private double score;
+    private Double score;
 
     @Column(name = "product_price", nullable = false)
     private int price;
