@@ -82,8 +82,8 @@ public class Product extends BaseEntity<Long> {
 
     public synchronized void updateReviewScore() {
         double scoreSum = 0;
-        for (int i = 0; i < reviews.size(); i++) {
-            scoreSum += reviews.get(i).getScore();
+        for (Review review : reviews) {
+            scoreSum += review.getScore();
         }
         score = scoreSum / reviews.size();
     }
