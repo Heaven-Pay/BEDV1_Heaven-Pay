@@ -1,6 +1,7 @@
-package com.programmers.heavenpay.product.entitiy;
+package com.programmers.heavenpay.review.entity;
 
 import com.programmers.heavenpay.member.entity.Member;
+import com.programmers.heavenpay.product.entitiy.Product;
 import lombok.*;
 
 import javax.persistence.*;
@@ -21,9 +22,6 @@ public class Review {
 
     @Column(name = "reivew_content", nullable = false, columnDefinition = "TEXT")
     private String content;
-
-    @Column(name = "review_s3_path", columnDefinition = "TEXT")
-    private String s3Path;
 
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "product_id", referencedColumnName = "product_id", nullable = false)
