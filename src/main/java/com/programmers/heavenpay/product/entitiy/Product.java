@@ -2,6 +2,7 @@ package com.programmers.heavenpay.product.entitiy;
 
 import com.programmers.heavenpay.common.entity.BaseEntity;
 import com.programmers.heavenpay.error.ErrorMessage;
+import com.programmers.heavenpay.error.exception.NotDefinitionException;
 import com.programmers.heavenpay.product.entitiy.vo.Category;
 import com.programmers.heavenpay.product.exception.LackStockException;
 import com.programmers.heavenpay.review.entity.Review;
@@ -54,20 +55,17 @@ public class Product extends BaseEntity<Long> {
     @OneToMany(mappedBy = "product", cascade = CascadeType.ALL, orphanRemoval = true)
     private List<Review> reviews = new ArrayList<>();
 
-    public synchronized void updateS3Path(String s3Path) {
-        this.s3Path = s3Path;
-    }
-
-    public synchronized void updatePrice(int price) {
-        this.price = price;
-    }
-
-    public synchronized void updateDescription(String description) {
+    public synchronized void updateInfos(String description, int price, String s3Path, String title, String categoryStr, int stock) {
         this.description = description;
+        this.price = price;
+        this.s3Path = s3Path;
+        this.title = title;
+        this.category = Category.of(categoryStr);
+        this.stock = stock;
     }
 
-    public synchronized void updateDescriptionPath(String s3Path) {
-        this.s3Path = s3Path;
+    public synchronized void updateS3Path(String s3Url) {
+        this.s3Path = s3Url;
     }
 
     public synchronized void addStock() {
@@ -88,6 +86,12 @@ public class Product extends BaseEntity<Long> {
             scoreSum += reviews.get(i).getScore();
         }
         score = scoreSum / reviews.size();
+    }
+
+    public void checkValidStoreOrElseThrow(Long storeId) {
+        if(this.store.getId() != storeId){
+            throw new NotDefinitionException(ErrorMessage.MISMATCH_BETWEEN_PRODUCT_AND_STORE);
+        }
     }
 
     /**
