@@ -15,6 +15,7 @@ import java.util.Objects;
 public class Review {
     @Id
     @GeneratedValue(strategy = GenerationType.AUTO)
+    @Column(name = "review_id", unique = true)
     private Long id;
 
     @Column(name = "reivew_score", nullable = false)
@@ -28,7 +29,7 @@ public class Review {
     private Product product;
 
     @ManyToOne(fetch = FetchType.LAZY)
-    @JoinColumn(name = "writer_id", referencedColumnName = "writer_id", nullable = false)
+    @JoinColumn(name = "writer_id", referencedColumnName = "member_id", nullable = false)
     private Member writer;
 
     /**

@@ -21,6 +21,7 @@ import java.util.Objects;
 public class Product extends BaseEntity<Long> {
     @Id
     @GeneratedValue(strategy = GenerationType.AUTO)
+    @Column(name = "product_id", unique = true)
     private Long id;
 
     @Column(name = "product_category", nullable = false)
@@ -53,7 +54,7 @@ public class Product extends BaseEntity<Long> {
     @OneToMany(mappedBy = "product", cascade = CascadeType.ALL, orphanRemoval = true)
     private List<Review> reviews = new ArrayList<>();
 
-    public synchronized void updateS3Path(String s3Path){
+    public synchronized void updateS3Path(String s3Path) {
         this.s3Path = s3Path;
     }
 
@@ -83,7 +84,7 @@ public class Product extends BaseEntity<Long> {
 
     public synchronized void updateReviewScore() {
         double scoreSum = 0;
-        for (int i = 0; i < reviews.size(); i++) {  //TODO: stream으로 바꾸기
+        for (int i = 0; i < reviews.size(); i++) {
             scoreSum += reviews.get(i).getScore();
         }
         score = scoreSum / reviews.size();
