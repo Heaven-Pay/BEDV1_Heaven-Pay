@@ -29,5 +29,5 @@ public class ProductUpdateRequest {
     @Min(value = 0)
     private int stock;
 
-    MultipartFile multipartFile;
+    private MultipartFile multipartFile;
 }

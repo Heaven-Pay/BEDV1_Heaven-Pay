@@ -30,5 +30,5 @@ public class ProductCreateRequest {
     @Min(value = 0)
     private int stock;
 
-    MultipartFile multipartFile;
+    private MultipartFile multipartFile;
 }
