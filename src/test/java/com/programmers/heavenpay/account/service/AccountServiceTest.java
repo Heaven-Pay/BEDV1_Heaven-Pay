@@ -83,4 +83,17 @@ class AccountServiceTest {
         // then
         verify(accountRepository).save(account);
     }
+
+    @Test
+    void 계좌_단건_조회(){
+        // given
+        when(memberRepository.findById(MEMBER_ID)).thenReturn(Optional.of(member));
+        when(accountRepository.findByIdAndMember(ACCOUNT_ID, member)).thenReturn(Optional.of(account));
+
+        // when
+        accountService.getOne(ACCOUNT_ID, MEMBER_ID);
+
+        // then
+        verify(accountRepository).findByIdAndMember(ACCOUNT_ID, member);
+    }
 }

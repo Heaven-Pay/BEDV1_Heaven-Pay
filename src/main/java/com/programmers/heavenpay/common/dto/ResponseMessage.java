@@ -14,7 +14,11 @@ public enum ResponseMessage {
     STORE_DELETE_SUCCESS(HttpStatus.OK, "store 단건 삭제 성공"),
     STORE_UPDATE_SUCCESS(HttpStatus.OK, "store 수정 성공"),
     STORE_SEARCH_SUCCESS(HttpStatus.OK, "store 조회 성공"),
-    ACCOUNT_CREATE_SUCCESS(HttpStatus.OK, "계좌 생성 성공");
+    ACCOUNT_CREATE_SUCCESS(HttpStatus.OK, "계좌 생성 성공"),
+    ACCOUNT_GET_SUCCESS(HttpStatus.OK, "계좌 단건 조회 성공"),
+    ACCOUNT_GET_ALL_SUCCESS(HttpStatus.OK, "계좌 전체 조회 성공"),
+    ACCOUNT_UPDATE_SUCCESS(HttpStatus.OK, "계좌 수정 성공"),
+    ACCOUNT_DELETE_SUCCESS(HttpStatus.OK, "계좌 삭제 성공")
 
     private final HttpStatus status;
     private final String message;
@@ -23,4 +27,4 @@ public enum ResponseMessage {
         this.status = status;
         this.message = message;
     }
-}
+    }

@@ -37,4 +37,9 @@ public class Account extends BaseEntity<Long> {
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "finance_id")
     private Finance finance;
+
+    public void update(String title, String description) {
+        this.title = title;
+        this.description = description;
+    }
 }

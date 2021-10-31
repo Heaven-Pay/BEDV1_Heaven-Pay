@@ -1,7 +1,7 @@
 package com.programmers.heavenpay.account.service;
 
 import com.programmers.heavenpay.account.converter.AccountConverter;
-import com.programmers.heavenpay.account.dto.response.AccountCreateResponse;
+import com.programmers.heavenpay.account.dto.response.*;
 import com.programmers.heavenpay.account.entity.Account;
 import com.programmers.heavenpay.account.repository.AccountRepository;
 import com.programmers.heavenpay.error.ErrorMessage;
@@ -11,6 +11,8 @@ import com.programmers.heavenpay.finance.repository.FinanceRepository;
 import com.programmers.heavenpay.member.entity.Member;
 import com.programmers.heavenpay.member.repository.MemberRepository;
 import lombok.RequiredArgsConstructor;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -39,5 +41,59 @@ public class AccountService {
 
         Account accountEntity = accountRepository.save(accountInstance);
         return accountConverter.toAccountCreateResponse(accountEntity);
+    }
+
+    // TODO :: 사용자 검증은 Security에서 해야함
+    @Transactional(readOnly = true)
+    public AccountDetailResponse getOne(Long accountId, Long memberId) {
+        Member member = memberRepository.findById(memberId)
+                .orElseThrow(
+                        () -> new NotExistsException(ErrorMessage.NOT_EXIST_MEMBER_ID)
+                );
+
+        Account account = accountRepository.findByIdAndMember(accountId, member)
+                .orElseThrow(
+                        () -> new NotExistsException(ErrorMessage.NOT_EXIST_ACCOUNT)
+                );
+        return accountConverter.toAccountDetailResponse(account);
+    }
+
+    @Transactional(readOnly = true)
+    public Page<AccountDetailAllResponse> getAll(Long memberId, Pageable pageable) {
+        Member member = memberRepository.findById(memberId)
+                .orElseThrow(
+                        () -> new NotExistsException(ErrorMessage.NOT_EXIST_MEMBER_ID)
+                );
+
+        return accountRepository.findAllByMember(member, pageable)
+                .map(accountConverter::toAccountDetailAllResponse);
+    }
+
+    @Transactional
+    public AccountUpdateResponse update(Long memberId, Long accountId, String title, String description) {
+        Member member = memberRepository.findById(memberId)
+                .orElseThrow(
+                        () -> new NotExistsException(ErrorMessage.NOT_EXIST_MEMBER_ID)
+                );
+
+        Account account = accountRepository.findByIdAndMember(accountId, member)
+                .orElseThrow(
+                        () -> new NotExistsException(ErrorMessage.NOT_EXIST_ACCOUNT)
+                );
+
+        account.update(title, description);
+
+        return accountConverter.toAccountUpdateResponse(account);
+    }
+
+    @Transactional
+    public AccountDeleteResponse delete(Long memberId, Long accountId) {
+        Member member = memberRepository.findById(memberId)
+                .orElseThrow(
+                        () -> new NotExistsException(ErrorMessage.NOT_EXIST_MEMBER_ID)
+                );
+        accountRepository.deleteByIdAndMember(accountId, member);
+
+        return accountConverter.toAccountDeleteResponse(accountId);
     }
 }

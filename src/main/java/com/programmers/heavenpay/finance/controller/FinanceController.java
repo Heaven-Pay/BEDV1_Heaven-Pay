@@ -88,7 +88,6 @@ public class FinanceController {
         Link link = getLinkToAddress().withSelfRel().withType(HttpMethod.GET.name());
 
         return responseConverter.toResponseEntity(
-                HttpStatus.OK,
                 ResponseMessage.FINANCE_READ_ALL_SUCCESS,
                 response,
                 link
