@@ -10,6 +10,7 @@ import com.programmers.heavenpay.store.entity.Store;
 import lombok.*;
 import org.hibernate.annotations.ColumnDefault;
 import org.hibernate.annotations.DynamicInsert;
+import org.hibernate.annotations.DynamicUpdate;
 
 import javax.persistence.*;
 import java.util.Objects;
@@ -20,6 +21,7 @@ import java.util.Objects;
 @NoArgsConstructor(access = AccessLevel.PROTECTED)
 @AllArgsConstructor
 @DynamicInsert
+@DynamicUpdate
 public class Product extends BaseEntity<Long> {
     @Id
     @GeneratedValue(strategy = GenerationType.AUTO)
@@ -41,7 +43,7 @@ public class Product extends BaseEntity<Long> {
     private String description;
 
     @Column(name = "product_s3_path", columnDefinition = "TEXT")
-    @ColumnDefault("'EMPTY'")
+    //@ColumnDefault("'EMPTY_URL'")  //TODO: 에러발생..
     private String s3Path;
 
     @Column(name = "product_stock", nullable = false)
