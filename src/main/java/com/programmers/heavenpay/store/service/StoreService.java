@@ -54,8 +54,9 @@ public class StoreService {
 
     @Transactional(readOnly = true)
     public Page<StoreInfoResponse> findAllByPages(Pageable pageable) {
-        return storeRepository.findAll(pageable)
-                .map(storeConverter::toStoreInfoResponse);
+        Page<Store> storePage = storeRepository.findAll(pageable);
+
+        return storePage.map(storeConverter::toStoreInfoResponse);
     }
 
     @Transactional
