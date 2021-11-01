@@ -1,6 +1,7 @@
 package com.programmers.heavenpay.account.service;
 
 import com.programmers.heavenpay.account.converter.AccountConverter;
+import com.programmers.heavenpay.account.dto.response.AccountDetailAllResponse;
 import com.programmers.heavenpay.account.entity.Account;
 import com.programmers.heavenpay.account.repository.AccountRepository;
 import com.programmers.heavenpay.finance.entity.Finance;
@@ -9,12 +10,13 @@ import com.programmers.heavenpay.finance.repository.FinanceRepository;
 import com.programmers.heavenpay.member.entity.Member;
 import com.programmers.heavenpay.member.entity.vo.GenderType;
 import com.programmers.heavenpay.member.repository.MemberRepository;
-import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
 import org.mockito.InjectMocks;
 import org.mockito.Mock;
 import org.mockito.junit.jupiter.MockitoExtension;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
 
 import java.util.Optional;
 
@@ -44,6 +46,9 @@ class AccountServiceTest {
     @Mock
     private AccountRepository accountRepository;
 
+    @Mock
+    private Pageable pageable;
+
     private Member member = Member.builder()
             .id(MEMBER_ID)
             .email("wrjs@naver.com")
@@ -68,9 +73,11 @@ class AccountServiceTest {
             .finance(finance)
             .build();
 
-    @DisplayName("계좌_생성")
+    @Mock
+    private Page<Account> accounts;
+
     @Test
-    void create() {
+    void 계좌_생성() {
         // given
         when(memberRepository.findById(MEMBER_ID)).thenReturn(Optional.of(member));
         when(financeRepository.findById(FINANCE_ID)).thenReturn(Optional.of(finance));
@@ -85,7 +92,7 @@ class AccountServiceTest {
     }
 
     @Test
-    void 계좌_단건_조회(){
+    void 계좌_단건_조회() {
         // given
         when(memberRepository.findById(MEMBER_ID)).thenReturn(Optional.of(member));
         when(accountRepository.findByIdAndMember(ACCOUNT_ID, member)).thenReturn(Optional.of(account));
@@ -95,5 +102,40 @@ class AccountServiceTest {
 
         // then
         verify(accountRepository).findByIdAndMember(ACCOUNT_ID, member);
+    }
+
+    @Test
+    void 계좌_전체_조회() {
+        // given
+        when(memberRepository.findById(MEMBER_ID)).thenReturn(Optional.of(member));
+        when(accountRepository.findAllByMember(member, pageable)).thenReturn(accounts);
+
+        // when
+        accountService.getAll(MEMBER_ID, pageable);
+
+        // then
+        verify(accountRepository).findAllByMember(member, pageable);
+    }
+
+    @Test
+    void 계좌_정보_수정() {
+        // given
+        when(memberRepository.findById(MEMBER_ID)).thenReturn(Optional.of(member));
+        when(accountRepository.findByIdAndMember(ACCOUNT_ID, member)).thenReturn(Optional.of(account));
+
+        // when/then
+        accountService.update(MEMBER_ID, ACCOUNT_ID, ACCOUNT_TITLE, ACCOUNT_DESCRIPTION);
+    }
+
+    @Test
+    void 계좌_삭제() {
+        // given
+        when(memberRepository.findById(MEMBER_ID)).thenReturn(Optional.of(member));
+
+        // when
+        accountService.delete(MEMBER_ID, ACCOUNT_ID);
+
+        // then
+        accountRepository.deleteByIdAndMember(ACCOUNT_ID, member);
     }
 }

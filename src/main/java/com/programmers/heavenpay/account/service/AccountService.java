@@ -64,9 +64,9 @@ public class AccountService {
                 .orElseThrow(
                         () -> new NotExistsException(ErrorMessage.NOT_EXIST_MEMBER_ID)
                 );
+        Page<Account> allByMember = accountRepository.findAllByMember(member, pageable);
 
-        return accountRepository.findAllByMember(member, pageable)
-                .map(accountConverter::toAccountDetailAllResponse);
+        return allByMember.map(accountConverter::toAccountDetailAllResponse);
     }
 
     @Transactional
