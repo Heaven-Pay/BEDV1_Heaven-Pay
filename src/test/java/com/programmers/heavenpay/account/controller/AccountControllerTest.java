@@ -2,9 +2,10 @@ package com.programmers.heavenpay.account.controller;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.programmers.heavenpay.account.dto.request.AccountCreateRequest;
+import com.programmers.heavenpay.account.dto.request.AccountDeleteRequest;
 import com.programmers.heavenpay.account.dto.request.AccountGetRequest;
-import com.programmers.heavenpay.account.dto.response.AccountCreateResponse;
-import com.programmers.heavenpay.account.dto.response.AccountDetailResponse;
+import com.programmers.heavenpay.account.dto.request.AccountUpdateRequest;
+import com.programmers.heavenpay.account.dto.response.*;
 import com.programmers.heavenpay.account.service.AccountService;
 import com.programmers.heavenpay.common.converter.ResponseConverter;
 import com.programmers.heavenpay.common.dto.LinkType;
@@ -12,10 +13,14 @@ import com.programmers.heavenpay.common.dto.ResponseDto;
 import com.programmers.heavenpay.common.dto.ResponseMessage;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
+import org.mockito.Mock;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.autoconfigure.web.servlet.WebMvcTest;
 import org.springframework.boot.test.mock.mockito.MockBean;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
 import org.springframework.hateoas.EntityModel;
+import org.springframework.hateoas.Link;
 import org.springframework.hateoas.MediaTypes;
 import org.springframework.hateoas.server.mvc.WebMvcLinkBuilder;
 import org.springframework.http.HttpMethod;
@@ -26,8 +31,7 @@ import java.time.LocalDateTime;
 
 import static org.mockito.Mockito.when;
 import static org.springframework.hateoas.server.mvc.WebMvcLinkBuilder.linkTo;
-import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.get;
-import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.post;
+import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.*;
 import static org.springframework.test.web.servlet.result.MockMvcResultHandlers.print;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
 
@@ -86,13 +90,44 @@ class AccountControllerTest {
             .memberId(ACCOUNT_ID)
             .build();
 
+    private AccountUpdateResponse accountUpdateResponse = AccountUpdateResponse.builder()
+            .id(ACCOUNT_ID)
+            .title(ACCOUNT_TITLE)
+            .description(ACCOUNT_DESCRIPTION)
+            .number(ACCOUNT_NUMBER)
+            .createdAt(LocalDateTime.now())
+            .modifiedAt(LocalDateTime.now())
+            .build();
+
+    private AccountUpdateRequest accountUpdateRequest = AccountUpdateRequest.builder()
+            .memberId(MEMBER_ID)
+            .title(ACCOUNT_TITLE)
+            .description(ACCOUNT_DESCRIPTION)
+            .build();
+
+    private AccountDeleteRequest accountDeleteRequest = AccountDeleteRequest.builder()
+            .memberId(ACCOUNT_ID)
+            .build();
+
+    private AccountDeleteResponse accountDeleteResponse = AccountDeleteResponse.builder()
+            .id(ACCOUNT_ID)
+            .build();
+
+    @MockBean
+    private Pageable pageable;
+
+    @MockBean
+    Page<AccountDetailAllResponse> accountDetailAllResponses;
+
     @Test
-    @DisplayName("계좌_생성")
-    void createTest() throws Exception {
+    void 계좌_생성() throws Exception {
         // given
         EntityModel<AccountCreateResponse> entityModel = EntityModel.of(accountCreateResponse,
                 getLinkToAddress().withSelfRel().withType(HttpMethod.POST.name()),
-                getLinkToAddress().slash(ACCOUNT_ID).withRel(LinkType.READ_METHOD).withType(HttpMethod.GET.name())
+                getLinkToAddress().slash(ACCOUNT_ID).withRel(LinkType.READ_METHOD).withType(HttpMethod.GET.name()),
+                getLinkToAddress().withRel(LinkType.READ_ALL_METHOD).withType(HttpMethod.GET.name()),
+                getLinkToAddress().slash(ACCOUNT_ID).withRel(LinkType.UPDATE_METHOD).withType(HttpMethod.PUT.name()),
+                getLinkToAddress().slash(ACCOUNT_ID).withRel(LinkType.DELETE_METHOD).withType(HttpMethod.DELETE.name())
         );
 
         // when
@@ -130,6 +165,81 @@ class AccountControllerTest {
                         .contentType(MediaTypes.HAL_JSON_VALUE)
                         .accept(MediaTypes.HAL_JSON_VALUE)
                         .content(objectMapper.writeValueAsString(accountGetRequest)))
+                .andExpect(status().isOk())
+                .andDo(print());
+    }
+     */
+
+    /*
+    @Test
+    void 계좌_전체_조회() throws Exception {
+        // given
+        Link link = getLinkToAddress().withSelfRel().withType(HttpMethod.GET.name());
+
+        // when
+        when(accountService.getAll(ACCOUNT_ID, pageable)).thenReturn(accountDetailAllResponses);
+        when(responseConverter.toResponseEntity(ResponseMessage.ACCOUNT_GET_ALL_SUCCESS, accountDetailAllResponses, link))
+                .thenReturn(ResponseEntity.ok(ResponseDto.of(ResponseMessage.ACCOUNT_GET_ALL_SUCCESS, accountDetailAllResponses, link)));
+
+        // then
+        mockMvc.perform(get("/api/v1/accounts")
+                        .contentType(MediaTypes.HAL_JSON_VALUE)
+                        .accept(MediaTypes.HAL_JSON_VALUE)
+                        .content(objectMapper.writeValueAsString(accountGetRequest)))
+                .andExpect(status().isOk())
+                .andDo(print());
+    }
+     */
+
+    @Test
+    void 계좌_수정() throws Exception {
+        // given
+        EntityModel<AccountUpdateResponse> entityModel = EntityModel.of(accountUpdateResponse,
+                getLinkToAddress().withRel(LinkType.CREATE_METHOD).withType(HttpMethod.POST.name()),
+                getLinkToAddress().slash(ACCOUNT_ID).withRel(LinkType.READ_METHOD).withType(HttpMethod.GET.name()),
+                getLinkToAddress().withRel(LinkType.READ_ALL_METHOD).withType(HttpMethod.GET.name()),
+                getLinkToAddress().slash(ACCOUNT_ID).withRel(LinkType.UPDATE_METHOD).withType(HttpMethod.PUT.name()),
+                getLinkToAddress().slash(ACCOUNT_ID).withRel(LinkType.DELETE_METHOD).withType(HttpMethod.DELETE.name())
+        );
+
+        // when
+        when(accountService.update(MEMBER_ID, ACCOUNT_ID, ACCOUNT_TITLE, ACCOUNT_DESCRIPTION))
+                .thenReturn(accountUpdateResponse);
+        when(responseConverter.toResponseEntity(ResponseMessage.ACCOUNT_UPDATE_SUCCESS, entityModel))
+                .thenReturn(ResponseEntity.ok(ResponseDto.of(ResponseMessage.ACCOUNT_UPDATE_SUCCESS, entityModel)));
+
+        // then
+        mockMvc.perform(put("/api/v1/accounts/{accountId}", ACCOUNT_ID)
+                        .contentType(MediaTypes.HAL_JSON_VALUE)
+                        .accept(MediaTypes.HAL_JSON_VALUE)
+                        .content(objectMapper.writeValueAsString(accountUpdateRequest)))
+                .andExpect(status().isOk())
+                .andDo(print());
+    }
+
+    /*
+    @Test
+    void 계좌_삭제() throws Exception {
+        // given
+        EntityModel<AccountDeleteResponse> entityModel = EntityModel.of(accountDeleteResponse,
+                getLinkToAddress().withRel(LinkType.CREATE_METHOD).withType(HttpMethod.POST.name()),
+                getLinkToAddress().slash(ACCOUNT_ID).withRel(LinkType.READ_METHOD).withType(HttpMethod.GET.name()),
+                getLinkToAddress().withRel(LinkType.READ_ALL_METHOD).withType(HttpMethod.GET.name()),
+                getLinkToAddress().slash(ACCOUNT_ID).withRel(LinkType.UPDATE_METHOD).withType(HttpMethod.PUT.name()),
+                getLinkToAddress().withSelfRel().withType(HttpMethod.DELETE.name())
+        );
+
+        // when
+        when(accountService.delete(MEMBER_ID, ACCOUNT_ID))
+                .thenReturn(accountDeleteResponse);
+        when(responseConverter.toResponseEntity(ResponseMessage.ACCOUNT_DELETE_SUCCESS, entityModel))
+                .thenReturn(ResponseEntity.ok(ResponseDto.of(ResponseMessage.ACCOUNT_DELETE_SUCCESS, entityModel)));
+
+        // then
+        mockMvc.perform(delete("/api/v1/accounts/{accountId}", ACCOUNT_ID)
+                        .contentType(MediaTypes.HAL_JSON_VALUE)
+                        .accept(MediaTypes.HAL_JSON_VALUE)
+                        .content(objectMapper.writeValueAsString(accountDeleteRequest)))
                 .andExpect(status().isOk())
                 .andDo(print());
     }
