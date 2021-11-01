@@ -6,7 +6,9 @@ import com.programmers.heavenpay.common.dto.ResponseDto;
 import com.programmers.heavenpay.common.dto.ResponseMessage;
 import com.programmers.heavenpay.product.dto.request.ProductCreateRequest;
 import com.programmers.heavenpay.product.dto.response.ProductCreateResponse;
+import com.programmers.heavenpay.product.dto.response.ProductInfoResponse;
 import com.programmers.heavenpay.product.service.ProductService;
+import com.programmers.heavenpay.store.dto.response.StoreInfoResponse;
 import io.swagger.annotations.Api;
 import lombok.RequiredArgsConstructor;
 import org.springframework.hateoas.EntityModel;
@@ -56,6 +58,25 @@ public class ProductController {
 
         return responseConverter.toResponseEntity(
                 ResponseMessage.PRODUCT_INSERT_SUCCESS,
+                entityModel
+        );
+    }
+
+    @GetMapping("/{productId}")
+    public ResponseEntity<ResponseDto> insert(@Valid @PathVariable Long id) throws IOException {
+        ProductInfoResponse response = productService.findById(id);
+
+        EntityModel<ProductInfoResponse> entityModel = EntityModel.of(
+                response,
+                getLinkToAddress().withRel(LinkType.CREATE_METHOD).withType(HttpMethod.POST.name()),
+                getLinkToAddress().slash(response.getId()).withSelfRel().withType(HttpMethod.GET.name()),
+                getLinkToAddress().withRel(LinkType.READ_ALL_METHOD).withType(HttpMethod.GET.name()),
+                getLinkToAddress().slash(response.getId()).withRel(LinkType.UPDATE_METHOD).withType(HttpMethod.PATCH.name()),
+                getLinkToAddress().slash(response.getId()).withRel(LinkType.DELETE_METHOD).withType(HttpMethod.DELETE.name())
+        );
+
+        return responseConverter.toResponseEntity(
+                ResponseMessage.PRODUCT_SEARCH_SUCCESS,
                 entityModel
         );
     }
