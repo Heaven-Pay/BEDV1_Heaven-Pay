@@ -15,7 +15,9 @@ public enum ResponseMessage {
     STORE_UPDATE_SUCCESS(HttpStatus.OK, "store 수정 성공"),
     STORE_SEARCH_SUCCESS(HttpStatus.OK, "store 조회 성공"),
     PRODUCT_INSERT_SUCCESS(HttpStatus.CREATED, "product 생성 성공"),
-    PRODUCT_SEARCH_SUCCESS(HttpStatus.OK, "product 단건 조회 성공");
+    PRODUCT_SEARCH_SUCCESS(HttpStatus.OK, "product 단건 조회 성공"),
+    PRODUCT_DELETE_SUCCESS(HttpStatus.OK, "product 단건 삭제 성공"),
+    PRODUCT_UPDATE_SUCCESS(HttpStatus.OK, "product 수정 성공");
 
     private final HttpStatus status;
     private final String message;
