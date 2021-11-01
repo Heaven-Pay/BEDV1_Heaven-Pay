@@ -8,6 +8,8 @@ import com.programmers.heavenpay.product.entitiy.vo.Reviews;
 import com.programmers.heavenpay.product.exception.LackStockException;
 import com.programmers.heavenpay.store.entity.Store;
 import lombok.*;
+import org.hibernate.annotations.ColumnDefault;
+import org.hibernate.annotations.DynamicInsert;
 
 import javax.persistence.*;
 import java.util.Objects;
@@ -17,6 +19,7 @@ import java.util.Objects;
 @Builder
 @NoArgsConstructor(access = AccessLevel.PROTECTED)
 @AllArgsConstructor
+@DynamicInsert
 public class Product extends BaseEntity<Long> {
     @Id
     @GeneratedValue(strategy = GenerationType.AUTO)
@@ -38,6 +41,7 @@ public class Product extends BaseEntity<Long> {
     private String description;
 
     @Column(name = "product_s3_path", columnDefinition = "TEXT")
+    @ColumnDefault("'EMPTY'")
     private String s3Path;
 
     @Column(name = "product_stock", nullable = false)
