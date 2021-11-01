@@ -4,14 +4,12 @@ import com.programmers.heavenpay.common.entity.BaseEntity;
 import com.programmers.heavenpay.error.ErrorMessage;
 import com.programmers.heavenpay.error.exception.NotDefinitionException;
 import com.programmers.heavenpay.product.entitiy.vo.Category;
+import com.programmers.heavenpay.product.entitiy.vo.Reviews;
 import com.programmers.heavenpay.product.exception.LackStockException;
-import com.programmers.heavenpay.review.entity.Review;
 import com.programmers.heavenpay.store.entity.Store;
 import lombok.*;
 
 import javax.persistence.*;
-import java.util.ArrayList;
-import java.util.Collection;
 import java.util.Objects;
 
 @Entity
@@ -28,9 +26,6 @@ public class Product extends BaseEntity<Long> {
     @Column(name = "product_category", nullable = false)
     @Enumerated(EnumType.STRING)
     private Category category;
-
-    @Column(name = "product_score", nullable = false)
-    private Double score;
 
     @Column(name = "product_price", nullable = false)
     private int price;
@@ -52,8 +47,8 @@ public class Product extends BaseEntity<Long> {
     @JoinColumn(name = "store_id", referencedColumnName = "store_id", nullable = false)
     private Store store;
 
-    @OneToMany(mappedBy = "product", cascade = CascadeType.ALL, orphanRemoval = true)
-    private Collection<Review> reviews = new ArrayList<>();
+    @Embedded
+    private Reviews reviews;
 
     public synchronized void updateInfos(String description, int price, String s3Path, String title, String categoryStr, int stock) {
         this.description = description;
@@ -78,14 +73,6 @@ public class Product extends BaseEntity<Long> {
         }
 
         stock--;
-    }
-
-    public synchronized void updateReviewScore() {
-        double scoreSum = 0;
-        for (Review review : reviews) {
-            scoreSum += review.getScore();
-        }
-        score = scoreSum / reviews.size();
     }
 
     public void checkValidStoreOrElseThrow(Long storeId) {
