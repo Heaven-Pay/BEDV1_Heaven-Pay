@@ -2,9 +2,11 @@ package com.programmers.heavenpay.product.entitiy.vo;
 
 import com.programmers.heavenpay.error.ErrorMessage;
 import com.programmers.heavenpay.error.exception.NotExistsException;
+import lombok.Getter;
 
 import java.util.Arrays;
 
+@Getter
 public enum Category {
     FOOD("식품"),
     LUXURY("명품"),
