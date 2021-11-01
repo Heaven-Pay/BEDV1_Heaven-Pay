@@ -4,6 +4,7 @@ import com.programmers.heavenpay.error.ErrorMessage;
 import com.programmers.heavenpay.error.exception.NotExistsException;
 import com.programmers.heavenpay.product.converter.ProductConverter;
 import com.programmers.heavenpay.product.dto.response.ProductCreateResponse;
+import com.programmers.heavenpay.product.dto.response.ProductInfoResponse;
 import com.programmers.heavenpay.product.dto.response.ProductUpdateResponse;
 import com.programmers.heavenpay.product.entitiy.Product;
 import com.programmers.heavenpay.product.repository.ProductRepository;
@@ -64,5 +65,12 @@ public class ProductService {
                 .modifiedAt(product.getModifiedDate())
                 .s3Path(updatedS3Url)
                 .build();
+    }
+
+    public ProductInfoResponse findById(Long id) {
+        Product product = productRepository.findById(id)
+                .orElseThrow(() -> new NotExistsException(ErrorMessage.NOT_EXIST_PRODUCT_ID));
+
+        return productConverter.toProductInfoResponse(product);
     }
 }
