@@ -4,6 +4,7 @@ import com.programmers.heavenpay.review.entity.Review;
 import lombok.AccessLevel;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
+import org.hibernate.annotations.ColumnDefault;
 
 import javax.persistence.CascadeType;
 import javax.persistence.Column;
@@ -16,7 +17,8 @@ import java.util.List;
 @Getter
 @NoArgsConstructor(access = AccessLevel.PROTECTED)
 public class Reviews {
-    @Column(name = "product_score", nullable = false)
+    @Column(name = "product_score")
+    @ColumnDefault("0.0")
     private Double score;
 
     @OneToMany(mappedBy = "product", cascade = CascadeType.ALL, orphanRemoval = true)
