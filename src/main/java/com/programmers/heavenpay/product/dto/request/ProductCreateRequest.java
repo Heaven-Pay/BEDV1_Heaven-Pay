@@ -1,6 +1,5 @@
 package com.programmers.heavenpay.product.dto.request;
 
-import com.programmers.heavenpay.store.entity.Store;
 import lombok.Builder;
 import lombok.Getter;
 import org.springframework.web.multipart.MultipartFile;
