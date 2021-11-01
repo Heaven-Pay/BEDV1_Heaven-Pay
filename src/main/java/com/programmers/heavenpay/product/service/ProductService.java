@@ -31,7 +31,7 @@ public class ProductService {
     private final S3Uploader s3Uploader;
 
     private final static String s3Dir = "product";
-    private final static String EMPTY = "EMPTY";
+    private final static String EMPTY_URL = "EMPTY_URL";
 
     @Transactional
     public ProductCreateResponse create(Long storeId, String categoryStr, int price, String title, String description, int stock, MultipartFile multipartFile) throws IOException {
@@ -41,7 +41,7 @@ public class ProductService {
         Store store = storeRepository.findById(storeId)
                 .orElseThrow(() -> new NotExistsException(ErrorMessage.NOT_EXIST_STORE));
 
-        String savedS3Url = EMPTY;
+        String savedS3Url = EMPTY_URL;
         if(multipartFileOptional.isPresent() && !multipartFileOptional.get().isEmpty()) {
             savedS3Url = s3Uploader.upload(multipartFile, s3Dir);
         }
@@ -62,7 +62,7 @@ public class ProductService {
 
         product.checkValidStoreOrElseThrow(storeId);
 
-        String updatedS3Url = EMPTY;
+        String updatedS3Url = EMPTY_URL;
         if(multipartFileOptional.isPresent() && !multipartFileOptional.get().isEmpty()) {
             updatedS3Url = s3Uploader.upload(multipartFile, s3Dir);
         }
