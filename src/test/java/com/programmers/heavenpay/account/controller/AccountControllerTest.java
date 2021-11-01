@@ -13,7 +13,9 @@ import com.programmers.heavenpay.common.dto.ResponseDto;
 import com.programmers.heavenpay.common.dto.ResponseMessage;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
+import org.junit.jupiter.api.extension.ExtendWith;
 import org.mockito.Mock;
+import org.mockito.junit.jupiter.MockitoExtension;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.autoconfigure.web.servlet.WebMvcTest;
 import org.springframework.boot.test.mock.mockito.MockBean;
@@ -35,6 +37,7 @@ import static org.springframework.test.web.servlet.request.MockMvcRequestBuilder
 import static org.springframework.test.web.servlet.result.MockMvcResultHandlers.print;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
 
+@ExtendWith(MockitoExtension.class)
 @WebMvcTest(AccountController.class)
 class AccountControllerTest {
     private static final Long MEMBER_ID = 1L;
@@ -151,7 +154,10 @@ class AccountControllerTest {
         // given
         EntityModel<AccountDetailResponse> entityModel = EntityModel.of(accountDetailResponse,
                 getLinkToAddress().withRel(LinkType.CREATE_METHOD).withType(HttpMethod.POST.name()),
-                getLinkToAddress().withSelfRel().withType(HttpMethod.GET.name())
+                getLinkToAddress().withSelfRel().withType(HttpMethod.GET.name()),
+                getLinkToAddress().withRel(LinkType.READ_ALL_METHOD).withType(HttpMethod.GET.name()),
+                getLinkToAddress().slash(ACCOUNT_ID).withRel(LinkType.UPDATE_METHOD).withType(HttpMethod.PUT.name()),
+                getLinkToAddress().slash(ACCOUNT_ID).withRel(LinkType.DELETE_METHOD).withType(HttpMethod.DELETE.name())
         );
 
         // when
@@ -168,7 +174,7 @@ class AccountControllerTest {
                 .andExpect(status().isOk())
                 .andDo(print());
     }
-     */
+    */
 
     /*
     @Test
