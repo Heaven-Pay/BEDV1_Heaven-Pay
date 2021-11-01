@@ -29,4 +29,13 @@ public class Reviews {
         }
         score = scoreSum / reviews.size();
     }
+
+    public void deleteReview(Review review){
+        this.reviews.remove(review);
+    }
+
+    public void addReview(Review review){
+        this.reviews.add(review);
+    }
+
 }

@@ -37,17 +37,17 @@ public class Review {
      */
     public synchronized void makeRelationWithProduct(Product product) {
         if (Objects.nonNull(this.product)) {
-            this.product.getReviews().getReviews().remove(this);
+            this.product.getReviews().deleteReview(this);
         }
 
         this.product = product;
-        this.product.getReviews().getReviews().add(this);
+        this.product.getReviews().addReview(this);
     }
 
     /**
      * 연관관계 편의 메소드: Product에서 Review 단건 삭제
      */
     public synchronized void deleteFromProduct() {
-        this.product.getReviews().getReviews().remove(this);
+        this.product.getReviews().deleteReview(this);
     }
 }
