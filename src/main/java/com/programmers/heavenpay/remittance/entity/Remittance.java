@@ -19,7 +19,7 @@ public class Remittance extends BaseEntity<Long> {
     @GeneratedValue(strategy = GenerationType.AUTO)
     @Column(name = "remittance_id", unique = true, nullable = false)
     private Long id;
-    
+
     @JsonIgnore
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "member_id")
@@ -35,12 +35,12 @@ public class Remittance extends BaseEntity<Long> {
     @JoinColumn(name = "finance_id")
     private Finance finance;
 
-    @Column(name = "finance_name", nullable = false)
+    @Column(name = "remittance_name", nullable = false)
     private String name;
 
-    @Column(name = "finance_number", nullable = false)
+    @Column(name = "remittance_number", nullable = false)
     private String number;
 
-    @Column(name = "finance_money", nullable = false)
-    private String money;
+    @Column(name = "remittance_money", nullable = false)
+    private Integer money;
 }

@@ -148,7 +148,9 @@ class AccountControllerTest {
                 .andDo(print());
     }
 
-    /*
+    // DTO에서 필드가 하나인 경우에는  org.springframework.http.converter.HttpMessageNotReadableException 가 터짐!
+    // 2개가 되는 경우에는 제대로 읽어들이는데, 한개일때는 Jackson을 통해 Converter가 되지 않음.. 이유를 모르겠음!
+
     @Test
     void 계좌_조회() throws Exception {
         // given
@@ -174,7 +176,6 @@ class AccountControllerTest {
                 .andExpect(status().isOk())
                 .andDo(print());
     }
-    */
 
     /*
     @Test

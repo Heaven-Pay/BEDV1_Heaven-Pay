@@ -18,7 +18,9 @@ public enum ResponseMessage {
     ACCOUNT_GET_SUCCESS(HttpStatus.OK, "계좌 단건 조회 성공"),
     ACCOUNT_GET_ALL_SUCCESS(HttpStatus.OK, "계좌 전체 조회 성공"),
     ACCOUNT_UPDATE_SUCCESS(HttpStatus.OK, "계좌 수정 성공"),
-    ACCOUNT_DELETE_SUCCESS(HttpStatus.OK, "계좌 삭제 성공");
+    ACCOUNT_DELETE_SUCCESS(HttpStatus.OK, "계좌 삭제 성공"),
+    REMITTANCE_CREATE_SUCCESS(HttpStatus.OK, "송금하기 성공"),
+    REMITTANCE_READ_SUCCESS(HttpStatus.OK, "송금 단건 조회 성공");
 
     private final HttpStatus status;
     private final String message;
