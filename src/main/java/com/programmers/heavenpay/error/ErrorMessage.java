@@ -11,6 +11,8 @@ public enum ErrorMessage {
     INTERNAL_SERVER_ERROR(HttpStatus.INTERNAL_SERVER_ERROR, "정의되지 않은 서버 에러"),
     NOT_EXIST_MEMBER_ID(HttpStatus.NOT_FOUND, "존재하지 않는 Member Id"),
     NOT_EXIST_GENDER_TYPE(HttpStatus.NOT_FOUND, "존재하지 않는 성별(gender) 값"),
+    NOT_EXIST_POINT_HISTORY_ID(HttpStatus.NOT_FOUND, "존재하지 않는 PointHistory Id"),
+    NOT_EXIST_USED_APP_TYPE(HttpStatus.NOT_FOUND, "존재하지 않는 사용 앱(usedApp) 타입"),
     NOT_EXIST_STORE_TYPE(HttpStatus.NOT_FOUND, "존재하지 않는 Store Type"),
     NOT_EXIST_STORE(HttpStatus.NOT_FOUND, "존재하지 않는 Store"),
     NOT_EXIST_FINANCE_TYPE(HttpStatus.NOT_FOUND, "존재하지 않는 금융 조건"),
