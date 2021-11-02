@@ -48,16 +48,16 @@ class StoreControllerTest {
     private String vendorCode = "108-15-84292";
 
     @Autowired
-    MockMvc mockMvc;   //DispatcherServlet이 요청을 처리하는 과정을 확인
+    private MockMvc mockMvc;   //DispatcherServlet이 요청을 처리하는 과정을 확인
 
     @Autowired
-    ObjectMapper objectMapper;
+    private ObjectMapper objectMapper;
 
     @MockBean
-    StoreService storeService;
+    private StoreService storeService;
 
     @MockBean    // container가 필요하다면 MockBean
-    ResponseConverter responseConverter;
+    private ResponseConverter responseConverter;
 
     @MockBean
     private Pageable pageable;
@@ -65,14 +65,14 @@ class StoreControllerTest {
     @MockBean
     private Page<StoreInfoResponse> storePage;
 
-    StoreCreateResponse storeCreateResponse = StoreCreateResponse.builder().build();
-    StoreDeleteResponse storeDeleteResponse = StoreDeleteResponse.builder().build();
-    StoreUpdateResponse storeUpdateResponse = StoreUpdateResponse.builder().build();
-    StoreInfoResponse storeInfoResponse = StoreInfoResponse.builder().build();
+    private StoreCreateResponse storeCreateResponse = StoreCreateResponse.builder().build();
+    private StoreDeleteResponse storeDeleteResponse = StoreDeleteResponse.builder().build();
+    private StoreUpdateResponse storeUpdateResponse = StoreUpdateResponse.builder().build();
+    private StoreInfoResponse storeInfoResponse = StoreInfoResponse.builder().build();
 
     @Test
     @DisplayName("post 요청으로 store를 삽입할 수 있다.")
-    void insertTest() throws Exception {
+    void insertSuccessTest() throws Exception {
         // Given
         StoreCreateRequest request = StoreCreateRequest.builder()
                 .vendorCode(vendorCode)
@@ -108,7 +108,7 @@ class StoreControllerTest {
 
     @Test
     @DisplayName("delete 요청으로 store를 삭제할 수 있다.")
-    void deleteTest() throws Exception {
+    void deleteSuccessTest() throws Exception {
         // Given
         EntityModel<StoreDeleteResponse> entityModel = EntityModel.of(
                 storeDeleteResponse,
@@ -135,7 +135,7 @@ class StoreControllerTest {
 
     @Test
     @DisplayName("patch 요청으로 store를 수정할 수 있다.")
-    void updateTest() throws Exception {
+    void updateSuccessTest() throws Exception {
         // Given
         StoreUpdateRequest request = StoreUpdateRequest.builder()
                 .name(name)
@@ -171,7 +171,7 @@ class StoreControllerTest {
 
     @Test
     @DisplayName("get 요청으로 store 단건 조회할 수 있다.")
-    void getOneTest() throws Exception {
+    void getOneSuccessTest() throws Exception {
         // Given
         EntityModel<StoreInfoResponse> entityModel = EntityModel.of(
                 storeInfoResponse,
@@ -200,7 +200,7 @@ class StoreControllerTest {
 
     @Test
     @DisplayName("get 요청으로 모든 스토어를 조회할 수 있다.")
-    void getAllTest() throws Exception {
+    void getAllSuccessTest() throws Exception {
         // Given
         Link link = getLinkToAddress().withSelfRel().withType(HttpMethod.GET.name());
 
