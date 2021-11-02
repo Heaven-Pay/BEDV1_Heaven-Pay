@@ -1,25 +1,27 @@
 package com.programmers.heavenpay.remittance.dto.request;
 
 import com.programmers.heavenpay.annotation.ArbitraryAuthenticationPrincipal;
-import lombok.Builder;
-import lombok.Getter;
+import lombok.*;
 
+import javax.validation.constraints.Min;
 import javax.validation.constraints.NotBlank;
+import javax.validation.constraints.NotNull;
 import javax.validation.constraints.Pattern;
 
 @Getter
-@Builder
+@NoArgsConstructor(access = AccessLevel.PROTECTED)
+@AllArgsConstructor
 public class RemittanceCreateRequest {
     @ArbitraryAuthenticationPrincipal
     private Long memberId;
-    @NotBlank(message = "계좌 내역은 공백이 아니여야 합니다")
+    @NotNull(message = "계좌 내역은 공백이 아니여야 합니다")
     private Long accountId;
-    @NotBlank(message = "은행 정보는 공백이 아니여야 합니다")
+    @NotNull(message = "은행 정보는 공백이 아니여야 합니다")
     private Long financeId;
     @Pattern(regexp = "^[ㄱ-ㅎ|가-힣|a-z|A-Z|]{2,20}$", message = "이름은 공백없는 2~20자이어야 합니다")
     private String name;
     @NotBlank(message = "계좌 번호는 공백이 될 수 없습니다")
     private String number;
-    @Pattern(regexp = "^[0-9]+$]", message = "양수만 가능합니다")
+    @Min(value = 0)
     private Integer money;
 }

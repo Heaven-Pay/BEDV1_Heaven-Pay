@@ -45,8 +45,10 @@ public class RemittanceService {
                 .orElseThrow(
                         () -> new NotExistsException(ErrorMessage.NOT_EXIST_FINANCE_TYPE)
                 );
-        Remittance remittance = remittanceConverter.toRemittanceEntity(member, account, finance, name, number, money);
-        remittance.addCreatedAndLastModifiedMember(member.getId());
+        Remittance remittanceInstance = remittanceConverter.toRemittanceEntity(member, account, finance, name, number, money);
+        remittanceInstance.addCreatedAndLastModifiedMember(member.getId());
+
+        Remittance remittance = remittanceRepository.save(remittanceInstance);
 
         return remittanceConverter.toRemittanceCreateResponse(remittance);
     }
