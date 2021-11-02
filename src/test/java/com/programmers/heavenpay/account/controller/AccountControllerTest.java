@@ -11,10 +11,8 @@ import com.programmers.heavenpay.common.converter.ResponseConverter;
 import com.programmers.heavenpay.common.dto.LinkType;
 import com.programmers.heavenpay.common.dto.ResponseDto;
 import com.programmers.heavenpay.common.dto.ResponseMessage;
-import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
-import org.mockito.Mock;
 import org.mockito.junit.jupiter.MockitoExtension;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.autoconfigure.web.servlet.WebMvcTest;
@@ -63,13 +61,13 @@ class AccountControllerTest {
         return linkTo(AccountController.class);
     }
 
-    private AccountCreateRequest accountCreateRequest = AccountCreateRequest.builder()
-            .memberId(MEMBER_ID)
-            .title(ACCOUNT_TITLE)
-            .description(ACCOUNT_DESCRIPTION)
-            .number(ACCOUNT_NUMBER)
-            .financeId(FINANCE_ID)
-            .build();
+    private AccountCreateRequest accountCreateRequest = new AccountCreateRequest(
+            MEMBER_ID,
+            ACCOUNT_TITLE,
+            ACCOUNT_DESCRIPTION,
+            ACCOUNT_NUMBER,
+            FINANCE_ID
+    );
 
     private AccountCreateResponse accountCreateResponse = AccountCreateResponse.builder()
             .id(ACCOUNT_ID)
@@ -89,9 +87,9 @@ class AccountControllerTest {
             .modifiedAt(LocalDateTime.now())
             .build();
 
-    private AccountGetRequest accountGetRequest = AccountGetRequest.builder()
-            .memberId(ACCOUNT_ID)
-            .build();
+    private AccountGetRequest accountGetRequest = new AccountGetRequest(
+            MEMBER_ID
+    );
 
     private AccountUpdateResponse accountUpdateResponse = AccountUpdateResponse.builder()
             .id(ACCOUNT_ID)
@@ -102,15 +100,15 @@ class AccountControllerTest {
             .modifiedAt(LocalDateTime.now())
             .build();
 
-    private AccountUpdateRequest accountUpdateRequest = AccountUpdateRequest.builder()
-            .memberId(MEMBER_ID)
-            .title(ACCOUNT_TITLE)
-            .description(ACCOUNT_DESCRIPTION)
-            .build();
+    private AccountUpdateRequest accountUpdateRequest = new AccountUpdateRequest(
+            MEMBER_ID,
+            ACCOUNT_TITLE,
+            ACCOUNT_DESCRIPTION
+    );
 
-    private AccountDeleteRequest accountDeleteRequest = AccountDeleteRequest.builder()
-            .memberId(ACCOUNT_ID)
-            .build();
+    private AccountDeleteRequest accountDeleteRequest = new AccountDeleteRequest(
+            ACCOUNT_ID
+    );
 
     private AccountDeleteResponse accountDeleteResponse = AccountDeleteResponse.builder()
             .id(ACCOUNT_ID)
@@ -148,9 +146,6 @@ class AccountControllerTest {
                 .andDo(print());
     }
 
-    // DTO에서 필드가 하나인 경우에는  org.springframework.http.converter.HttpMessageNotReadableException 가 터짐!
-    // 2개가 되는 경우에는 제대로 읽어들이는데, 한개일때는 Jackson을 통해 Converter가 되지 않음.. 이유를 모르겠음!
-
     @Test
     void 계좌_조회() throws Exception {
         // given
@@ -177,7 +172,7 @@ class AccountControllerTest {
                 .andDo(print());
     }
 
-    /*
+
     @Test
     void 계좌_전체_조회() throws Exception {
         // given
@@ -196,7 +191,7 @@ class AccountControllerTest {
                 .andExpect(status().isOk())
                 .andDo(print());
     }
-     */
+
 
     @Test
     void 계좌_수정() throws Exception {
@@ -224,7 +219,7 @@ class AccountControllerTest {
                 .andDo(print());
     }
 
-    /*
+
     @Test
     void 계좌_삭제() throws Exception {
         // given
@@ -250,5 +245,4 @@ class AccountControllerTest {
                 .andExpect(status().isOk())
                 .andDo(print());
     }
-     */
 }
