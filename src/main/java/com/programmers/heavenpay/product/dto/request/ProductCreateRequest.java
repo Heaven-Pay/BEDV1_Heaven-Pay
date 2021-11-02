@@ -2,6 +2,7 @@ package com.programmers.heavenpay.product.dto.request;
 
 import lombok.Builder;
 import lombok.Getter;
+import lombok.Setter;
 import org.springframework.web.multipart.MultipartFile;
 
 import javax.validation.constraints.Min;
@@ -10,6 +11,7 @@ import javax.validation.constraints.Pattern;
 
 @Builder
 @Getter
+@Setter  //@ModelAttribute를 이용해 파라미터 값을 DTO에 한 번에 바인딩 하기 위함
 public class ProductCreateRequest {
     @Min(value = 1L)
     private Long storeID;
