@@ -6,7 +6,6 @@ import com.programmers.heavenpay.store.dto.response.StoreDeleteResponse;
 import com.programmers.heavenpay.store.dto.response.StoreInfoResponse;
 import com.programmers.heavenpay.store.dto.response.StoreUpdateResponse;
 import com.programmers.heavenpay.store.entity.Store;
-import com.programmers.heavenpay.store.entity.vo.StoreType;
 import com.programmers.heavenpay.store.repository.StoreRepository;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
@@ -43,13 +42,12 @@ class StoreServiceTest {
     @Mock
     Page<Store> storePage;
 
-    Store store = Store.builder()
-            .type(StoreType.of(typeStr))
-            .vendorCode(vendorCode)
-            .name(name)
-            .id(id)
-            .build();
+    @Mock
+    Page<StoreInfoResponse> returnPage;
 
+    Store store = Store.builder().build();
+
+    @Mock
     StoreInfoResponse storeInfoResponse;
 
     StoreDeleteResponse storeDeleteResponse;
@@ -61,15 +59,15 @@ class StoreServiceTest {
     @Test
     @DisplayName("store를 삽입할 수 있다.")
     void createSuccessTest() {
-        //TODO: anyString()으로 보내면 에러남.
         //given
-        when(storeConverter.toStoreEntity(name, typeStr, vendorCode)).thenReturn(store);
+        when(storeConverter.toStoreEntity(anyString(), anyString(), anyString())).thenReturn(store);
         when(storeRepository.save(store)).thenReturn(store);
 
         //when
         storeService.create(name, typeStr, vendorCode);
 
         //then
+        verify(storeConverter).toStoreEntity(anyString(), anyString(), anyString());
         verify(storeRepository).save(store);
     }
 
@@ -112,10 +110,10 @@ class StoreServiceTest {
     @Test
     @DisplayName("store를 수정하는 로직이 정상적으로 처리된다.")
     void updateSuccessTest() {
-        //TODO: toStoreUpdateResponse의 인자값에 실질적인 값을 넣어주어야 하는 이유
         //given
-        when(storeRepository.findById(anyLong())).thenReturn(Optional.of(store));
-        when(storeConverter.toStoreUpdateResponse(id, name, typeStr, vendorCode, store.getCreatedDate(), store.getModifiedDate()))
+        when(storeRepository.findById(anyLong()))
+                .thenReturn(Optional.of(store));
+        when(storeConverter.toStoreUpdateResponse(anyLong(), anyString(), anyString(), anyString(), any(), any()))
                 .thenReturn(storeUpdateResponse);
 
         //when
@@ -123,7 +121,7 @@ class StoreServiceTest {
 
         //then
         verify(storeRepository).findById(anyLong());
-        verify(storeConverter).toStoreUpdateResponse(id, name, typeStr, vendorCode, store.getCreatedDate(), store.getModifiedDate());
+        verify(storeConverter).toStoreUpdateResponse(anyLong(), anyString(), anyString(), anyString(), any(), any());
     }
 
     @Test
@@ -162,14 +160,14 @@ class StoreServiceTest {
 //        // given
 //        when(storeRepository.findAll(pageable)).thenReturn(storePage);
 //        when(storeConverter.toStoreInfoResponse(store)).thenReturn(storeInfoResponse);
-//        when(storePage.map(storeConverter::toStoreInfoResponse)).thenReturn(storeInfoResponsePage);
+//        when(storePage.map(storeInfoResponse)).thenReturn(returnPage);
 //
 //        // when
 //        storeService.findAllByPages(pageable);
 //
 //        // then
 //        verify(storeRepository).findAll(pageable);
-//        verify(storePage).map(storeConverter::toStoreInfoResponse);
 //        verify(storeConverter).toStoreInfoResponse(store);
+//        verify(storePage).map(any());
     }
 }
