@@ -2,7 +2,6 @@ package com.programmers.heavenpay.finance.dto.response;
 
 import lombok.Builder;
 import lombok.Getter;
-import lombok.NonNull;
 
 import java.time.LocalDateTime;
 

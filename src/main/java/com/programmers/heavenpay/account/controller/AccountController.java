@@ -64,7 +64,6 @@ public class AccountController {
         );
     }
 
-    // 계좌 단건 조회
     @ApiOperation("계좌 단건 조회")
     @GetMapping(value = "/{accountId}", consumes = MediaTypes.HAL_JSON_VALUE)
     public ResponseEntity<ResponseDto> get(@PathVariable Long accountId, @RequestBody AccountGetRequest request) {
@@ -84,7 +83,6 @@ public class AccountController {
         );
     }
 
-    // 계좌 전체 조회
     @ApiOperation("계좌 전체 조회")
     @GetMapping(consumes = MediaTypes.HAL_JSON_VALUE)
     public ResponseEntity<ResponseDto> getAll(@RequestBody AccountGetRequest request, Pageable pageable) {
@@ -99,7 +97,6 @@ public class AccountController {
         );
     }
 
-    // 계좌 수정
     @ApiOperation("계좌 수정")
     @PutMapping(value = "/{accountId}", consumes = MediaTypes.HAL_JSON_VALUE)
     public ResponseEntity<ResponseDto> update(@PathVariable Long accountId, @Valid @RequestBody AccountUpdateRequest request) {
@@ -119,7 +116,6 @@ public class AccountController {
         );
     }
 
-    // 계좌 삭제
     @ApiOperation("계좌 삭제")
     @DeleteMapping(value = "/{accountId}", consumes = MediaTypes.HAL_JSON_VALUE)
     public ResponseEntity<ResponseDto> delete(@PathVariable Long accountId, @Valid @RequestBody AccountDeleteRequest request) {

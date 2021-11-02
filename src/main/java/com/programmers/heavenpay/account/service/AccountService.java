@@ -24,7 +24,6 @@ public class AccountService {
     private final MemberRepository memberRepository;
     private final FinanceRepository financeRepository;
 
-    // TODO :: 사용자 검증은 Security에서 해야함
     @Transactional
     public AccountCreateResponse create(Long memberId, String title, String description, String number, Long financeId) {
         Member member = memberRepository.findById(memberId)
@@ -43,7 +42,6 @@ public class AccountService {
         return accountConverter.toAccountCreateResponse(accountEntity);
     }
 
-    // TODO :: 사용자 검증은 Security에서 해야함
     @Transactional(readOnly = true)
     public AccountDetailResponse getOne(Long accountId, Long memberId) {
         Member member = memberRepository.findById(memberId)

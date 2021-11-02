@@ -1,9 +1,6 @@
 package com.programmers.heavenpay.remittance.controller;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
-import com.programmers.heavenpay.account.controller.AccountController;
-import com.programmers.heavenpay.account.dto.response.AccountDetailAllResponse;
-import com.programmers.heavenpay.account.dto.response.AccountDetailResponse;
 import com.programmers.heavenpay.common.converter.ResponseConverter;
 import com.programmers.heavenpay.common.dto.LinkType;
 import com.programmers.heavenpay.common.dto.ResponseDto;
@@ -32,7 +29,6 @@ import org.springframework.test.web.servlet.MockMvc;
 
 import java.time.LocalDateTime;
 
-import static org.junit.jupiter.api.Assertions.*;
 import static org.mockito.Mockito.when;
 import static org.springframework.hateoas.server.mvc.WebMvcLinkBuilder.linkTo;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.get;
@@ -48,10 +44,8 @@ class RemittanceControllerTest {
     private static final Long FINANCE_ID = 1L;
     private static final Long ACCOUNT_ID = 1L;
     private static final String FINANCE_NAME = "신한";
-    private static final String ACCOUNT_TITLE = "계좌 별명";
-    private static final String ACCOUNT_DESCRIPTION = "계좌 등록 설명";
-    private static final String ACCOUNT_NUMBER = "1234659642314";
     private static final String NAME = "김동건";
+    private static final String MEMBER_NAME = "황인준";
     private static final String NUMBER = "524586456349654";
     private static final Integer MONEY = 1000;
 
@@ -66,6 +60,12 @@ class RemittanceControllerTest {
 
     @MockBean
     private ResponseConverter responseConverter;
+
+    @MockBean
+    private Pageable pageable;
+
+    @MockBean
+    Page<RemittanceDetailAllResponse> remittanceDetailAllResponses;
 
     private WebMvcLinkBuilder getLinkToAddress() {
         return linkTo(RemittanceController.class);
@@ -82,9 +82,9 @@ class RemittanceControllerTest {
 
     private RemittanceCreateResponse remittanceCreateResponse = RemittanceCreateResponse.builder()
             .remittanceId(REMITTANCE_ID)
-            .memberName(NAME)
+            .memberName(MEMBER_NAME)
             .financeName(FINANCE_NAME)
-            .remittanceName("황인준")
+            .remittanceName(NAME)
             .remittanceNumber(NUMBER)
             .remittanceMoney(MONEY)
             .createdAt(LocalDateTime.now())
@@ -95,19 +95,13 @@ class RemittanceControllerTest {
 
     private RemittanceGetResponse remittanceGetResponse = RemittanceGetResponse.builder()
             .remittanceId(REMITTANCE_ID)
-            .memberName("황인준")
+            .memberName(MEMBER_NAME)
             .financeName(FINANCE_NAME)
             .remittanceName(NAME)
             .remittanceNumber(NUMBER)
             .remittanceMoney(MONEY)
             .modifiedAt(LocalDateTime.now())
             .build();
-
-    @MockBean
-    private Pageable pageable;
-
-    @MockBean
-    Page<RemittanceDetailAllResponse> remittanceDetailAllResponses;
 
     @Test
     void 송금하기() throws Exception {

@@ -27,17 +27,23 @@ import static org.mockito.Mockito.when;
 
 @ExtendWith(MockitoExtension.class)
 class RemittanceServiceTest {
-    private static final Long REMITTANCE_ID = 1L;
-    private static final Long MEMBER_ID = 1L;
-    private static final Long FINANCE_ID = 1L;
-    private static final String FINANCE_NAME = "신한";
-    private static final Long ACCOUNT_ID = 1L;
-    private static final String ACCOUNT_TITLE = "계좌 별명";
-    private static final String ACCOUNT_DESCRIPTION = "계좌 등록 설명";
-    private static final String ACCOUNT_NUMBER = "1234659642314";
-    private static final String NAME = "김동건";
-    private static final String NUMBER = "524586456349654";
-    private static final Integer MONEY = 10000;
+    private final Long REMITTANCE_ID = 1L;
+    private final Long MEMBER_ID = 1L;
+    private final Long FINANCE_ID = 1L;
+    private final String FINANCE_NAME = "신한";
+    private final Long ACCOUNT_ID = 1L;
+    private final String ACCOUNT_TITLE = "계좌 별명";
+    private final String ACCOUNT_DESCRIPTION = "계좌 등록 설명";
+    private final String ACCOUNT_NUMBER = "1234659642314";
+    private final String NAME = "김동건";
+    private final String NUMBER = "524586456349654";
+    private final Integer MONEY = 10000;
+    private final String BANK_NAME = "국민은행";
+    private final String MEMBER_BIRTH = "19970908";
+    private final String MEMBER_PHONENUMBER = "01031829709";
+    private final String REMITTANCE_MEMBER_NAME = "김동건";
+    private final String MEMBER_EMAIL = "wrjs@naver.com";
+    private final String MEMBER_NAME = "황인준";
 
     @InjectMocks
     private RemittanceService remittanceService;
@@ -57,18 +63,24 @@ class RemittanceServiceTest {
     @Mock
     private RemittanceConverter remittanceConverter;
 
+    @Mock
+    private Page<Remittance> remittances;
+
+    @Mock
+    private Pageable pageable;
+
     private Member member = Member.builder()
             .id(MEMBER_ID)
-            .email("wrjs@naver.com")
-            .name("김동건")
-            .phoneNumber("01031829709")
-            .birth("19970908")
+            .email(MEMBER_EMAIL)
+            .name(REMITTANCE_MEMBER_NAME)
+            .phoneNumber(MEMBER_PHONENUMBER)
+            .birth(MEMBER_BIRTH)
             .gender(GenderType.MALE)
             .build();
 
     private Finance finance = Finance.builder()
             .id(FINANCE_ID)
-            .name("국민은행")
+            .name(BANK_NAME)
             .financeType(FinanceType.BANK)
             .build();
 
@@ -93,18 +105,12 @@ class RemittanceServiceTest {
 
     private RemittanceGetResponse remittanceGetResponse = RemittanceGetResponse.builder()
             .remittanceId(REMITTANCE_ID)
-            .memberName("황인준")
+            .memberName(MEMBER_NAME)
             .financeName(FINANCE_NAME)
             .remittanceName(NAME)
             .remittanceNumber(NUMBER)
             .remittanceMoney(MONEY)
             .build();
-
-    @Mock
-    private Page<Remittance> remittances;
-
-    @Mock
-    private Pageable pageable;
 
     @Test
     void 송금하기() {

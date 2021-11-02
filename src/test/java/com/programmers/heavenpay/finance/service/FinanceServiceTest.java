@@ -6,7 +6,6 @@ import com.programmers.heavenpay.finance.dto.response.FinanceDetailResponse;
 import com.programmers.heavenpay.finance.dto.response.FinanceUpdateResponse;
 import com.programmers.heavenpay.finance.entity.Finance;
 import com.programmers.heavenpay.finance.repository.FinanceRepository;
-import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
 import org.mockito.InjectMocks;

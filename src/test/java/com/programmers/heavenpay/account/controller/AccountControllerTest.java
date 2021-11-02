@@ -57,6 +57,12 @@ class AccountControllerTest {
     @MockBean
     private ResponseConverter responseConverter;
 
+    @MockBean
+    private Pageable pageable;
+
+    @MockBean
+    Page<AccountDetailAllResponse> accountDetailAllResponses;
+
     private WebMvcLinkBuilder getLinkToAddress() {
         return linkTo(AccountController.class);
     }
@@ -113,12 +119,6 @@ class AccountControllerTest {
     private AccountDeleteResponse accountDeleteResponse = AccountDeleteResponse.builder()
             .id(ACCOUNT_ID)
             .build();
-
-    @MockBean
-    private Pageable pageable;
-
-    @MockBean
-    Page<AccountDetailAllResponse> accountDetailAllResponses;
 
     @Test
     void 계좌_생성() throws Exception {
@@ -218,7 +218,6 @@ class AccountControllerTest {
                 .andExpect(status().isOk())
                 .andDo(print());
     }
-
 
     @Test
     void 계좌_삭제() throws Exception {

@@ -4,7 +4,6 @@ import com.programmers.heavenpay.common.converter.ResponseConverter;
 import com.programmers.heavenpay.common.dto.LinkType;
 import com.programmers.heavenpay.common.dto.ResponseDto;
 import com.programmers.heavenpay.common.dto.ResponseMessage;
-import com.programmers.heavenpay.finance.dto.response.FinanceCreateResponse;
 import com.programmers.heavenpay.remittance.dto.request.RemittanceCreateRequest;
 import com.programmers.heavenpay.remittance.dto.response.RemittanceCreateResponse;
 import com.programmers.heavenpay.remittance.dto.request.RemittanceGetRequest;

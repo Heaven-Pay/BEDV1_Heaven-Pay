@@ -21,7 +21,6 @@ import org.springframework.hateoas.Link;
 import org.springframework.hateoas.MediaTypes;
 import org.springframework.hateoas.server.mvc.WebMvcLinkBuilder;
 import org.springframework.http.HttpMethod;
-import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
@@ -29,7 +28,6 @@ import javax.validation.Valid;
 
 import static org.springframework.hateoas.server.mvc.WebMvcLinkBuilder.linkTo;
 
-// TODO :: 권한에 따른 API 호출 진행
 @Api(tags = "Finance")
 @RestController
 @RequestMapping(value = "/api/v1/finances", produces = MediaTypes.HAL_JSON_VALUE)

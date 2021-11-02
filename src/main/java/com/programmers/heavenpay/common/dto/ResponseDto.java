@@ -1,22 +1,16 @@
 package com.programmers.heavenpay.common.dto;
 
 import lombok.Getter;
-import lombok.NonNull;
 import org.springframework.hateoas.EntityModel;
 
 import java.time.LocalDateTime;
 
 @Getter
 public class ResponseDto<T> {
-    @NonNull
     private final int status;
-    @NonNull
     private final String message;
-    @NonNull
     private final LocalDateTime serverDateTime;
-    @NonNull
     private final T data;
-    @NonNull
     private final T link;
 
     private ResponseDto(ResponseMessage message, T data, T link) {
