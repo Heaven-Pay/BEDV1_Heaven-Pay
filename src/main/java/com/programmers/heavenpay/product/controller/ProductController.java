@@ -41,7 +41,7 @@ public class ProductController {
         return linkTo(ProductController.class);
     }
 
-    @PostMapping()
+    @PostMapping(consumes = {"multipart/form-data"})
     public ResponseEntity<ResponseDto> insert(@Valid @ModelAttribute ProductCreateRequest request) throws IOException {
         ProductCreateResponse response = productService.create(
                 request.getStoreID(),
