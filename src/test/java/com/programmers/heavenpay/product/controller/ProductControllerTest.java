@@ -194,7 +194,7 @@ class ProductControllerTest {
         // When
         when(productService.findAllByPages(pageable))
                 .thenReturn(productPage);
-        when(responseConverter.toResponseEntity(HttpStatus.OK, ResponseMessage.PRODUCT_SEARCH_SUCCESS, productPage, link))
+        when(responseConverter.toResponseEntity(ResponseMessage.PRODUCT_SEARCH_SUCCESS, productPage, link))
                 .thenReturn(ResponseEntity.ok(ResponseDto.of(ResponseMessage.PRODUCT_SEARCH_SUCCESS, productPage, link)));
 
         MockHttpServletRequestBuilder requestBuilder = get("/api/v1/products");

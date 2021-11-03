@@ -207,7 +207,7 @@ class StoreControllerTest {
         // When
         when(storeService.findAllByPages(pageable))
                 .thenReturn(storePage);
-        when(responseConverter.toResponseEntity(HttpStatus.OK, ResponseMessage.STORE_SEARCH_SUCCESS, storePage, link))
+        when(responseConverter.toResponseEntity(ResponseMessage.STORE_SEARCH_SUCCESS, storePage, link))
                 .thenReturn(ResponseEntity.ok(ResponseDto.of(ResponseMessage.STORE_SEARCH_SUCCESS, storePage, link)));
 
         MockHttpServletRequestBuilder requestBuilder = get("/api/v1/stores");
