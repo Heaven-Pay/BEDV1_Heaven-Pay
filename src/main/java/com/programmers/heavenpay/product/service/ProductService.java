@@ -92,6 +92,7 @@ public class ProductService {
         Product product = productRepository.findById(id)
                 .orElseThrow(() -> new NotExistsException(ErrorMessage.NOT_EXIST_PRODUCT));
 
+        product.deleteFromStore();
         productRepository.delete(product);
 
         return productConverter.toProductDeleteResponse(id);

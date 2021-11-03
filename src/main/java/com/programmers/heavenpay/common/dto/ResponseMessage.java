@@ -20,7 +20,11 @@ public enum ResponseMessage {
     PRODUCT_UPDATE_SUCCESS(HttpStatus.OK, "product 수정 성공"),
     ORDER_INSERT_SUCCESS(HttpStatus.CREATED, "신규 주문 생성 성공"),
     ORDER_UPDATE_SUCCESS(HttpStatus.OK, "주문 수정 성공"),
-    ORDER_SEARCH_SUCCESS(HttpStatus.OK, "주문 단건 조회 성공");
+    ORDER_SEARCH_SUCCESS(HttpStatus.OK, "주문 단건 조회 성공"),
+    MEMBER_INSERT_SUCCESS(HttpStatus.OK, "member 추가 성공"),
+    MEMBER_UPDATE_SUCCESS(HttpStatus.OK, "member 수정 성공"),
+    MEMBER_DELETE_SUCCESS(HttpStatus.OK, "member 삭제 성공"),
+    MEMBER_FIND_SUCCESS(HttpStatus.OK, "member 조회 성공");
 
     private final HttpStatus status;
     private final String message;
