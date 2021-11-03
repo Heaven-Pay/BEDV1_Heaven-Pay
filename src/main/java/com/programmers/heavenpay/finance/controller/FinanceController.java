@@ -42,7 +42,7 @@ public class FinanceController {
 
     @ApiOperation("금융 정보 생성")
     @PostMapping(consumes = MediaTypes.HAL_JSON_VALUE)
-    public ResponseEntity<ResponseDto> create(@Valid @RequestBody FinanceCreateRequest request) {
+    public ResponseEntity<ResponseDto> add(@Valid @RequestBody FinanceCreateRequest request) {
         FinanceCreateResponse response = financeService.create(request.getMemberId(), request.getFinanceName(), request.getFinanceType());
 
         EntityModel<FinanceCreateResponse> entityModel = EntityModel.of(response,
@@ -94,7 +94,7 @@ public class FinanceController {
 
     @ApiOperation("금융 정보 수정")
     @PatchMapping(value = "/{financeId}", consumes = MediaTypes.HAL_JSON_VALUE)
-    public ResponseEntity<ResponseDto> update(@PathVariable Long financeId, @Valid @RequestBody FinanceUpdateRequest request) {
+    public ResponseEntity<ResponseDto> edit(@PathVariable Long financeId, @Valid @RequestBody FinanceUpdateRequest request) {
         FinanceUpdateResponse response = financeService.update(request.getMemberId(), financeId, request.getFinanceName(), request.getFinanceType());
 
         EntityModel<FinanceUpdateResponse> entityModel = EntityModel.of(response,
@@ -113,7 +113,7 @@ public class FinanceController {
 
     @ApiOperation("금융 정보 삭제")
     @DeleteMapping(value = "/{financeId}", consumes = MediaTypes.HAL_JSON_VALUE)
-    public ResponseEntity<ResponseDto> delete(@PathVariable Long financeId) {
+    public ResponseEntity<ResponseDto> remove(@PathVariable Long financeId) {
         FinanceDeleteResponse response = financeService.delete(financeId);
 
         EntityModel<FinanceDeleteResponse> entityModel = EntityModel.of(response,

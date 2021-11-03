@@ -41,7 +41,7 @@ public class AccountController {
 
     @ApiOperation("계좌 생성")
     @PostMapping(consumes = MediaTypes.HAL_JSON_VALUE)
-    public ResponseEntity<ResponseDto> create(@Valid @RequestBody AccountCreateRequest request) {
+    public ResponseEntity<ResponseDto> add(@Valid @RequestBody AccountCreateRequest request) {
         AccountCreateResponse response = accountService.create(
                 request.getMemberId(),
                 request.getTitle(),
@@ -99,7 +99,7 @@ public class AccountController {
 
     @ApiOperation("계좌 수정")
     @PutMapping(value = "/{accountId}", consumes = MediaTypes.HAL_JSON_VALUE)
-    public ResponseEntity<ResponseDto> update(@PathVariable Long accountId, @Valid @RequestBody AccountUpdateRequest request) {
+    public ResponseEntity<ResponseDto> edit(@PathVariable Long accountId, @Valid @RequestBody AccountUpdateRequest request) {
         AccountUpdateResponse response = accountService.update(request.getMemberId(), accountId, request.getTitle(), request.getDescription());
 
         EntityModel<AccountUpdateResponse> entityModel = EntityModel.of(response,
@@ -118,7 +118,7 @@ public class AccountController {
 
     @ApiOperation("계좌 삭제")
     @DeleteMapping(value = "/{accountId}", consumes = MediaTypes.HAL_JSON_VALUE)
-    public ResponseEntity<ResponseDto> delete(@PathVariable Long accountId, @Valid @RequestBody AccountDeleteRequest request) {
+    public ResponseEntity<ResponseDto> remove(@PathVariable Long accountId, @Valid @RequestBody AccountDeleteRequest request) {
         AccountDeleteResponse response = accountService.delete(request.getMemberId(), accountId);
 
         EntityModel<AccountDeleteResponse> entityModel = EntityModel.of(response,
