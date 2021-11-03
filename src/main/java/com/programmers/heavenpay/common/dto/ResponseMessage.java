@@ -17,7 +17,10 @@ public enum ResponseMessage {
     PRODUCT_INSERT_SUCCESS(HttpStatus.CREATED, "product 생성 성공"),
     PRODUCT_SEARCH_SUCCESS(HttpStatus.OK, "product 단건 조회 성공"),
     PRODUCT_DELETE_SUCCESS(HttpStatus.OK, "product 단건 삭제 성공"),
-    PRODUCT_UPDATE_SUCCESS(HttpStatus.OK, "product 수정 성공");
+    PRODUCT_UPDATE_SUCCESS(HttpStatus.OK, "product 수정 성공"),
+    WISH_INSERT_SUCCESS(HttpStatus.OK, "wish 생성 성공"),
+    WISH_DELETE_SUCCESS(HttpStatus.OK, "wish 삭제 성공"),
+    WISH_SEARCH_SUCCESS(HttpStatus.OK, "wish 검색 성공");
 
     private final HttpStatus status;
     private final String message;
