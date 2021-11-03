@@ -108,7 +108,6 @@ public class OrderController {
         Link link = getLinkToAddress().withSelfRel().withType(HttpMethod.GET.name());
 
         return responseConverter.toResponseEntity(
-                HttpStatus.OK,
                 ResponseMessage.ORDER_SEARCH_SUCCESS,
                 responses,
                 link

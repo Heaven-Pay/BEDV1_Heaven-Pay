@@ -36,7 +36,11 @@ public enum ResponseMessage {
     POINT_HISTORY_UPDATE_SUCCESS(HttpStatus.OK, "포인트 내역 데이터 수정 성공"),
     POINT_HISTORY_DELETE_SUCCESS(HttpStatus.OK, "포인트 내역 데이터 삭제 성공"),
     POINT_HISTORY_FIND_SUCCESS(HttpStatus.OK, "포인트 내역 데이터 단건 조회 성공"),
-    POINT_HISTORY_FIND_ALL_SUCCESS(HttpStatus.OK, "포인트 내역 데이터 전체 조회 성공");
+    POINT_HISTORY_FIND_ALL_SUCCESS(HttpStatus.OK, "포인트 내역 데이터 전체 조회 성공"),
+    REVIEW_INSERT_SUCCESS(HttpStatus.OK, "임시 테스트용"),
+    REVIEW_UPDATE_SUCCESS(HttpStatus.OK, "임시 테스트용"),
+    REVIEW_DELETE_SUCCESS(HttpStatus.OK, "임시 테스트용"),
+    REVIEW_SEARCH_SUCCESS(HttpStatus.OK, "임시 테스트용");
 
     private final HttpStatus status;
     private final String message;
