@@ -1,32 +1,49 @@
 package com.programmers.heavenpay.finance.controller;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
+import com.programmers.heavenpay.account.controller.AccountController;
+import com.programmers.heavenpay.common.converter.ResponseConverter;
+import com.programmers.heavenpay.common.dto.LinkType;
+import com.programmers.heavenpay.common.dto.ResponseDto;
+import com.programmers.heavenpay.common.dto.ResponseMessage;
 import com.programmers.heavenpay.finance.dto.request.FinanceCreateRequest;
 import com.programmers.heavenpay.finance.dto.request.FinanceUpdateRequest;
+import com.programmers.heavenpay.finance.dto.response.FinanceCreateResponse;
+import com.programmers.heavenpay.finance.dto.response.FinanceDeleteResponse;
+import com.programmers.heavenpay.finance.dto.response.FinanceDetailResponse;
+import com.programmers.heavenpay.finance.dto.response.FinanceUpdateResponse;
 import com.programmers.heavenpay.finance.service.FinanceService;
-import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
 import org.mockito.junit.jupiter.MockitoExtension;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.boot.test.autoconfigure.web.servlet.AutoConfigureMockMvc;
-import org.springframework.boot.test.context.SpringBootTest;
+import org.springframework.boot.test.autoconfigure.web.servlet.WebMvcTest;
+import org.springframework.boot.test.mock.mockito.MockBean;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
+import org.springframework.hateoas.EntityModel;
+import org.springframework.hateoas.Link;
 import org.springframework.hateoas.MediaTypes;
+import org.springframework.hateoas.server.mvc.WebMvcLinkBuilder;
+import org.springframework.http.HttpMethod;
+import org.springframework.http.ResponseEntity;
 import org.springframework.test.web.servlet.MockMvc;
-import org.springframework.test.web.servlet.request.MockHttpServletRequestBuilder;
 
+import java.time.LocalDateTime;
+
+import static org.mockito.Mockito.when;
+import static org.springframework.hateoas.server.mvc.WebMvcLinkBuilder.linkTo;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.*;
 import static org.springframework.test.web.servlet.result.MockMvcResultHandlers.print;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
 
-// 성공 실패 꼭꼭!!
-// 모키토를 사용해서 Service와 Repository를 막아주기
-//@ExtendWith(MockitoExtension.class)
-@SpringBootTest(webEnvironment = SpringBootTest.WebEnvironment.MOCK)
-@AutoConfigureMockMvc
+@ExtendWith(MockitoExtension.class)
+@WebMvcTest(FinanceController.class)
 class FinanceControllerTest {
-    @Autowired
-    FinanceService financeService;
+    private static final Long MEMBER_ID = 1L;
+    private static final Long FINANCE_ID = 1L;
+    private static final String FINANCE_NAME = "신한";
+    private static final String FINANCE_TYPE = "은행";
 
     @Autowired
     private MockMvc mockMvc;
@@ -34,103 +51,182 @@ class FinanceControllerTest {
     @Autowired
     private ObjectMapper objectMapper;
 
-    Long memberId = 1L;
-    Long financeId = 1L;
-    String name = "국민은행";
-    String type = "은행";
-    String updatedName = "신한은행";
-    String updatedType = "증권";
+    @MockBean
+    private FinanceService financeService;
+
+    @MockBean
+    private ResponseConverter responseConverter;
+
+    @MockBean
+    private Pageable pageable;
+
+    @MockBean
+    Page<FinanceDetailResponse> financeDetailAllResponse;
+
+    private WebMvcLinkBuilder getLinkToAddress() {
+        return linkTo(AccountController.class);
+    }
+
+    private FinanceCreateRequest financeCreateRequest = new FinanceCreateRequest(
+            MEMBER_ID,
+            FINANCE_NAME,
+            FINANCE_TYPE
+    );
+
+    private FinanceCreateResponse financeCreateResponse = FinanceCreateResponse.builder()
+            .id(FINANCE_ID)
+            .financeName(FINANCE_NAME)
+            .financeType(FINANCE_TYPE)
+            .createdAt(LocalDateTime.now())
+            .modifiedAt(LocalDateTime.now())
+            .build();
+
+    private FinanceDetailResponse financeDetailResponse = FinanceDetailResponse.builder()
+            .id(FINANCE_ID)
+            .financeName(FINANCE_NAME)
+            .financeType(FINANCE_TYPE)
+            .createdAt(LocalDateTime.now())
+            .modifiedAt(LocalDateTime.now())
+            .build();
+
+    private FinanceUpdateRequest financeUpdateRequest = new FinanceUpdateRequest(
+            MEMBER_ID,
+            FINANCE_NAME,
+            FINANCE_TYPE
+    );
+
+    private FinanceUpdateResponse financeUpdateResponse = FinanceUpdateResponse.builder()
+            .id(FINANCE_ID)
+            .financeName(FINANCE_NAME)
+            .financeType(FINANCE_TYPE)
+            .createdAt(LocalDateTime.now())
+            .modifiedAt(LocalDateTime.now())
+            .build();
+
+    private FinanceDeleteResponse financeDeleteResponse = FinanceDeleteResponse.builder()
+            .id(FINANCE_ID)
+            .financeName(FINANCE_NAME)
+            .financeType(FINANCE_TYPE)
+            .createdAt(LocalDateTime.now())
+            .modifiedAt(LocalDateTime.now())
+            .build();
 
     @Test
-    @DisplayName("금융_정보_생성")
-    void createTest() throws Exception {
+    void 금융정보_생성() throws Exception {
         // given
-        FinanceCreateRequest request = FinanceCreateRequest.builder()
-                .memberId(1L)
-                .financeName("국민은행")
-                .financeType("증권")
-                .build();
+        EntityModel<FinanceCreateResponse> entityModel = EntityModel.of(financeCreateResponse,
+                getLinkToAddress().withSelfRel().withType(HttpMethod.POST.name()),
+                getLinkToAddress().slash(financeCreateResponse.getId()).withRel(LinkType.READ_METHOD).withType(HttpMethod.GET.name()),
+                getLinkToAddress().withRel(LinkType.READ_ALL_METHOD).withType(HttpMethod.GET.name()),
+                getLinkToAddress().slash(financeCreateResponse.getId()).withRel(LinkType.UPDATE_METHOD).withType(HttpMethod.PATCH.name()),
+                getLinkToAddress().slash(financeCreateResponse.getId()).withRel(LinkType.DELETE_METHOD).withType(HttpMethod.DELETE.name())
+        );
 
         // when
-        MockHttpServletRequestBuilder mockHttpServletRequestBuilder = post("/api/v1/finances");
-        mockHttpServletRequestBuilder.contentType(MediaTypes.HAL_JSON_VALUE);
-        mockHttpServletRequestBuilder.content(objectMapper.writeValueAsString(request));
-        mockHttpServletRequestBuilder.accept(MediaTypes.HAL_JSON_VALUE);
+        when(financeService.create(MEMBER_ID, FINANCE_NAME, FINANCE_TYPE))
+                .thenReturn(financeCreateResponse);
+        when(responseConverter.toResponseEntity(ResponseMessage.FINANCE_CREATE_SUCCESS, entityModel))
+                .thenReturn(ResponseEntity.ok(ResponseDto.of(ResponseMessage.FINANCE_CREATE_SUCCESS, entityModel)));
 
         // then
-        mockMvc.perform(mockHttpServletRequestBuilder)
+        mockMvc.perform(post("/api/v1/finances")
+                        .contentType(MediaTypes.HAL_JSON_VALUE)
+                        .accept(MediaTypes.HAL_JSON_VALUE)
+                        .content(objectMapper.writeValueAsString(financeCreateRequest)))
                 .andExpect(status().isOk())
                 .andDo(print());
     }
 
     @Test
-    @DisplayName("금융_정보_단건_조회")
-    void getOneTest() throws Exception {
+    void 금융정보_단건_조회() throws Exception {
         // given
-        financeService.create(memberId, name, type);
+        EntityModel<FinanceDetailResponse> entityModel = EntityModel.of(financeDetailResponse,
+                getLinkToAddress().withRel(LinkType.CREATE_METHOD).withType(HttpMethod.POST.name()),
+                getLinkToAddress().withSelfRel().withType(HttpMethod.GET.name()),
+                getLinkToAddress().withRel(LinkType.READ_ALL_METHOD).withType(HttpMethod.GET.name()),
+                getLinkToAddress().slash(financeDetailResponse.getId()).withRel(LinkType.UPDATE_METHOD).withType(HttpMethod.PATCH.name()),
+                getLinkToAddress().slash(financeDetailResponse.getId()).withRel(LinkType.DELETE_METHOD).withType(HttpMethod.DELETE.name())
+        );
 
         // when
-        MockHttpServletRequestBuilder mockHttpServletRequestBuilder = get("/api/v1/finances/{financeId}", financeId);
-        mockHttpServletRequestBuilder.accept(MediaTypes.HAL_JSON_VALUE);
+        when(financeService.getOne(FINANCE_ID))
+                .thenReturn(financeDetailResponse);
+        when(responseConverter.toResponseEntity(ResponseMessage.FINANCE_READ_SUCCESS, entityModel))
+                .thenReturn(ResponseEntity.ok(ResponseDto.of(ResponseMessage.FINANCE_READ_SUCCESS, entityModel)));
+
 
         // then
-        mockMvc.perform(mockHttpServletRequestBuilder)
+        mockMvc.perform(get("/api/v1/finances/{financeId}", FINANCE_ID)
+                        .contentType(MediaTypes.HAL_JSON_VALUE)
+                        .accept(MediaTypes.HAL_JSON_VALUE))
                 .andExpect(status().isOk())
                 .andDo(print());
     }
 
     @Test
-    @DisplayName("금융_정보_전체_조회")
-    void getAllTest() throws Exception {
+    void 금융_정보_전체_조회() throws Exception {
         // given
-        financeService.create(memberId, name, type);
+        Link link = getLinkToAddress().withSelfRel().withType(HttpMethod.GET.name());
 
         // when
-        MockHttpServletRequestBuilder mockHttpServletRequestBuilder = get("/api/v1/finances");
-        mockHttpServletRequestBuilder.accept(MediaTypes.HAL_JSON_VALUE);
+        when(financeService.getAll(pageable)).thenReturn(financeDetailAllResponse);
+        when(responseConverter.toResponseEntity(ResponseMessage.FINANCE_READ_ALL_SUCCESS, financeDetailAllResponse, link))
+                .thenReturn(ResponseEntity.ok(ResponseDto.of(ResponseMessage.FINANCE_READ_ALL_SUCCESS, financeDetailAllResponse, link)));
 
         // then
-        mockMvc.perform(mockHttpServletRequestBuilder)
+        mockMvc.perform(get("/api/v1/finances")
+                        .contentType(MediaTypes.HAL_JSON_VALUE)
+                        .accept(MediaTypes.HAL_JSON_VALUE))
                 .andExpect(status().isOk())
                 .andDo(print());
     }
 
     @Test
-    @DisplayName("금융_정보_수정")
-    void updateTest() throws Exception {
+    void 금융정보_수정() throws Exception {
         // given
-        financeService.create(memberId, name, type);
-        FinanceUpdateRequest request = FinanceUpdateRequest.builder()
-                .memberId(memberId)
-                .financeName(updatedName)
-                .financeType(updatedType)
-                .build();
+        EntityModel<FinanceUpdateResponse> entityModel = EntityModel.of(financeUpdateResponse,
+                getLinkToAddress().withRel(LinkType.CREATE_METHOD).withType(HttpMethod.POST.name()),
+                getLinkToAddress().slash(financeUpdateResponse.getId()).withRel(LinkType.READ_METHOD).withType(HttpMethod.GET.name()),
+                getLinkToAddress().withRel(LinkType.READ_ALL_METHOD).withType(HttpMethod.GET.name()),
+                getLinkToAddress().withSelfRel().withType(HttpMethod.PATCH.name()),
+                getLinkToAddress().slash(financeUpdateResponse.getId()).withRel(LinkType.DELETE_METHOD).withType(HttpMethod.DELETE.name())
+        );
 
         // when
-        MockHttpServletRequestBuilder mockHttpServletRequestBuilder = patch("/api/v1/finances/{financeId}", financeId);
-        mockHttpServletRequestBuilder.contentType(MediaTypes.HAL_JSON_VALUE);
-        mockHttpServletRequestBuilder.content(objectMapper.writeValueAsString(request));
-        mockHttpServletRequestBuilder.accept(MediaTypes.HAL_JSON_VALUE);
+        when(financeService.update(MEMBER_ID, FINANCE_ID, FINANCE_NAME, FINANCE_TYPE))
+                .thenReturn(financeUpdateResponse);
+        when(responseConverter.toResponseEntity(ResponseMessage.FINANCE_UPDATE_SUCCESS, entityModel))
+                .thenReturn(ResponseEntity.ok(ResponseDto.of(ResponseMessage.FINANCE_UPDATE_SUCCESS, entityModel)));
 
         // then
-        mockMvc.perform(mockHttpServletRequestBuilder)
+        mockMvc.perform(patch("/api/v1/finances/{financeId}", FINANCE_ID)
+                        .contentType(MediaTypes.HAL_JSON_VALUE)
+                        .accept(MediaTypes.HAL_JSON_VALUE)
+                        .content(objectMapper.writeValueAsString(financeUpdateRequest)))
                 .andExpect(status().isOk())
                 .andDo(print());
     }
 
     @Test
-    @DisplayName("금융_정보_삭제")
-    void deleteTest() throws Exception {
+    void 금융정보_삭제() throws Exception {
         // given
-        financeService.create(memberId, name, type);
+        EntityModel<FinanceDeleteResponse> entityModel = EntityModel.of(financeDeleteResponse,
+                getLinkToAddress().withRel(LinkType.CREATE_METHOD).withType(HttpMethod.POST.name()),
+                getLinkToAddress().slash(financeDeleteResponse.getId()).withRel(LinkType.READ_METHOD).withType(HttpMethod.GET.name()),
+                getLinkToAddress().withRel(LinkType.READ_ALL_METHOD).withType(HttpMethod.GET.name()),
+                getLinkToAddress().withSelfRel().withType(HttpMethod.DELETE.name())
+        );
 
         // when
-        MockHttpServletRequestBuilder mockHttpServletRequestBuilder = delete("/api/v1/finances/{financeId}", financeId);
-        mockHttpServletRequestBuilder.contentType(MediaTypes.HAL_JSON_VALUE);
-        mockHttpServletRequestBuilder.accept(MediaTypes.HAL_JSON_VALUE);
+        when(financeService.delete(MEMBER_ID))
+                .thenReturn(financeDeleteResponse);
+        when(responseConverter.toResponseEntity(ResponseMessage.FINANCE_DELETE_SUCCESS, entityModel))
+                .thenReturn(ResponseEntity.ok(ResponseDto.of(ResponseMessage.FINANCE_DELETE_SUCCESS, entityModel)));
 
         // then
-        mockMvc.perform(mockHttpServletRequestBuilder)
+        mockMvc.perform(delete("/api/v1/finances/{financeId}", FINANCE_ID)
+                        .contentType(MediaTypes.HAL_JSON_VALUE)
+                        .accept(MediaTypes.HAL_JSON_VALUE))
                 .andExpect(status().isOk())
                 .andDo(print());
     }

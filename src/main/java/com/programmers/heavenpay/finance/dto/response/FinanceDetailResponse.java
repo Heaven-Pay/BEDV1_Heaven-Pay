@@ -2,21 +2,15 @@ package com.programmers.heavenpay.finance.dto.response;
 
 import lombok.Builder;
 import lombok.Getter;
-import lombok.NonNull;
 
 import java.time.LocalDateTime;
 
 @Getter
 @Builder
 public class FinanceDetailResponse {
-    @NonNull
-    private Long id;
-    @NonNull
-    private String financeName;
-    @NonNull
-    private String financeType;
-    @NonNull
+    private final Long id;
+    private final String financeName;
+    private final String financeType;
     private final LocalDateTime createdAt;
-    @NonNull
     private final LocalDateTime modifiedAt;
 }

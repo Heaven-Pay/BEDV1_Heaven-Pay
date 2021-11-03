@@ -6,7 +6,6 @@ import com.programmers.heavenpay.finance.dto.response.FinanceDetailResponse;
 import com.programmers.heavenpay.finance.dto.response.FinanceUpdateResponse;
 import com.programmers.heavenpay.finance.entity.Finance;
 import com.programmers.heavenpay.finance.repository.FinanceRepository;
-import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
 import org.mockito.InjectMocks;
@@ -19,28 +18,27 @@ import static org.mockito.Mockito.*;
 
 @ExtendWith(MockitoExtension.class)
 class FinanceServiceTest {
+    private static final Long memberId = 1L;
+    private static final Long financeId = 1L;
+    private static final String name = "국민은행";
+    private static final String type = "은행";
+    private static final String updatedName = "신한은행";
+    private static final String updatedType = "증권";
+
     @InjectMocks
-    FinanceService financeService;
+    private FinanceService financeService;
 
     @Mock
-    FinanceRepository financeRepository;
+    private FinanceRepository financeRepository;
 
     @Mock
-    FinanceConverter financeConverter;
+    private FinanceConverter financeConverter;
 
     @Mock
-    Finance finance;
+    private Finance finance;
 
-    Long memberId = 1L;
-    Long financeId = 1L;
-    String name = "국민은행";
-    String type = "은행";
-    String updatedName = "신한은행";
-    String updatedType = "증권";
-
-    @DisplayName("금융_정보_생성")
     @Test
-    void create() {
+    void 금융_정보_생성() {
         // given
         when(financeConverter.toFinanceEntity(name, type)).thenReturn(finance);
         when(financeRepository.save(finance)).thenReturn(finance);
@@ -52,9 +50,8 @@ class FinanceServiceTest {
         verify(financeRepository).save(finance);
     }
 
-    @DisplayName("금융_정보_단건_조회")
     @Test
-    void get() {
+    void 금융_정보_단건_조회() {
         // given
         FinanceDetailResponse financeDetailResponse = mock(FinanceDetailResponse.class);
         FinanceService financeServiceMock = mock(FinanceService.class);
@@ -71,9 +68,8 @@ class FinanceServiceTest {
         verify(financeConverter).toFinanceDetailResponse(finance);
     }
 
-    @DisplayName("금융_정보_수정")
     @Test
-    void update() {
+    void 금융_정보_수정() {
         //given
         FinanceUpdateResponse financeUpdateResponseMock = mock(FinanceUpdateResponse.class);
         FinanceService financeServiceMock = mock(FinanceService.class);
@@ -91,9 +87,8 @@ class FinanceServiceTest {
         verify(financeConverter).toFinanceUpdateResponse(finance);
     }
 
-    @DisplayName("금융_정보_삭제")
     @Test
-    void delete() {
+    void 금융_정보_삭제() {
         //given
         FinanceDeleteResponse financeDeleteResponseMock = mock(FinanceDeleteResponse.class);
         FinanceService financeServiceMock = mock(FinanceService.class);

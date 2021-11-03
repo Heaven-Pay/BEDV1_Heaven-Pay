@@ -36,7 +36,6 @@ public class GlobalExceptionHandler {
         return makeErrorResponse(exception);
     }
 
-    // TODO 자동화
     private ResponseEntity<ErrorResponseDto> makeErrorResponse(Exception exception) {
         ErrorMessage message = ErrorMessage.valueOf(exception.getMessage());
         ErrorResponseDto response = ErrorResponseDto.of(message);
