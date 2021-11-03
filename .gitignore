@@ -257,3 +257,4 @@ gradle-app.setting
 
 # AWS 접속 키 : 절대 GIT에 올리지 말 것
 src/main/resources/aws.yml
+*.yml
