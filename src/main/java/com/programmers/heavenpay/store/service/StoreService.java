@@ -9,7 +9,6 @@ import com.programmers.heavenpay.store.dto.response.StoreDeleteResponse;
 import com.programmers.heavenpay.store.dto.response.StoreInfoResponse;
 import com.programmers.heavenpay.store.dto.response.StoreUpdateResponse;
 import com.programmers.heavenpay.store.entity.Store;
-import com.programmers.heavenpay.store.entity.vo.StoreType;
 import com.programmers.heavenpay.store.repository.StoreRepository;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
@@ -27,12 +26,10 @@ public class StoreService {
     public StoreCreateResponse create(String name, String typeStr, String vendorCode) {
         validateVendorCode(vendorCode);
 
-        StoreType type = StoreType.of(typeStr);
-
-        Store store = storeConverter.toStoreEntity(name, type, vendorCode);
+        Store store = storeConverter.toStoreEntity(name, typeStr, vendorCode);
         Store storeEntity = storeRepository.save(store);
 
-        return storeConverter.toStoreCreateResponse(storeEntity.getId());
+        return storeConverter.toStoreCreateResponse(storeEntity.getId(), storeEntity.getCreatedDate());
     }
 
     @Transactional
@@ -42,10 +39,9 @@ public class StoreService {
         Store store = storeRepository.findById(id)
                 .orElseThrow(() -> new NotExistsException(ErrorMessage.NOT_EXIST_STORE));
 
-        StoreType type = StoreType.of(typeStr);
-        store.changeInfo(name, type, vendorCode);
+        store.changeInfo(name, typeStr, vendorCode);
 
-        return storeConverter.toStoreUpdateResponse(id, name, typeStr, vendorCode);
+        return storeConverter.toStoreUpdateResponse(id, name, typeStr, vendorCode, store.getCreatedDate(), store.getModifiedDate());
     }
 
     @Transactional(readOnly = true)
@@ -58,8 +54,9 @@ public class StoreService {
 
     @Transactional(readOnly = true)
     public Page<StoreInfoResponse> findAllByPages(Pageable pageable) {
-        return storeRepository.findAll(pageable)
-                .map(storeConverter::toStoreInfoResponse);
+        Page<Store> storePage = storeRepository.findAll(pageable);
+
+        return storePage.map(storeConverter::toStoreInfoResponse);
     }
 
     @Transactional

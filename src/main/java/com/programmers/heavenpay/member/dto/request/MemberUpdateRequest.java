@@ -1,16 +1,14 @@
 package com.programmers.heavenpay.member.dto.request;
 
+import lombok.Builder;
 import lombok.Getter;
 
 import javax.validation.constraints.Email;
-import javax.validation.constraints.NotBlank;
 import javax.validation.constraints.Pattern;
 
+@Builder
 @Getter
 public class MemberUpdateRequest {
-    @NotBlank(message = "id should not be blank")
-    private Long id;
-
     @Email
     private String email;
 

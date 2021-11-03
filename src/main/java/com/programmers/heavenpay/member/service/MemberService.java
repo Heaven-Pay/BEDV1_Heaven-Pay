@@ -3,7 +3,10 @@ package com.programmers.heavenpay.member.service;
 import com.programmers.heavenpay.error.ErrorMessage;
 import com.programmers.heavenpay.error.exception.NotExistsException;
 import com.programmers.heavenpay.member.converter.MemberConverter;
-import com.programmers.heavenpay.member.dto.response.MemberFindResponse;
+import com.programmers.heavenpay.member.dto.response.MemberCreateResponse;
+import com.programmers.heavenpay.member.dto.response.MemberDeleteResponse;
+import com.programmers.heavenpay.member.dto.response.MemberGetOneResponse;
+import com.programmers.heavenpay.member.dto.response.MemberUpdateResponse;
 import com.programmers.heavenpay.member.entity.Member;
 import com.programmers.heavenpay.member.repository.MemberRepository;
 import lombok.RequiredArgsConstructor;
@@ -19,43 +22,46 @@ public class MemberService {
     private final MemberConverter converter;
 
     @Transactional
-    public Long create(String email, String name, String phoneNumber, String birth, String gender) {
-        Member member = converter.toMemberEntity(email, name, phoneNumber, birth, gender);
-        Member result = memberRepository.save(member);
+    public MemberCreateResponse create(String email, String name, String phoneNumber, String birth, String gender) {
+        Member orginMember = converter.toMemberEntity(email, name, phoneNumber, birth, gender);
+        Member memberEntity = memberRepository.save(orginMember);
 
-        return result.getId();
+        return converter.toMemberCreateResponse(memberEntity);
     }
 
     @Transactional(readOnly = true)
-    public MemberFindResponse findById(Long id) {
+    public MemberGetOneResponse findById(Long id) {
         return memberRepository.findById(id)
-                .map(converter::toMemberFindDResponse)
+                .map(converter::toMemberFindResponse)
                 .orElseThrow(
                         () -> new NotExistsException(ErrorMessage.NOT_EXIST_MEMBER_ID)
                 );
     }
 
     @Transactional(readOnly = true)
-    public Page<MemberFindResponse> findAllByPages(Pageable pageable){
+    public Page<MemberGetOneResponse> findAllByPages(Pageable pageable){
         return memberRepository.findAll(pageable)
-                .map(converter::toMemberFindDResponse);
+                .map(converter::toMemberFindResponse);
     }
 
     @Transactional
-    public void update(Long id, String email, String name, String phoneNumber, String birth, String gender) {
+    public MemberUpdateResponse update(Long id, String email, String name, String phoneNumber, String birth, String gender) {
         Member originMember = memberRepository.findById(id)
                 .orElseThrow(() -> new NotExistsException(ErrorMessage.NOT_EXIST_MEMBER_ID));
 
         originMember.changeValues(email, name, phoneNumber, birth, gender);
+        return converter.toMemberUpdateResponse(originMember);
     }
 
     @Transactional
-    public void delete(Long id) {
+    public MemberDeleteResponse delete(Long id) {
         Member member = memberRepository.findById(id)
                 .orElseThrow(
                         () -> new NotExistsException(ErrorMessage.NOT_EXIST_MEMBER_ID)
                 );
 
+        MemberDeleteResponse result = converter.toMemberDeleteResponse(member);
         memberRepository.delete(member);
+        return result;
     }
 }

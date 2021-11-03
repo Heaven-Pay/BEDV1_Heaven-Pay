@@ -1,4 +1,4 @@
-package com.programmers.heavenpay.store.dto.response;
+package com.programmers.heavenpay.product.dto.response;
 
 import lombok.Builder;
 import lombok.Getter;
@@ -7,8 +7,10 @@ import java.time.LocalDateTime;
 
 @Builder
 @Getter
-public class StoreCreateResponse {
+public class ProductCreateResponse {
     private final Long id;
+
+    private final String s3Path;
 
     private final LocalDateTime createdAt;
 }

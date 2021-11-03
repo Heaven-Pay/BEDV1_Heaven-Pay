@@ -1,5 +1,6 @@
 package com.programmers.heavenpay.member.dto.request;
 
+import lombok.Builder;
 import lombok.Getter;
 
 import javax.validation.constraints.Email;
@@ -7,6 +8,7 @@ import javax.validation.constraints.NotBlank;
 import javax.validation.constraints.Pattern;
 
 @Getter
+@Builder
 public class MemberCreateRequest {
     @NotBlank(message = "이메일은 공백이 아니여야 합니다")
     @Email
