@@ -2,9 +2,11 @@ package com.programmers.heavenpay.member.entity.vo;
 
 import com.programmers.heavenpay.error.ErrorMessage;
 import com.programmers.heavenpay.error.exception.NotExistsException;
+import lombok.Getter;
 
 import java.util.Arrays;
 
+@Getter
 public enum GenderType {
     MALE("남성"),
     FEMALE("여성"),
