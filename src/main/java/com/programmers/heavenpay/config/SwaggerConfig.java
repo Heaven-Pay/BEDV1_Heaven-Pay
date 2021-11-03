@@ -16,12 +16,14 @@ import java.util.Set;
 /**
  * http://localhost:8080/swagger-ui/index.html#/
  */
-
 @Configuration
 @EnableSwagger2
 public class SwaggerConfig {
-    private static final Contact DEFAULT_CONTACT = new Contact("Heaven Pay",
-            "https://github.com/prgrms-be-devcourse/BEDV1_Heaven-Pay", "wrjs@naver.com");
+    private static final Contact DEFAULT_CONTACT = new Contact(
+            "Heaven Pay",
+            "https://github.com/prgrms-be-devcourse/BEDV1_Heaven-Pay",
+            "wrjs@naver.com"
+    );
     private static final ApiInfo Default_API_INFO = new ApiInfo(
             "Heaven Pay REST API",
             "Management REST API Service",
