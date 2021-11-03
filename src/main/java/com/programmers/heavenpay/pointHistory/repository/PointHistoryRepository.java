@@ -1,21 +1,20 @@
 package com.programmers.heavenpay.pointHistory.repository;
 
+import com.programmers.heavenpay.member.entity.Member;
 import com.programmers.heavenpay.pointHistory.entity.PointHistory;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
 import org.springframework.data.jpa.repository.JpaRepository;
 
-import java.util.List;
 import java.util.Optional;
 
 public interface PointHistoryRepository extends JpaRepository<PointHistory, Long> {
-    @Override
-    Optional<PointHistory> findById(Long aLong);
+    Optional<PointHistory> findByIdAndMember(Long accountId, Member member);
 
-    @Override
-    List<PointHistory> findAll();
+    Page<PointHistory> findAllByMember(Member member, Pageable pageable);
 
     @Override
     PointHistory save(PointHistory entity);
 
-    @Override
-    void delete(PointHistory entity);
+    void deleteByIdAndMember(Long pointHistoryId, Member member);
 }

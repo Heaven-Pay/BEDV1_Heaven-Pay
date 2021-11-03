@@ -32,8 +32,7 @@ public class PointHistory extends BaseEntity<Long> {
     @JoinColumn(name = "member_id", referencedColumnName = "member_id", nullable = false)
     private Member member;
 
-    public void changeValues(String appType, String description, Integer usePoint) {
-        this.usedApp = appType.isBlank() ? this.usedApp : UsedAppType.of(appType);
+    public void updateData(String description, Integer usePoint) {
         this.description = description.isBlank() ? this.description : description;
         this.usePoint = usePoint == 0 ? this.usePoint : usePoint;
     }

@@ -1,5 +1,6 @@
 package com.programmers.heavenpay.pointHistory.converter;
 
+import com.programmers.heavenpay.member.entity.Member;
 import com.programmers.heavenpay.pointHistory.dto.response.PointHistoryCreateResponse;
 import com.programmers.heavenpay.pointHistory.dto.response.PointHistoryDeleteResponse;
 import com.programmers.heavenpay.pointHistory.dto.response.PointHistoryGetOneResponse;
@@ -10,8 +11,9 @@ import org.springframework.stereotype.Component;
 
 @Component
 public class PointHistoryConverter {
-    public PointHistory toPointHistoryEntity(String appType, String description, int usePoint) {
+    public PointHistory toPointHistoryEntity(Member member, String appType, String description, int usePoint) {
         return PointHistory.builder()
+                .member(member)
                 .usedApp(UsedAppType.of(appType))
                 .description(description)
                 .usePoint(usePoint)
