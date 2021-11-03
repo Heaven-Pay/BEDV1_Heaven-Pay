@@ -85,7 +85,6 @@ public class WishController {
         Link link = getLinkToAddress().withSelfRel().withType(HttpMethod.GET.name());
 
         return responseConverter.toResponseEntity(
-                HttpStatus.OK,
                 ResponseMessage.WISH_SEARCH_SUCCESS,
                 responses,
                 link

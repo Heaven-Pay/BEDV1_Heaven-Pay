@@ -138,7 +138,6 @@ public class MemberController {
         Link link = getLinkToAddress().withSelfRel().withType(HttpMethod.GET.name());
 
         return responseConverter.toResponseEntity(
-                HttpStatus.OK,
                 ResponseMessage.MEMBER_FIND_SUCCESS,
                 responses,
                 link

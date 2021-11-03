@@ -129,7 +129,6 @@ public class ReviewController {
         Link link = getLinkToAddress().withSelfRel().withType(HttpMethod.GET.name());
 
         return responseConverter.toResponseEntity(
-                HttpStatus.OK,
                 ResponseMessage.REVIEW_SEARCH_SUCCESS,
                 responses,
                 link
