@@ -21,7 +21,12 @@ public enum ResponseMessage {
     MEMBER_INSERT_SUCCESS(HttpStatus.OK, "member 추가 성공"),
     MEMBER_UPDATE_SUCCESS(HttpStatus.OK, "member 수정 성공"),
     MEMBER_DELETE_SUCCESS(HttpStatus.OK, "member 삭제 성공"),
-    MEMBER_FIND_SUCCESS(HttpStatus.OK, "member 조회 성공");
+    MEMBER_FIND_SUCCESS(HttpStatus.OK, "member 조회 성공"),
+    POINT_HISTORY_INSERT_SUCCESS(HttpStatus.OK, "포인트 내역 데이터 추가 성공"),
+    POINT_HISTORY_UPDATE_SUCCESS(HttpStatus.OK, "포인트 내역 데이터 수정 성공"),
+    POINT_HISTORY_DELETE_SUCCESS(HttpStatus.OK, "포인트 내역 데이터 삭제 성공"),
+    POINT_HISTORY_FIND_SUCCESS(HttpStatus.OK, "포인트 내역 데이터 단건 조회 성공"),
+    POINT_HISTORY_FIND_ALL_SUCCESS(HttpStatus.OK, "포인트 내역 데이터 전체 조회 성공");
 
     private final HttpStatus status;
     private final String message;
