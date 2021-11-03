@@ -33,6 +33,11 @@ public class Review extends BaseEntity<Long> {
     @JoinColumn(name = "reviewer_id", referencedColumnName = "member_id", nullable = false)
     private Member reviewer;
 
+    public void updateInfo(String content, int score){
+        this.content = content;
+        this.score = score;
+    }
+
     /**
      * 연관관계 편의 메소드: Product와 Review 연결
      */
