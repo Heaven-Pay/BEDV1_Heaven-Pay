@@ -126,7 +126,7 @@ class PointHistoryServiceTest {
         when(pointHistoryRepository.findByIdAndMember(POINT_HISTORY_ID, member)).thenReturn(Optional.of(pointHistory));
 
         // when
-        pointHistoryService.update(POINT_HISTORY_ID, USED_APP_TYPE.getTypeStr(), member.getId(), DESCRIPTION, USE_POINT);
+        pointHistoryService.update(POINT_HISTORY_ID, member.getId(), DESCRIPTION, USE_POINT);
 
         // then
         verify(pointHistoryRepository).findByIdAndMember(POINT_HISTORY_ID, member);
