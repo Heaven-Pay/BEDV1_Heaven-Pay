@@ -1,68 +1,100 @@
 package com.programmers.heavenpay.store.controller;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
+import com.programmers.heavenpay.common.converter.ResponseConverter;
+import com.programmers.heavenpay.common.dto.LinkType;
+import com.programmers.heavenpay.common.dto.ResponseDto;
+import com.programmers.heavenpay.common.dto.ResponseMessage;
 import com.programmers.heavenpay.store.dto.request.StoreCreateRequest;
 import com.programmers.heavenpay.store.dto.request.StoreUpdateRequest;
 import com.programmers.heavenpay.store.dto.response.StoreCreateResponse;
-import com.programmers.heavenpay.store.entity.vo.StoreType;
-import com.programmers.heavenpay.store.repository.StoreRepository;
+import com.programmers.heavenpay.store.dto.response.StoreDeleteResponse;
+import com.programmers.heavenpay.store.dto.response.StoreInfoResponse;
+import com.programmers.heavenpay.store.dto.response.StoreUpdateResponse;
 import com.programmers.heavenpay.store.service.StoreService;
-import org.junit.jupiter.api.AfterEach;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
-import org.mockito.InjectMocks;
-import org.mockito.Mock;
+import org.junit.jupiter.api.extension.ExtendWith;
+import org.mockito.junit.jupiter.MockitoExtension;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.boot.test.autoconfigure.web.servlet.AutoConfigureMockMvc;
 import org.springframework.boot.test.autoconfigure.web.servlet.WebMvcTest;
-import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.boot.test.mock.mockito.MockBean;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
+import org.springframework.hateoas.EntityModel;
+import org.springframework.hateoas.Link;
 import org.springframework.hateoas.MediaTypes;
-import org.springframework.http.MediaType;
+import org.springframework.hateoas.server.mvc.WebMvcLinkBuilder;
+import org.springframework.http.HttpMethod;
+import org.springframework.http.HttpStatus;
+import org.springframework.http.ResponseEntity;
 import org.springframework.test.web.servlet.MockMvc;
 import org.springframework.test.web.servlet.request.MockHttpServletRequestBuilder;
 
+import static org.mockito.ArgumentMatchers.anyLong;
+import static org.springframework.hateoas.server.mvc.WebMvcLinkBuilder.linkTo;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.*;
 import static org.springframework.test.web.servlet.result.MockMvcResultHandlers.print;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
 
-//@WebMvcTest(StoreController.class)  //@Controller, @ControllerAdvice 등만 스캔함(@Service나 @Repository는 불러오지 않는다.) -> 가벼운 테스팅 가능
-@SpringBootTest(webEnvironment = SpringBootTest.WebEnvironment.MOCK)  // TODO: 이걸 왜 전체를 다 로드해야되는지 모르겠음.
-@AutoConfigureMockMvc  // TODO: 이건 왜 써야함
-// SpringBootTest에서 서블릿 컨테이너를 모킹하고 AutoConfigureMockMvc에서 의존성을 주입 받음 (??)
+import static org.mockito.Mockito.*;
+
+@ExtendWith(MockitoExtension.class)
+@WebMvcTest(StoreController.class)
 class StoreControllerTest {
+    private Long id = 1L;
+    private String name = "파리바게뜨";
+    private String typeStr = "서비스업";
+    private String vendorCode = "108-15-84292";
+
     @Autowired
     private MockMvc mockMvc;   //DispatcherServlet이 요청을 처리하는 과정을 확인
 
     @Autowired
     private ObjectMapper objectMapper;
 
-    @Autowired
+    @MockBean
     private StoreService storeService;
 
-    @Autowired
-    private StoreRepository storeRepository;
+    @MockBean    // container가 필요하다면 MockBean
+    private ResponseConverter responseConverter;
 
-    String name = "파리바게뜨";
-    String typeStr = "베이커리";
-    String vendorCode = "108-15-84292";
+    @MockBean
+    private Pageable pageable;
 
-    @AfterEach
-    void tearDown() {
-        storeRepository.deleteAll();
-    }
+    @MockBean
+    private Page<StoreInfoResponse> storePage;
+
+    private StoreCreateResponse storeCreateResponse = StoreCreateResponse.builder().build();
+    private StoreDeleteResponse storeDeleteResponse = StoreDeleteResponse.builder().build();
+    private StoreUpdateResponse storeUpdateResponse = StoreUpdateResponse.builder().build();
+    private StoreInfoResponse storeInfoResponse = StoreInfoResponse.builder().build();
 
     @Test
     @DisplayName("post 요청으로 store를 삽입할 수 있다.")
-    void insertTest() throws Exception {
+    void insertSuccessTest() throws Exception {
         // Given
         StoreCreateRequest request = StoreCreateRequest.builder()
-                .vendorCode("108-15-84292")
-                .type("식품")
-                .name("신세게")
+                .vendorCode(vendorCode)
+                .type(typeStr)
+                .name(name)
                 .build();
 
+        EntityModel<StoreCreateResponse> entityModel = EntityModel.of(
+                storeCreateResponse,
+                getLinkToAddress().withSelfRel().withType(HttpMethod.POST.name()),
+                getLinkToAddress().slash(id).withRel(LinkType.READ_METHOD).withType(HttpMethod.GET.name()),
+                getLinkToAddress().withRel(LinkType.READ_ALL_METHOD).withType(HttpMethod.GET.name()),
+                getLinkToAddress().slash(id).withRel(LinkType.UPDATE_METHOD).withType(HttpMethod.PATCH.name()),
+                getLinkToAddress().slash(id).withRel(LinkType.DELETE_METHOD).withType(HttpMethod.DELETE.name())
+        );
+
         // When
+        when(storeService.create(anyString(), anyString(),  anyString()))
+                .thenReturn(storeCreateResponse);
+        when(responseConverter.toResponseEntity(ResponseMessage.STORE_INSERT_SUCCESS, entityModel))
+                .thenReturn(ResponseEntity.ok(ResponseDto.of(ResponseMessage.STORE_INSERT_SUCCESS, entityModel)));
+
         MockHttpServletRequestBuilder requestBuilder = post("/api/v1/stores");
         requestBuilder.contentType(MediaTypes.HAL_JSON_VALUE);  //Controller에서 HAL_JSON_VALUE 과 맞춰줌(헤더정보를 맞춰줌)
         requestBuilder.content(objectMapper.writeValueAsString(request)); // request를 String형태로 변환해서 requestbody에 삽입
@@ -71,17 +103,27 @@ class StoreControllerTest {
         // Then
         mockMvc.perform(requestBuilder)  // 컨트롤러 실행
                 .andDo(print())  // 결과 출력
-                .andExpect(status().isCreated());   // 응답 결과 검증
+                .andExpect(status().isOk());   // 응답 결과 검증
     }
 
     @Test
     @DisplayName("delete 요청으로 store를 삭제할 수 있다.")
-    void deleteTest() throws Exception {
+    void deleteSuccessTest() throws Exception {
         // Given
-        StoreCreateResponse storeCreateResponse = storeService.create(name, typeStr, vendorCode);
+        EntityModel<StoreDeleteResponse> entityModel = EntityModel.of(
+                storeDeleteResponse,
+                getLinkToAddress().withRel(LinkType.CREATE_METHOD).withType(HttpMethod.POST.name()),
+                getLinkToAddress().withRel(LinkType.READ_ALL_METHOD).withType(HttpMethod.GET.name()),
+                getLinkToAddress().slash(id).withSelfRel().withType(HttpMethod.DELETE.name())
+        );
 
         // When
-        MockHttpServletRequestBuilder requestBuilder = delete("/api/v1/stores/{storeId}", storeCreateResponse.getId());
+        when(storeService.delete(anyLong()))
+                .thenReturn(storeDeleteResponse);
+        when(responseConverter.toResponseEntity(ResponseMessage.STORE_DELETE_SUCCESS, entityModel))
+                .thenReturn(ResponseEntity.ok(ResponseDto.of(ResponseMessage.STORE_DELETE_SUCCESS, entityModel)));
+
+        MockHttpServletRequestBuilder requestBuilder = delete("/api/v1/stores/{storeId}", anyLong());
         requestBuilder.contentType(MediaTypes.HAL_JSON_VALUE);
         requestBuilder.accept(MediaTypes.HAL_JSON_VALUE);
 
@@ -93,21 +135,30 @@ class StoreControllerTest {
 
     @Test
     @DisplayName("patch 요청으로 store를 수정할 수 있다.")
-    void updateTest() throws Exception {
+    void updateSuccessTest() throws Exception {
         // Given
-        StoreCreateResponse storeCreateResponse = storeService.create(name, typeStr, vendorCode);
-
-        String updateName = "BBQ";
-        String updateTypeStr = "식품";
-        String updateVendorCode = "111-11-11111";
         StoreUpdateRequest request = StoreUpdateRequest.builder()
-                .name(updateName)
-                .type(updateTypeStr)
-                .vendorCode(updateVendorCode)
+                .name(name)
+                .type(typeStr)
+                .vendorCode(vendorCode)
                 .build();
 
+        EntityModel<StoreUpdateResponse> entityModel = EntityModel.of(
+                storeUpdateResponse,
+                getLinkToAddress().withRel(LinkType.CREATE_METHOD).withType(HttpMethod.POST.name()),
+                getLinkToAddress().slash(id).withRel(LinkType.READ_METHOD).withType(HttpMethod.GET.name()),
+                getLinkToAddress().withRel(LinkType.READ_ALL_METHOD).withType(HttpMethod.GET.name()),
+                getLinkToAddress().slash(id).withSelfRel().withType(HttpMethod.PATCH.name()),
+                getLinkToAddress().slash(id).withRel(LinkType.DELETE_METHOD).withType(HttpMethod.DELETE.name())
+        );
+
         // When
-        MockHttpServletRequestBuilder requestBuilder = patch("/api/v1/stores/{storeId}", storeCreateResponse.getId());
+        when(storeService.update(anyLong(), anyString(), anyString(), anyString()))
+                .thenReturn(storeUpdateResponse);
+        when(responseConverter.toResponseEntity(ResponseMessage.STORE_UPDATE_SUCCESS, entityModel))
+                .thenReturn(ResponseEntity.ok(ResponseDto.of(ResponseMessage.STORE_UPDATE_SUCCESS, entityModel)));
+
+        MockHttpServletRequestBuilder requestBuilder = patch("/api/v1/stores/{storeId}", id);
         requestBuilder.contentType(MediaTypes.HAL_JSON_VALUE);
         requestBuilder.content(objectMapper.writeValueAsString(request));
         requestBuilder.accept(MediaTypes.HAL_JSON_VALUE);
@@ -120,12 +171,24 @@ class StoreControllerTest {
 
     @Test
     @DisplayName("get 요청으로 store 단건 조회할 수 있다.")
-    void getOneTest() throws Exception {
+    void getOneSuccessTest() throws Exception {
         // Given
-        storeService.create(name, typeStr, vendorCode);
+        EntityModel<StoreInfoResponse> entityModel = EntityModel.of(
+                storeInfoResponse,
+                getLinkToAddress().withRel(LinkType.CREATE_METHOD).withType(HttpMethod.POST.name()),
+                getLinkToAddress().slash(id).withSelfRel().withType(HttpMethod.GET.name()),
+                getLinkToAddress().withRel(LinkType.READ_ALL_METHOD).withType(HttpMethod.GET.name()),
+                getLinkToAddress().slash(id).withRel(LinkType.UPDATE_METHOD).withType(HttpMethod.PATCH.name()),
+                getLinkToAddress().slash(id).withRel(LinkType.DELETE_METHOD).withType(HttpMethod.DELETE.name())
+        );
 
         // When
-        MockHttpServletRequestBuilder requestBuilder = get("/api/v1/stores/{storeName}", name);
+        when(storeService.findByName(anyString()))
+                .thenReturn(storeInfoResponse);
+        when(responseConverter.toResponseEntity(ResponseMessage.STORE_SEARCH_SUCCESS, entityModel))
+                .thenReturn(ResponseEntity.ok(ResponseDto.of(ResponseMessage.STORE_SEARCH_SUCCESS, entityModel)));
+
+        MockHttpServletRequestBuilder requestBuilder = get("/api/v1/stores/{storeName}", anyString());
         requestBuilder.contentType(MediaTypes.HAL_JSON_VALUE);
         requestBuilder.accept(MediaTypes.HAL_JSON_VALUE);
 
@@ -137,22 +200,27 @@ class StoreControllerTest {
 
     @Test
     @DisplayName("get 요청으로 모든 스토어를 조회할 수 있다.")
-    void getAllTest() throws Exception {
+    void getAllSuccessTest() throws Exception {
         // Given
-        storeService.create("store1", "식품", "111-11-11111");
-        storeService.create("store2", "백화점", "111-11-11112");
-        storeService.create("store3", "전자제품", "111-11-11113");
+        Link link = getLinkToAddress().withSelfRel().withType(HttpMethod.GET.name());
 
         // When
+        when(storeService.findAllByPages(pageable))
+                .thenReturn(storePage);
+        when(responseConverter.toResponseEntity(HttpStatus.OK, ResponseMessage.STORE_SEARCH_SUCCESS, storePage, link))
+                .thenReturn(ResponseEntity.ok(ResponseDto.of(ResponseMessage.STORE_SEARCH_SUCCESS, storePage, link)));
+
         MockHttpServletRequestBuilder requestBuilder = get("/api/v1/stores");
         requestBuilder.contentType(MediaTypes.HAL_JSON_VALUE);
         requestBuilder.accept(MediaTypes.HAL_JSON_VALUE);
-        requestBuilder.param("page", String.valueOf(0));
-        requestBuilder.param("size", String.valueOf(10));
 
         // Then
         mockMvc.perform(requestBuilder)
                 .andDo(print())
                 .andExpect(status().isOk());
+    }
+
+    private WebMvcLinkBuilder getLinkToAddress() {
+        return linkTo(StoreController.class);
     }
 }

@@ -8,15 +8,13 @@ import java.util.Arrays;
 
 @Getter
 public enum StoreType {
-    FOOD("식품"),
-    DEPARTMENT_STORE("백화점"),
-    LIVING("리빙"),
-    GIFT_CARD("상품권"),
-    BAKERY("베이커리"),
-    ELECTRONIC("전자제품"),
-    CLOTHES("의류"),
-    COSMETICS("화장품"),
-    SPORT("스포츠");
+    DEFAULT("미정"),
+    FINANCIAL("금융업"),
+    RESTAURANT("식품업"),
+    RETAIL_BUSINESS("소매업"),
+    TRAVEL("여행업"),
+    RENTAL_RETAIL_BUSINESS("대여업"),
+    SERVICE_BUSINESS("서비스업");
 
     private final String storeType;
 

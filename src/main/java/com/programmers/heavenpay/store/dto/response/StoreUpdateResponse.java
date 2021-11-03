@@ -3,6 +3,8 @@ package com.programmers.heavenpay.store.dto.response;
 import lombok.Builder;
 import lombok.Getter;
 
+import java.time.LocalDateTime;
+
 @Builder
 @Getter
 public class StoreUpdateResponse {
@@ -13,4 +15,8 @@ public class StoreUpdateResponse {
     private final String type;
 
     private final String vendorCode;
+
+    private final LocalDateTime createdAt;
+
+    private final LocalDateTime modifiedAt;
 }

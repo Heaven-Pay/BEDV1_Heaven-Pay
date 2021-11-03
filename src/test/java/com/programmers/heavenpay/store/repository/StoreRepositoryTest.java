@@ -28,7 +28,7 @@ class StoreRepositoryTest {
         Store expected = Store.builder()
                 .name("파리바게뜨")
                 .vendorCode("108-15-84292")
-                .type(StoreType.BAKERY)
+                .type(StoreType.RESTAURANT)
                 .build();
 
         //when
@@ -46,7 +46,7 @@ class StoreRepositoryTest {
         Store expected = Store.builder()
                 .name("파리바게뜨")
                 .vendorCode("108-15-84292")
-                .type(StoreType.BAKERY)
+                .type(StoreType.RESTAURANT)
                 .build();
 
         storeRepository.save(expected);
@@ -68,7 +68,7 @@ class StoreRepositoryTest {
         Store tmp = Store.builder()
                 .name("파리바게뜨")
                 .vendorCode("108-15-84292")
-                .type(StoreType.BAKERY)
+                .type(StoreType.RESTAURANT)
                 .build();
 
         Store expected = storeRepository.save(tmp);
@@ -91,7 +91,7 @@ class StoreRepositoryTest {
         Store tmp = Store.builder()
                 .name("파리바게뜨")
                 .vendorCode(tmpVendorCode)
-                .type(StoreType.BAKERY)
+                .type(StoreType.RESTAURANT)
                 .build();
 
         Store expected = storeRepository.save(tmp);
