@@ -1,5 +1,6 @@
 package com.programmers.heavenpay.review.entity;
 
+import com.programmers.heavenpay.common.entity.BaseEntity;
 import com.programmers.heavenpay.member.entity.Member;
 import com.programmers.heavenpay.product.entitiy.Product;
 import lombok.*;
@@ -12,7 +13,7 @@ import java.util.Objects;
 @Builder
 @NoArgsConstructor(access = AccessLevel.PROTECTED)
 @AllArgsConstructor
-public class Review {
+public class Review extends BaseEntity<Long> {
     @Id
     @GeneratedValue(strategy = GenerationType.AUTO)
     @Column(name = "review_id", unique = true)
@@ -28,9 +29,9 @@ public class Review {
     @JoinColumn(name = "product_id", referencedColumnName = "product_id", nullable = false)
     private Product product;
 
-    @ManyToOne(fetch = FetchType.LAZY)
-    @JoinColumn(name = "writer_id", referencedColumnName = "member_id", nullable = false)
-    private Member writer;
+    @OneToOne(fetch = FetchType.LAZY)
+    @JoinColumn(name = "reviewer_id", referencedColumnName = "member_id", nullable = false)
+    private Member reviewer;
 
     /**
      * 연관관계 편의 메소드: Product와 Review 연결
