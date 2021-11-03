@@ -48,22 +48,29 @@ public class ReviewService {
 
         review.updateInfo(content, score);
 
-        return reviewConverter.toReviewUpdateResponse(review.getCreatedDate(), review.getModifiedDate());
+        return reviewConverter.toReviewUpdateResponse(review);
     }
 
     @Transactional(readOnly = true)
-    public ReviewInfoResponse findById(Long reviewId) {
+    public ReviewInfoResponse findById(Long productId, Long reviewId) {
         Review review = reviewRepository.findById(reviewId)
                 .orElseThrow(() -> new NotExistsException(ErrorMessage.NOT_EXIST_REVIEW));
+
+        if(review.getProduct().getId() != productId){
+            //TODO: 예외 발생, 로직 위치 결정
+        }
 
         return reviewConverter.toReviewInfoResponse(review);
     }
 
     @Transactional(readOnly = true)
-    public Page<ReviewInfoResponse> findAllByPages(Pageable pageable) {
-        Page<Review> reviewPage = reviewRepository.findAll(pageable);
+    public Page<ReviewInfoResponse> findAllByPages(Pageable pageable, Long productId) {
+        Product product = productRepository.findById(productId)
+                .orElseThrow(() -> new NotExistsException(ErrorMessage.NOT_EXIST_PRODUCT_ID));
 
-        return reviewPage.map(reviewConverter::toReviewInfoResponse);
+        Page<Review> allByProduct = reviewRepository.findAllByProduct(product, pageable);
+
+        return allByProduct.map(reviewConverter::toReviewInfoResponse);
     }
 
     @Transactional

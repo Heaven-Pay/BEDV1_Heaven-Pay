@@ -29,10 +29,11 @@ public class ReviewConverter {
                 .build();
     }
 
-    public ReviewUpdateResponse toReviewUpdateResponse(LocalDateTime createdDate, LocalDateTime modifiedDate) {
+    public ReviewUpdateResponse toReviewUpdateResponse(Review review) {
         return ReviewUpdateResponse.builder()
-                .createdAt(createdDate)
-                .modifiedAt(modifiedDate)
+                .id(review.getId())
+                .createdAt(review.getCreatedDate())
+                .modifiedAt(review.getModifiedDate())
                 .build();
     }
 

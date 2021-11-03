@@ -1,5 +1,6 @@
 package com.programmers.heavenpay.review.repository;
 
+import com.programmers.heavenpay.product.entitiy.Product;
 import com.programmers.heavenpay.review.entity.Review;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
@@ -19,4 +20,6 @@ public interface ReviewRepository extends JpaRepository<Review, Long> {
 
     @Override
     void delete(Review entity);
+
+    Page<Review> findAllByProduct(Product product, Pageable pageable);
 }
