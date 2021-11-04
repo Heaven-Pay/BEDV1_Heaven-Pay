@@ -8,7 +8,7 @@ import com.programmers.heavenpay.order.converter.OrderConverter;
 import com.programmers.heavenpay.order.dto.response.OrderCreateResponse;
 import com.programmers.heavenpay.order.dto.response.OrderInfoResponse;
 import com.programmers.heavenpay.order.dto.response.OrderUpdateResponse;
-import com.programmers.heavenpay.order.entity.Order;
+import com.programmers.heavenpay.order.entity.GiftOrder;
 import com.programmers.heavenpay.order.repository.OrderRepository;
 import com.programmers.heavenpay.product.entitiy.Product;
 import com.programmers.heavenpay.product.repository.ProductRepository;
@@ -17,8 +17,6 @@ import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
-
-import java.io.IOException;
 
 @Service
 @RequiredArgsConstructor
@@ -36,28 +34,28 @@ public class OrderService {
         Product product = productRepository.findById(productId)
                 .orElseThrow(() -> new NotExistsException(ErrorMessage.NOT_EXIST_PRODUCT));
 
-        Order order = orderConverter.toOrderEntity(quantity, member, product);
-        Order orderEntity = orderRepository.save(order);
+        GiftOrder giftOrder = orderConverter.toOrderEntity(quantity, member, product);
+        GiftOrder giftOrderEntity = orderRepository.save(giftOrder);
 
-        return orderConverter.toOrderCreateResponse(orderEntity);
+        return orderConverter.toOrderCreateResponse(giftOrderEntity);
     }
 
     @Transactional
     public OrderUpdateResponse update(Long orderId, int quantity, String status) {
-        Order order = orderRepository.findById(orderId)
+        GiftOrder giftOrder = orderRepository.findById(orderId)
                 .orElseThrow(() -> new NotExistsException(ErrorMessage.NOT_EXIST_ORDER));
 
-        order.updateInfos(quantity, status);
+        giftOrder.updateInfos(quantity, status);
 
-        return orderConverter.toOrderUpdateResponse(order);
+        return orderConverter.toOrderUpdateResponse(giftOrder);
     }
 
     @Transactional(readOnly = true)
     public OrderInfoResponse findById(Long orderId) {
-        Order order = orderRepository.findById(orderId)
+        GiftOrder giftOrder = orderRepository.findById(orderId)
                 .orElseThrow(() -> new NotExistsException(ErrorMessage.NOT_EXIST_ORDER));
 
-        return orderConverter.toOrderInfoResponse(order);
+        return orderConverter.toOrderInfoResponse(giftOrder);
     }
 
     @Transactional(readOnly = true)
@@ -65,7 +63,7 @@ public class OrderService {
         Member member = memberRepository.findById(memberId)
                 .orElseThrow(() -> new NotExistsException(ErrorMessage.NOT_EXIST_MEMBER_ID));
 
-        Page<Order> orderPage = orderRepository.findAllByMember(member, pageable);
+        Page<GiftOrder> orderPage = orderRepository.findAllByMember(member, pageable);
 
         return orderPage.map(orderConverter::toOrderInfoResponse);
     }

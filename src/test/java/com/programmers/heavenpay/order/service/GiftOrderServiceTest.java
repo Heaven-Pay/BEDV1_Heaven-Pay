@@ -6,7 +6,7 @@ import com.programmers.heavenpay.order.converter.OrderConverter;
 import com.programmers.heavenpay.order.dto.response.OrderCreateResponse;
 import com.programmers.heavenpay.order.dto.response.OrderInfoResponse;
 import com.programmers.heavenpay.order.dto.response.OrderUpdateResponse;
-import com.programmers.heavenpay.order.entity.Order;
+import com.programmers.heavenpay.order.entity.GiftOrder;
 import com.programmers.heavenpay.order.repository.OrderRepository;
 import com.programmers.heavenpay.product.entitiy.Product;
 import com.programmers.heavenpay.product.repository.ProductRepository;
@@ -24,7 +24,7 @@ import static org.mockito.Mockito.verify;
 import static org.mockito.Mockito.when;
 
 @ExtendWith(MockitoExtension.class)
-class OrderServiceTest {
+class GiftOrderServiceTest {
     private Long memberId = 1L;
     private Long productId = 2L;
     private int quantity = 3;
@@ -50,15 +50,15 @@ class OrderServiceTest {
     Pageable pageable;
 
     @Mock
-    Page<Order> orderPage;
+    Page<GiftOrder> orderPage;
 
     Member member = Member.builder().build();
 
     Product product = Product.builder().build();
 
-    Order order = Order.builder().build();
+    GiftOrder giftOrder = GiftOrder.builder().build();
 
-    Order orderEntity = Order.builder().build();
+    GiftOrder giftOrderEntity = GiftOrder.builder().build();
 
     // ## dto define area ### //
     OrderCreateResponse orderCreateResponse = OrderCreateResponse.builder().build();
@@ -73,9 +73,9 @@ class OrderServiceTest {
         // given
         when(memberRepository.findById(memberId)).thenReturn(Optional.of(member));
         when(productRepository.findById(productId)).thenReturn(Optional.of(product));
-        when(orderConverter.toOrderEntity(quantity, member, product)).thenReturn(order);
-        when(orderRepository.save(order)).thenReturn(orderEntity);
-        when(orderConverter.toOrderCreateResponse(orderEntity)).thenReturn(orderCreateResponse);
+        when(orderConverter.toOrderEntity(quantity, member, product)).thenReturn(giftOrder);
+        when(orderRepository.save(giftOrder)).thenReturn(giftOrderEntity);
+        when(orderConverter.toOrderCreateResponse(giftOrderEntity)).thenReturn(orderCreateResponse);
 
         // when
         orderService.create(quantity, memberId, productId);
@@ -84,36 +84,36 @@ class OrderServiceTest {
         verify(memberRepository).findById(memberId);
         verify(productRepository).findById(productId);
         verify(orderConverter).toOrderEntity(quantity, member, product);
-        verify(orderRepository).save(order);
-        verify(orderConverter).toOrderCreateResponse(orderEntity);
+        verify(orderRepository).save(giftOrder);
+        verify(orderConverter).toOrderCreateResponse(giftOrderEntity);
     }
 
     @Test
     void 주문_수정_성공_테스트(){
         // given
-        when(orderRepository.findById(orderId)).thenReturn(Optional.of(order));
-        when(orderConverter.toOrderUpdateResponse(order)).thenReturn(orderUpdateResponse);
+        when(orderRepository.findById(orderId)).thenReturn(Optional.of(giftOrder));
+        when(orderConverter.toOrderUpdateResponse(giftOrder)).thenReturn(orderUpdateResponse);
 
         // when
         orderService.update(orderId, quantity, status);
 
         // then
         verify(orderRepository).findById(orderId);
-        verify(orderConverter).toOrderUpdateResponse(order);
+        verify(orderConverter).toOrderUpdateResponse(giftOrder);
     }
 
     @Test
     void 주문ID로_조회_성공회테스트(){
         // given
-        when(orderRepository.findById(orderId)).thenReturn(Optional.of(order));
-        when(orderConverter.toOrderInfoResponse(order)).thenReturn(orderInfoResponse);
+        when(orderRepository.findById(orderId)).thenReturn(Optional.of(giftOrder));
+        when(orderConverter.toOrderInfoResponse(giftOrder)).thenReturn(orderInfoResponse);
 
         // when
         orderService.findById(orderId);
 
         // then
         verify(orderRepository).findById(orderId);
-        verify(orderConverter).toOrderInfoResponse(order);
+        verify(orderConverter).toOrderInfoResponse(giftOrder);
     }
 
     @Test

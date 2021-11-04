@@ -39,7 +39,7 @@ import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.
 
 @ExtendWith(MockitoExtension.class)
 @WebMvcTest(OrderController.class)
-class OrderControllerTest {
+class GiftOrderControllerTest {
     private Long memberId = 1L;
     private Long productId = 2L;
     private int quantity = 3;

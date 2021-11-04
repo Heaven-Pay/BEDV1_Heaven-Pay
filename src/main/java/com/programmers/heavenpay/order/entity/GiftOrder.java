@@ -13,7 +13,8 @@ import javax.persistence.*;
 @Builder
 @NoArgsConstructor(access = AccessLevel.PROTECTED)
 @AllArgsConstructor
-public class Order extends BaseEntity<Long> {
+@Table(name = "gift_order")
+public class GiftOrder extends BaseEntity<Long> {
     @Id
     @GeneratedValue(strategy = GenerationType.AUTO)
     @Column(name = "order_id", unique = true)
