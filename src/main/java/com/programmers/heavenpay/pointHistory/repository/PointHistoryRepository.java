@@ -9,7 +9,7 @@ import org.springframework.data.jpa.repository.JpaRepository;
 import java.util.Optional;
 
 public interface PointHistoryRepository extends JpaRepository<PointHistory, Long> {
-    Optional<PointHistory> findByIdAndMember(Long accountId, Member member);
+    Optional<PointHistory> findByIdAndMember(Long pointHistoryId, Member member);
 
     Page<PointHistory> findAllByMember(Member member, Pageable pageable);
 
