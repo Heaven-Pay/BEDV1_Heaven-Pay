@@ -62,16 +62,8 @@ public class PointWalletService {
     }
 
     @Transactional(readOnly = true)
-    public Page<PointWalletGetOneResponse> getAll(Long memberId, Long accountId, Pageable pageable){
-        Member member = memberRepository.findById(memberId)
-                .orElseThrow(
-                        () -> new NotExistsException(ErrorMessage.NOT_EXIST_MEMBER_ID)
-                );
-        Account account = accountRepository.findById(accountId)
-                .orElseThrow(
-                        () -> new NotExistsException(ErrorMessage.NOT_EXIST_ACCOUNT)
-                );
-        Page<PointWallet> allByMember = pointWalletRepository.findAllByMemberAndAccount(member, account, pageable);
+    public Page<PointWalletGetOneResponse> getAll(Pageable pageable){
+        Page<PointWallet> allByMember = pointWalletRepository.findAll(pageable);
         return allByMember.map(converter::toPointWalletFindResponse);
     }
 

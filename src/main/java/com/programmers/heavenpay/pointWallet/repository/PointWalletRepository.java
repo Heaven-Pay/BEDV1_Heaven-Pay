@@ -7,12 +7,14 @@ import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.data.jpa.repository.JpaRepository;
 
+import java.util.List;
 import java.util.Optional;
 
 public interface PointWalletRepository extends JpaRepository<PointWallet, Long> {
     Optional<PointWallet> findByIdAndMemberAndAccount(Long pointWalletId, Member member, Account account);
 
-    Page<PointWallet> findAllByMemberAndAccount(Member member, Account account, Pageable pageable);
+    @Override
+    List<PointWallet> findAll();
 
     @Override
     PointWallet save(PointWallet entity);
