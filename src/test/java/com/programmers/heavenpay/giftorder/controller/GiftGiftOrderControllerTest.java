@@ -1,16 +1,16 @@
-package com.programmers.heavenpay.order.controller;
+package com.programmers.heavenpay.giftorder.controller;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.programmers.heavenpay.common.converter.ResponseConverter;
 import com.programmers.heavenpay.common.dto.LinkType;
 import com.programmers.heavenpay.common.dto.ResponseDto;
 import com.programmers.heavenpay.common.dto.ResponseMessage;
-import com.programmers.heavenpay.order.dto.request.OrderCreateRequest;
-import com.programmers.heavenpay.order.dto.request.OrderUpdateRequest;
-import com.programmers.heavenpay.order.dto.response.OrderCreateResponse;
-import com.programmers.heavenpay.order.dto.response.OrderInfoResponse;
-import com.programmers.heavenpay.order.dto.response.OrderUpdateResponse;
-import com.programmers.heavenpay.order.service.OrderService;
+import com.programmers.heavenpay.giftorder.dto.request.GiftOrderCreateRequest;
+import com.programmers.heavenpay.giftorder.dto.request.GiftOrderUpdateRequest;
+import com.programmers.heavenpay.giftorder.dto.response.GiftOrderCreateResponse;
+import com.programmers.heavenpay.giftorder.dto.response.GiftOrderInfoResponse;
+import com.programmers.heavenpay.giftorder.dto.response.GiftOrderUpdateResponse;
+import com.programmers.heavenpay.giftorder.service.GiftOrderService;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
 import org.mockito.Mock;
@@ -38,12 +38,12 @@ import static org.springframework.test.web.servlet.result.MockMvcResultHandlers.
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
 
 @ExtendWith(MockitoExtension.class)
-@WebMvcTest(OrderController.class)
-class GiftOrderControllerTest {
+@WebMvcTest(GiftOrderController.class)
+class GiftGiftOrderControllerTest {
     private Long memberId = 1L;
     private Long productId = 2L;
     private int quantity = 3;
-    private Long orderId = 3L;
+    private Long giftOrderId = 3L;
     private String status = "결제완료";
 
     @Autowired
@@ -53,7 +53,7 @@ class GiftOrderControllerTest {
     private ObjectMapper objectMapper;
 
     @MockBean
-    private OrderService orderService;
+    private GiftOrderService giftOrderService;
 
     @MockBean
     private ResponseConverter responseConverter;
@@ -63,32 +63,32 @@ class GiftOrderControllerTest {
 
     // ### dto define area ### //
     @Mock
-    private Page<OrderInfoResponse> orderInfoResponsePage;
+    private Page<GiftOrderInfoResponse> orderInfoResponsePage;
 
-    private OrderCreateRequest orderCreateRequest = OrderCreateRequest.builder()
+    private GiftOrderCreateRequest giftOrderCreateRequest = GiftOrderCreateRequest.builder()
             .memberId(memberId)
             .produtId(productId)
             .quantity(quantity)
             .build();
 
-    private OrderCreateResponse orderCreateResponse = OrderCreateResponse.builder()
+    private GiftOrderCreateResponse giftOrderCreateResponse = GiftOrderCreateResponse.builder()
             .createdAt(LocalDateTime.now())
-            .id(orderId)
+            .id(giftOrderId)
             .build();
 
-    private OrderUpdateRequest orderUpdateRequest = OrderUpdateRequest.builder()
+    private GiftOrderUpdateRequest giftOrderUpdateRequest = GiftOrderUpdateRequest.builder()
             .quantity(quantity)
             .status(status)
             .build();
 
-    private OrderUpdateResponse orderUpdateResponse = OrderUpdateResponse.builder()
-            .id(orderId)
+    private GiftOrderUpdateResponse giftOrderUpdateResponse = GiftOrderUpdateResponse.builder()
+            .id(giftOrderId)
             .build();
 
-    private OrderInfoResponse orderInfoResponse = OrderInfoResponse.builder()
+    private GiftOrderInfoResponse giftOrderInfoResponse = GiftOrderInfoResponse.builder()
             .mdifiedAt(LocalDateTime.now())
             .createdAt(LocalDateTime.now())
-            .id(orderId)
+            .id(giftOrderId)
             .status(status)
             .quantity(quantity)
             .productId(productId)
@@ -96,30 +96,30 @@ class GiftOrderControllerTest {
     // ### end of dto define area ### //
 
     private WebMvcLinkBuilder getLinkToAddress() {
-        return linkTo(OrderController.class);
+        return linkTo(GiftOrderController.class);
     }
 
     @Test
     void 주문_생성_성공_테스트() throws Exception {
         //given
-        EntityModel<OrderCreateResponse> entityModel = EntityModel.of(
-                orderCreateResponse,
+        EntityModel<GiftOrderCreateResponse> entityModel = EntityModel.of(
+                giftOrderCreateResponse,
                 getLinkToAddress().withSelfRel().withType(HttpMethod.POST.name()),
-                getLinkToAddress().slash(orderCreateResponse.getId()).withRel(LinkType.READ_METHOD).withType(HttpMethod.GET.name()),
+                getLinkToAddress().slash(giftOrderCreateResponse.getId()).withRel(LinkType.READ_METHOD).withType(HttpMethod.GET.name()),
                 getLinkToAddress().withRel(LinkType.READ_ALL_METHOD).withType(HttpMethod.GET.name()),
-                getLinkToAddress().slash(orderCreateResponse.getId()).withRel(LinkType.UPDATE_METHOD).withType(HttpMethod.PATCH.name()),
-                getLinkToAddress().slash(orderCreateResponse.getId()).withRel(LinkType.DELETE_METHOD).withType(HttpMethod.DELETE.name())
+                getLinkToAddress().slash(giftOrderCreateResponse.getId()).withRel(LinkType.UPDATE_METHOD).withType(HttpMethod.PATCH.name()),
+                getLinkToAddress().slash(giftOrderCreateResponse.getId()).withRel(LinkType.DELETE_METHOD).withType(HttpMethod.DELETE.name())
         );
 
         //when
-        when(orderService.create(quantity, memberId, productId))
-                .thenReturn(orderCreateResponse);
-        when(responseConverter.toResponseEntity(ResponseMessage.ORDER_INSERT_SUCCESS, entityModel))
-                .thenReturn(ResponseEntity.ok(ResponseDto.of(ResponseMessage.ORDER_INSERT_SUCCESS, entityModel)));
+        when(giftOrderService.create(quantity, memberId, productId))
+                .thenReturn(giftOrderCreateResponse);
+        when(responseConverter.toResponseEntity(ResponseMessage.GIFT_ORDER_INSERT_SUCCESS, entityModel))
+                .thenReturn(ResponseEntity.ok(ResponseDto.of(ResponseMessage.GIFT_ORDER_INSERT_SUCCESS, entityModel)));
 
         MockHttpServletRequestBuilder requestBuilder = post("/api/v1/orders");
         requestBuilder.contentType(MediaTypes.HAL_JSON_VALUE);
-        requestBuilder.content(objectMapper.writeValueAsString(orderCreateRequest));
+        requestBuilder.content(objectMapper.writeValueAsString(giftOrderCreateRequest));
         requestBuilder.accept(MediaTypes.HAL_JSON_VALUE);
 
         // Then
@@ -131,24 +131,24 @@ class GiftOrderControllerTest {
     @Test
     void 주문_수정_성공_테스트() throws Exception {
         //given
-        EntityModel<OrderUpdateResponse> entityModel = EntityModel.of(
-                orderUpdateResponse,
+        EntityModel<GiftOrderUpdateResponse> entityModel = EntityModel.of(
+                giftOrderUpdateResponse,
                 getLinkToAddress().withRel(LinkType.CREATE_METHOD).withType(HttpMethod.POST.name()),
-                getLinkToAddress().slash(orderUpdateResponse.getId()).withRel(LinkType.READ_METHOD).withType(HttpMethod.GET.name()),
+                getLinkToAddress().slash(giftOrderUpdateResponse.getId()).withRel(LinkType.READ_METHOD).withType(HttpMethod.GET.name()),
                 getLinkToAddress().withRel(LinkType.READ_ALL_METHOD).withType(HttpMethod.GET.name()),
-                getLinkToAddress().slash(orderUpdateResponse.getId()).withSelfRel().withType(HttpMethod.PATCH.name()),
-                getLinkToAddress().slash(orderUpdateResponse.getId()).withRel(LinkType.DELETE_METHOD).withType(HttpMethod.DELETE.name())
+                getLinkToAddress().slash(giftOrderUpdateResponse.getId()).withSelfRel().withType(HttpMethod.PATCH.name()),
+                getLinkToAddress().slash(giftOrderUpdateResponse.getId()).withRel(LinkType.DELETE_METHOD).withType(HttpMethod.DELETE.name())
         );
 
         //when
-        when(orderService.update(orderId, quantity, status))
-                .thenReturn(orderUpdateResponse);
-        when(responseConverter.toResponseEntity(ResponseMessage.ORDER_UPDATE_SUCCESS, entityModel))
-                .thenReturn(ResponseEntity.ok(ResponseDto.of(ResponseMessage.ORDER_UPDATE_SUCCESS, entityModel)));
+        when(giftOrderService.update(giftOrderId, quantity, status))
+                .thenReturn(giftOrderUpdateResponse);
+        when(responseConverter.toResponseEntity(ResponseMessage.GIFT_ORDER_UPDATE_SUCCESS, entityModel))
+                .thenReturn(ResponseEntity.ok(ResponseDto.of(ResponseMessage.GIFT_ORDER_UPDATE_SUCCESS, entityModel)));
 
-        MockHttpServletRequestBuilder requestBuilder = patch("/api/v1/orders/{orderId}", orderId);
+        MockHttpServletRequestBuilder requestBuilder = patch("/api/v1/orders/{orderId}", giftOrderId);
         requestBuilder.contentType(MediaTypes.HAL_JSON_VALUE);
-        requestBuilder.content(objectMapper.writeValueAsString(orderUpdateRequest));
+        requestBuilder.content(objectMapper.writeValueAsString(giftOrderUpdateRequest));
         requestBuilder.accept(MediaTypes.HAL_JSON_VALUE);
 
         // Then
@@ -160,22 +160,22 @@ class GiftOrderControllerTest {
     @Test
     void 주문_단건_조회_성공_테스트() throws Exception {
         //given
-        EntityModel<OrderInfoResponse> entityModel = EntityModel.of(
-                orderInfoResponse,
+        EntityModel<GiftOrderInfoResponse> entityModel = EntityModel.of(
+                giftOrderInfoResponse,
                 getLinkToAddress().withRel(LinkType.CREATE_METHOD).withType(HttpMethod.POST.name()),
-                getLinkToAddress().slash(orderInfoResponse.getId()).withSelfRel().withType(HttpMethod.GET.name()),
+                getLinkToAddress().slash(giftOrderInfoResponse.getId()).withSelfRel().withType(HttpMethod.GET.name()),
                 getLinkToAddress().withRel(LinkType.READ_ALL_METHOD).withType(HttpMethod.GET.name()),
-                getLinkToAddress().slash(orderInfoResponse.getId()).withRel(LinkType.UPDATE_METHOD).withType(HttpMethod.PATCH.name()),
-                getLinkToAddress().slash(orderInfoResponse.getId()).withRel(LinkType.DELETE_METHOD).withType(HttpMethod.DELETE.name())
+                getLinkToAddress().slash(giftOrderInfoResponse.getId()).withRel(LinkType.UPDATE_METHOD).withType(HttpMethod.PATCH.name()),
+                getLinkToAddress().slash(giftOrderInfoResponse.getId()).withRel(LinkType.DELETE_METHOD).withType(HttpMethod.DELETE.name())
         );
 
         //when
-        when(orderService.findById(orderId))
-                .thenReturn(orderInfoResponse);
-        when(responseConverter.toResponseEntity(ResponseMessage.ORDER_SEARCH_SUCCESS, entityModel))
-                .thenReturn(ResponseEntity.ok(ResponseDto.of(ResponseMessage.ORDER_SEARCH_SUCCESS, entityModel)));
+        when(giftOrderService.findById(giftOrderId))
+                .thenReturn(giftOrderInfoResponse);
+        when(responseConverter.toResponseEntity(ResponseMessage.GIFT_ORDER_SEARCH_SUCCESS, entityModel))
+                .thenReturn(ResponseEntity.ok(ResponseDto.of(ResponseMessage.GIFT_ORDER_SEARCH_SUCCESS, entityModel)));
 
-        MockHttpServletRequestBuilder requestBuilder = get("/api/v1/orders/{orderId}", orderId);
+        MockHttpServletRequestBuilder requestBuilder = get("/api/v1/orders/{orderId}", giftOrderId);
         requestBuilder.contentType(MediaTypes.HAL_JSON_VALUE);
         requestBuilder.accept(MediaTypes.HAL_JSON_VALUE);
 
@@ -191,10 +191,10 @@ class GiftOrderControllerTest {
         Link link = getLinkToAddress().withSelfRel().withType(HttpMethod.GET.name());
 
         //when
-        when(orderService.findAllByPages(memberId, pageable))
+        when(giftOrderService.findAllByPages(memberId, pageable))
                 .thenReturn(orderInfoResponsePage);
-        when(responseConverter.toResponseEntity(ResponseMessage.ORDER_SEARCH_SUCCESS, orderInfoResponsePage, link))
-                .thenReturn(ResponseEntity.ok(ResponseDto.of(ResponseMessage.ORDER_SEARCH_SUCCESS, orderInfoResponsePage, link)));
+        when(responseConverter.toResponseEntity(ResponseMessage.GIFT_ORDER_SEARCH_SUCCESS, orderInfoResponsePage, link))
+                .thenReturn(ResponseEntity.ok(ResponseDto.of(ResponseMessage.GIFT_ORDER_SEARCH_SUCCESS, orderInfoResponsePage, link)));
 
 
         MockHttpServletRequestBuilder requestBuilder = get("/api/v1/members/{memberId}/orders", memberId);
