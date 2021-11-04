@@ -14,6 +14,7 @@ import com.programmers.heavenpay.review.dto.response.ReviewUpdateResponse;
 import com.programmers.heavenpay.review.service.ReviewService;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
+import org.mockito.Mock;
 import org.mockito.junit.jupiter.MockitoExtension;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.autoconfigure.web.servlet.WebMvcTest;
@@ -21,6 +22,7 @@ import org.springframework.boot.test.mock.mockito.MockBean;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.hateoas.EntityModel;
+import org.springframework.hateoas.Link;
 import org.springframework.hateoas.MediaTypes;
 import org.springframework.hateoas.server.mvc.WebMvcLinkBuilder;
 import org.springframework.http.HttpMethod;
@@ -60,7 +62,8 @@ class ReviewControllerTest {
     @MockBean
     private Pageable pageable;
 
-    @MockBean
+    // ### dto define area ### //
+    @Mock
     private Page<ReviewInfoResponse> reviewInfoResponsePage;
 
     private ReviewDeleteResponse reviewDeleteResponse = ReviewDeleteResponse.builder()
@@ -75,22 +78,23 @@ class ReviewControllerTest {
 
     private ReviewInfoResponse reviewInfoResponse = ReviewInfoResponse.builder().build();
 
-    ReviewCreateRequest request = ReviewCreateRequest.builder()
+    private ReviewCreateRequest reviewCreateRequest = ReviewCreateRequest.builder()
             .content(content)
             .productId(productId)
             .reviewerId(reviewerId)
             .score(score)
             .build();
 
-    ReviewCreateResponse reviewCreateResponse = ReviewCreateResponse.builder()
+    private ReviewCreateResponse reviewCreateResponse = ReviewCreateResponse.builder()
             .id(reviewId)
             .createdAt(LocalDateTime.now())
             .build();
 
-    ReviewUpdateRequest reviewUpdateRequest = ReviewUpdateRequest.builder()
+    private ReviewUpdateRequest reviewUpdateRequest = ReviewUpdateRequest.builder()
             .content(content)
             .score(score)
             .build();
+    // ### end of dto define area ### //
 
     private WebMvcLinkBuilder getLinkToAddress() {
         return linkTo(ReviewController.class);
@@ -116,7 +120,7 @@ class ReviewControllerTest {
 
         MockHttpServletRequestBuilder requestBuilder = post("/api/v1/reviews");
         requestBuilder.contentType(MediaTypes.HAL_JSON_VALUE);
-        requestBuilder.content(objectMapper.writeValueAsString(request));
+        requestBuilder.content(objectMapper.writeValueAsString(reviewCreateRequest));
         requestBuilder.accept(MediaTypes.HAL_JSON_VALUE);
 
         // Then
@@ -201,6 +205,28 @@ class ReviewControllerTest {
                 .thenReturn(ResponseEntity.ok(ResponseDto.of(ResponseMessage.REVIEW_SEARCH_SUCCESS, entityModel)));
 
         MockHttpServletRequestBuilder requestBuilder = patch("/api/v1/products/{productId}/reviews/{reviewId}", productId, reviewId);
+        requestBuilder.contentType(MediaTypes.HAL_JSON_VALUE);
+        requestBuilder.accept(MediaTypes.HAL_JSON_VALUE);
+
+        // Then
+        mockMvc.perform(requestBuilder)
+                .andDo(print())
+                .andExpect(status().isOk());
+    }
+
+    @Test
+    void 특정상품의_모든_리뷰_조회_성공_테스트() throws Exception {  //TODO: 테스트 실패
+        //given
+        Link link = getLinkToAddress().withSelfRel().withType(HttpMethod.GET.name());
+
+        //when
+        when(reviewService.findAllByPages(pageable, productId))
+                .thenReturn(reviewInfoResponsePage);
+        when(responseConverter.toResponseEntity(ResponseMessage.REVIEW_SEARCH_SUCCESS, reviewInfoResponsePage, link))
+                .thenReturn(ResponseEntity.ok(ResponseDto.of(ResponseMessage.REVIEW_SEARCH_SUCCESS, reviewInfoResponsePage, link)));
+
+
+        MockHttpServletRequestBuilder requestBuilder = get("/api/v1/products/{productId}/reviews", productId);
         requestBuilder.contentType(MediaTypes.HAL_JSON_VALUE);
         requestBuilder.accept(MediaTypes.HAL_JSON_VALUE);
 
