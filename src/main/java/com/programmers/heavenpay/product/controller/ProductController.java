@@ -12,6 +12,7 @@ import com.programmers.heavenpay.product.dto.response.ProductInfoResponse;
 import com.programmers.heavenpay.product.dto.response.ProductUpdateResponse;
 import com.programmers.heavenpay.product.service.ProductService;
 import io.swagger.annotations.Api;
+import io.swagger.annotations.ApiOperation;
 import lombok.RequiredArgsConstructor;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
@@ -40,6 +41,7 @@ public class ProductController {
         return linkTo(ProductController.class);
     }
 
+    @ApiOperation("상품 등록")
     @PostMapping(consumes = {"multipart/form-data"})
     public ResponseEntity<ResponseDto> insert(@Valid @ModelAttribute ProductCreateRequest request) throws IOException {
         ProductCreateResponse response = productService.create(
@@ -67,6 +69,7 @@ public class ProductController {
         );
     }
 
+    @ApiOperation("상품 단건 조회")
     @GetMapping("/{productId}")
     public ResponseEntity<ResponseDto> getOne(@Valid @PathVariable Long productId) {
         ProductInfoResponse response = productService.findById(productId);
@@ -86,6 +89,7 @@ public class ProductController {
         );
     }
 
+    @ApiOperation("모든 상품 조회")
     @GetMapping()
     public ResponseEntity<ResponseDto> getAll(Pageable pageable) {
         Page<ProductInfoResponse> responses = productService.findAllByPages(pageable);
@@ -99,6 +103,7 @@ public class ProductController {
         );
     }
 
+    @ApiOperation("상품 단건 삭제")
     @DeleteMapping(value = "/{productId}")
     public ResponseEntity<ResponseDto> delete(@Valid @PathVariable Long productId) {
         ProductDeleteResponse response = productService.delete(productId);
@@ -116,6 +121,7 @@ public class ProductController {
         );
     }
 
+    @ApiOperation("상품 정보 수정")
     @PatchMapping(value = "/{productId}", consumes = MediaTypes.HAL_JSON_VALUE)
     public ResponseEntity<ResponseDto> update(@PathVariable Long productId, @Valid @RequestBody ProductUpdateRequest request) throws IOException {
         ProductUpdateResponse response = productService.update(
