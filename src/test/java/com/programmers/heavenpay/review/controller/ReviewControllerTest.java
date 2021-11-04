@@ -41,7 +41,7 @@ import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.
 @ExtendWith(MockitoExtension.class)
 @WebMvcTest(ReviewControllerTest.class)
 class ReviewControllerTest {
-    private Long reviewerId = 1L;
+    private Long reviewerId = 4L;
     private String content = "contennt1";
     private int score = 3;
     private Long productId = 2L;
@@ -76,7 +76,13 @@ class ReviewControllerTest {
             .modifiedAt(LocalDateTime.now())
             .build();
 
-    private ReviewInfoResponse reviewInfoResponse = ReviewInfoResponse.builder().build();
+    private ReviewInfoResponse reviewInfoResponse = ReviewInfoResponse.builder()
+            .score(score)
+            .productId(productId)
+            .reviewerId(reviewerId)
+            .modifiedAt(LocalDateTime.now())
+            .content(content)
+            .build();
 
     private ReviewCreateRequest reviewCreateRequest = ReviewCreateRequest.builder()
             .content(content)
@@ -204,7 +210,7 @@ class ReviewControllerTest {
         when(responseConverter.toResponseEntity(ResponseMessage.REVIEW_SEARCH_SUCCESS, entityModel))
                 .thenReturn(ResponseEntity.ok(ResponseDto.of(ResponseMessage.REVIEW_SEARCH_SUCCESS, entityModel)));
 
-        MockHttpServletRequestBuilder requestBuilder = patch("/api/v1/products/{productId}/reviews/{reviewId}", productId, reviewId);
+        MockHttpServletRequestBuilder requestBuilder = get("/api/v1/products/{productId}/reviews/{reviewId}", productId, reviewId);
         requestBuilder.contentType(MediaTypes.HAL_JSON_VALUE);
         requestBuilder.accept(MediaTypes.HAL_JSON_VALUE);
 
