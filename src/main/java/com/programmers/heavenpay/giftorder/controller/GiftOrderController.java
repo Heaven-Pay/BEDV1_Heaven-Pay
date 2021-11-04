@@ -100,8 +100,8 @@ public class GiftOrderController {
     }
 
     @ApiOperation("특정 사용자의 모든 Order 조회, 성공시 Order Page 반환")
-    @GetMapping(value = "/members/{memberId}/gift_orders")
-    public ResponseEntity<ResponseDto> getAll(Pageable pageable, @PathVariable Long memberId) {
+    @GetMapping(value = "/gift_orders")
+    public ResponseEntity<ResponseDto> getAll(Pageable pageable, @RequestParam Long memberId) {
         Page<GiftOrderInfoResponse> responses = giftOrderService.findAllByPages(memberId, pageable);
 
         Link link = getLinkToAddress().withSelfRel().withType(HttpMethod.GET.name());

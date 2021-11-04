@@ -24,7 +24,7 @@ import static org.mockito.Mockito.verify;
 import static org.mockito.Mockito.when;
 
 @ExtendWith(MockitoExtension.class)
-class GiftGiftOrderServiceTest {
+class GiftOrderServiceTest {
     private Long memberId = 1L;
     private Long productId = 2L;
     private int quantity = 3;

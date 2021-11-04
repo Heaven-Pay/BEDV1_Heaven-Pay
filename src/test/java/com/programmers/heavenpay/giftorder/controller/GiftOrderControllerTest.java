@@ -39,7 +39,7 @@ import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.
 
 @ExtendWith(MockitoExtension.class)
 @WebMvcTest(GiftOrderController.class)
-class GiftGiftOrderControllerTest {
+class GiftOrderControllerTest {
     private Long memberId = 1L;
     private Long productId = 2L;
     private int quantity = 3;
@@ -117,7 +117,7 @@ class GiftGiftOrderControllerTest {
         when(responseConverter.toResponseEntity(ResponseMessage.GIFT_ORDER_INSERT_SUCCESS, entityModel))
                 .thenReturn(ResponseEntity.ok(ResponseDto.of(ResponseMessage.GIFT_ORDER_INSERT_SUCCESS, entityModel)));
 
-        MockHttpServletRequestBuilder requestBuilder = post("/api/v1/orders");
+        MockHttpServletRequestBuilder requestBuilder = post("/api/v1/gift_orders");
         requestBuilder.contentType(MediaTypes.HAL_JSON_VALUE);
         requestBuilder.content(objectMapper.writeValueAsString(giftOrderCreateRequest));
         requestBuilder.accept(MediaTypes.HAL_JSON_VALUE);
@@ -146,7 +146,7 @@ class GiftGiftOrderControllerTest {
         when(responseConverter.toResponseEntity(ResponseMessage.GIFT_ORDER_UPDATE_SUCCESS, entityModel))
                 .thenReturn(ResponseEntity.ok(ResponseDto.of(ResponseMessage.GIFT_ORDER_UPDATE_SUCCESS, entityModel)));
 
-        MockHttpServletRequestBuilder requestBuilder = patch("/api/v1/orders/{orderId}", giftOrderId);
+        MockHttpServletRequestBuilder requestBuilder = patch("/api/v1/gift_orders/{orderId}", giftOrderId);
         requestBuilder.contentType(MediaTypes.HAL_JSON_VALUE);
         requestBuilder.content(objectMapper.writeValueAsString(giftOrderUpdateRequest));
         requestBuilder.accept(MediaTypes.HAL_JSON_VALUE);
@@ -175,7 +175,7 @@ class GiftGiftOrderControllerTest {
         when(responseConverter.toResponseEntity(ResponseMessage.GIFT_ORDER_SEARCH_SUCCESS, entityModel))
                 .thenReturn(ResponseEntity.ok(ResponseDto.of(ResponseMessage.GIFT_ORDER_SEARCH_SUCCESS, entityModel)));
 
-        MockHttpServletRequestBuilder requestBuilder = get("/api/v1/orders/{orderId}", giftOrderId);
+        MockHttpServletRequestBuilder requestBuilder = get("/api/v1/gift_orders/{orderId}", giftOrderId);
         requestBuilder.contentType(MediaTypes.HAL_JSON_VALUE);
         requestBuilder.accept(MediaTypes.HAL_JSON_VALUE);
 
@@ -197,7 +197,7 @@ class GiftGiftOrderControllerTest {
                 .thenReturn(ResponseEntity.ok(ResponseDto.of(ResponseMessage.GIFT_ORDER_SEARCH_SUCCESS, orderInfoResponsePage, link)));
 
 
-        MockHttpServletRequestBuilder requestBuilder = get("/api/v1/members/{memberId}/orders", memberId);
+        MockHttpServletRequestBuilder requestBuilder = get("/api/v1/gift_orders?memberId={memberId}", memberId);
         requestBuilder.contentType(MediaTypes.HAL_JSON_VALUE);
         requestBuilder.accept(MediaTypes.HAL_JSON_VALUE);
 
