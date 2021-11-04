@@ -6,21 +6,21 @@ import lombok.Getter;
 @Builder
 @Getter
 public class ProductInfoResponse {
-    private Long id;
+    private final Long id;
 
-    private String category;
+    private final String category;
 
-    private int price;
+    private final int price;
 
-    private String title;
+    private final String title;
 
-    private String description;
+    private final String description;
 
-    private String s3Path;
+    private final String s3Path;
 
-    private int stock;
+    private final int stock;
 
-    private Long storeId;
+    private final Long storeId;
 
-    private Double score;
+    private final Double score;
 }
