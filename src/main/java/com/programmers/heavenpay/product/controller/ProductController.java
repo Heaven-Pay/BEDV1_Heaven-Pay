@@ -20,7 +20,6 @@ import org.springframework.hateoas.Link;
 import org.springframework.hateoas.MediaTypes;
 import org.springframework.hateoas.server.mvc.WebMvcLinkBuilder;
 import org.springframework.http.HttpMethod;
-import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
@@ -32,7 +31,7 @@ import static org.springframework.hateoas.server.mvc.WebMvcLinkBuilder.linkTo;
 @RestController
 @RequiredArgsConstructor
 @RequestMapping(value = "/api/v1/products", produces = MediaTypes.HAL_JSON_VALUE)
-@Api(value = "ProductController", description = "Product 관련 API")
+@Api(tags = "Product")
 public class ProductController {
     private final ProductService productService;
     private final ResponseConverter responseConverter;

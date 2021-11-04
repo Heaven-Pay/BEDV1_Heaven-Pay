@@ -31,7 +31,7 @@ import static org.springframework.hateoas.server.mvc.WebMvcLinkBuilder.linkTo;
 @RestController
 @RequiredArgsConstructor
 @RequestMapping(value = "/api/v1", produces = MediaTypes.HAL_JSON_VALUE)
-@Api(value = "Order API")
+@Api(tags = "Order")
 public class OrderController {
     private final OrderService orderService;
     private final ResponseConverter responseConverter;
