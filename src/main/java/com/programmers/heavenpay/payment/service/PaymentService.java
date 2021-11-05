@@ -10,6 +10,8 @@ import com.programmers.heavenpay.payment.dto.response.PaymentCreateResponse;
 import com.programmers.heavenpay.payment.dto.response.PaymentDeleteResponse;
 import com.programmers.heavenpay.payment.entity.Payment;
 import com.programmers.heavenpay.payment.repository.PaymentRepository;
+import com.programmers.heavenpay.pointHistory.entity.PointHistory;
+import com.programmers.heavenpay.pointHistory.repository.PointHistoryRepository;
 import com.programmers.heavenpay.pointWallet.dto.response.PointWalletCreateResponse;
 import com.programmers.heavenpay.pointWallet.dto.response.PointWalletDeleteResponse;
 import com.programmers.heavenpay.pointWallet.entity.PointWallet;
@@ -28,8 +30,10 @@ public class PaymentService {
     private final PaymentRepository paymentRepository;
     private final MemberRepository memberRepository;
     private final StoreRepository storeRepository;
+    private final PointHistoryRepository pointHistoryRepository;
     private final PointWalletRepository pointWalletRepository;
     private final PaymentConverter converter;
+
     @Transactional
     public PaymentCreateResponse create(Long memberId, Long storeId, Long pointWalletId, Integer payPoint) {
         Member originMember = memberRepository.findById(memberId)
@@ -47,6 +51,8 @@ public class PaymentService {
         if (pointWallet.getWalletPoint() < payPoint) {
             new NotExistsException(ErrorMessage.NOT_ENOUGH_POINT);
         }
+
+        pointWallet.updateData(pointWallet.getWalletPoint() - payPoint, pointWallet.getAccount());
 
         Payment orginPayment = converter.toPaymentEntity(originMember, store, pointWallet, payPoint);
         Payment pointWalletEntity = paymentRepository.save(orginPayment);
