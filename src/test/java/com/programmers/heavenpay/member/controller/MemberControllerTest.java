@@ -38,7 +38,6 @@ class MemberControllerTest {
     private static final String NAME =  "Taid";
     private static final String PHONE_NUMBER = "01011223344";
     private static final String BIRTH = "20211015";
-    //todo : GenderType enum에서 final String으로 변경
     private static final GenderType GENDER = GenderType.MALE;
 
     @Autowired
