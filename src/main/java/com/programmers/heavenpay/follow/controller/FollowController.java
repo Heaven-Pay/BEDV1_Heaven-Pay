@@ -17,6 +17,8 @@ import org.springframework.hateoas.server.mvc.WebMvcLinkBuilder;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
+import javax.validation.Valid;
+
 import static org.springframework.hateoas.server.mvc.WebMvcLinkBuilder.linkTo;
 
 @Api("Follow")
@@ -33,7 +35,7 @@ public class FollowController {
 
     @ApiOperation("친구 추가하기")
     @PostMapping(consumes = MediaTypes.HAL_JSON_VALUE)
-    public ResponseEntity<ResponseDto> follow(@RequestBody FollowRequest request) {
+    public ResponseEntity<ResponseDto> follow(@Valid @RequestBody FollowRequest request) {
         FollowResponse response = followService.follow(request.getId(), request.getFollowerId());
 
         EntityModel<FollowResponse> entityModel = EntityModel.of(response,
@@ -49,7 +51,7 @@ public class FollowController {
 
     @ApiOperation("친구 삭제하기")
     @DeleteMapping(consumes = MediaTypes.HAL_JSON_VALUE)
-    public ResponseEntity<ResponseDto> unfollow(@RequestBody FollowRequest request) {
+    public ResponseEntity<ResponseDto> unfollow(@Valid @RequestBody FollowRequest request) {
         FollowResponse response = followService.unfollow(request.getId(), request.getFollowerId());
 
         EntityModel<FollowResponse> entityModel = EntityModel.of(response,
