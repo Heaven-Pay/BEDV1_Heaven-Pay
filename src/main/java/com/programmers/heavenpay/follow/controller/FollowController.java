@@ -14,7 +14,9 @@ import io.swagger.annotations.ApiOperation;
 import io.swagger.models.HttpMethod;
 import lombok.RequiredArgsConstructor;
 import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
 import org.springframework.hateoas.EntityModel;
+import org.springframework.hateoas.Link;
 import org.springframework.hateoas.MediaTypes;
 import org.springframework.hateoas.server.mvc.WebMvcLinkBuilder;
 import org.springframework.http.ResponseEntity;
@@ -27,7 +29,7 @@ import static org.springframework.hateoas.server.mvc.WebMvcLinkBuilder.linkTo;
 @Api("Follow")
 @RestController
 @RequiredArgsConstructor
-@RequestMapping(value = "/api/v1/follows", produces = MediaTypes.HAL_JSON_VALUE)
+@RequestMapping(value = "/api/v1/follows", produces = MediaTypes.HAL_JSON_VALUE, consumes = MediaTypes.HAL_JSON_VALUE)
 public class FollowController {
     private final FollowService followService;
     private final ResponseConverter responseConverter;
@@ -37,14 +39,15 @@ public class FollowController {
     }
 
     @ApiOperation("친구 추가하기")
-    @PostMapping(consumes = MediaTypes.HAL_JSON_VALUE)
+    @PostMapping()
     public ResponseEntity<ResponseDto> follow(@Valid @RequestBody FollowRequest request) {
         FollowResponse response = followService.follow(request.getId(), request.getFollowerId());
 
         EntityModel<FollowResponse> entityModel = EntityModel.of(response,
                 getLinkToAddress().withSelfRel().withTitle(HttpMethod.POST.name()),
                 getLinkToAddress().withRel(LinkType.DELETE_METHOD).withType(HttpMethod.DELETE.name()),
-                getLinkToAddress().withRel(LinkType.READ_ALL_METHOD + "/FOLLOW").withType(HttpMethod.GET.name())
+                getLinkToAddress().withRel(LinkType.READ_ALL_METHOD + "-follow").withType(HttpMethod.GET.name()),
+                getLinkToAddress().withRel(LinkType.READ_ALL_METHOD + "-follower").withType(HttpMethod.GET.name())
         );
 
         return responseConverter.toResponseEntity(
@@ -54,14 +57,15 @@ public class FollowController {
     }
 
     @ApiOperation("친구 삭제하기")
-    @DeleteMapping(consumes = MediaTypes.HAL_JSON_VALUE)
+    @DeleteMapping()
     public ResponseEntity<ResponseDto> unfollow(@Valid @RequestBody FollowRequest request) {
         FollowResponse response = followService.unfollow(request.getId(), request.getFollowerId());
 
         EntityModel<FollowResponse> entityModel = EntityModel.of(response,
                 getLinkToAddress().withRel(LinkType.CREATE_METHOD).withType(HttpMethod.POST.name()),
                 getLinkToAddress().withSelfRel().withType(HttpMethod.DELETE.name()),
-                getLinkToAddress().withRel(LinkType.READ_ALL_METHOD + "/FOLLOW").withType(HttpMethod.GET.name())
+                getLinkToAddress().withRel(LinkType.READ_ALL_METHOD + "-follow").withType(HttpMethod.GET.name()),
+                getLinkToAddress().withRel(LinkType.READ_ALL_METHOD + "-follower").withType(HttpMethod.GET.name())
         );
 
         return responseConverter.toResponseEntity(
@@ -71,19 +75,30 @@ public class FollowController {
     }
 
     @ApiOperation("내가 팔로우한 사람 조회")
-    @GetMapping(value = "/follow", consumes = MediaTypes.HAL_JSON_VALUE)
-    public ResponseEntity<ResponseDto> getAllFollow(@Valid @RequestBody FollowFindRequest request) {
-        Page<FollowFindResponse> response = followService.findFollow(request.getMemberId());
+    @GetMapping(value = "/follow")
+    public ResponseEntity<ResponseDto> getAllFollow(@Valid @RequestBody FollowFindRequest request, Pageable pageable) {
+        Page<FollowFindResponse> response = followService.findFollow(request.getMemberId(), pageable);
 
-        EntityModel<Page<FollowFindResponse>> entityModel = EntityModel.of(response,
-                getLinkToAddress().withRel(LinkType.CREATE_METHOD).withType(HttpMethod.POST.name()),
-                getLinkToAddress().withRel(LinkType.DELETE_METHOD).withType(HttpMethod.DELETE.name()),
-                getLinkToAddress().withSelfRel().withType(HttpMethod.GET.name())
-        );
+        Link link = getLinkToAddress().withSelfRel().withType(HttpMethod.GET.name());
 
         return responseConverter.toResponseEntity(
                 ResponseMessage.FOLLOW_FIND_SUCCESS,
-                entityModel
+                response,
+                link
+        );
+    }
+
+    @ApiOperation("나를 팔로우한 사람 조회")
+    @GetMapping(value = "/follower")
+    public ResponseEntity<ResponseDto> getAllFollower(@Valid @RequestBody FollowFindRequest request, Pageable pageable) {
+        Page<FollowFindResponse> response = followService.findFollower(request.getMemberId(), pageable);
+
+        Link link = getLinkToAddress().withSelfRel().withType(HttpMethod.GET.name());
+
+        return responseConverter.toResponseEntity(
+                ResponseMessage.FOLLOWER_FIND_SUCCESS,
+                response,
+                link
         );
     }
 }

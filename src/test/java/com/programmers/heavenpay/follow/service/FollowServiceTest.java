@@ -10,6 +10,8 @@ import org.junit.jupiter.api.extension.ExtendWith;
 import org.mockito.InjectMocks;
 import org.mockito.Mock;
 import org.mockito.junit.jupiter.MockitoExtension;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
 
 import java.util.Optional;
 
@@ -29,6 +31,9 @@ class FollowServiceTest {
 
     @Mock
     private MemberRepository memberRepository;
+
+    @Mock
+    private Pageable pageable;
 
     private Member member = Member.builder()
             .id(MEMBER_ID)
@@ -50,6 +55,9 @@ class FollowServiceTest {
             .build();
 
     private Follow follow = new Follow(member, member);
+
+    @Mock
+    private Page<Follow> follows;
 
     @Test
     void 친구추가() {
@@ -79,11 +87,25 @@ class FollowServiceTest {
     void 내가_팔로우한_사람_목록_출력() {
         // when
         when(memberRepository.findById(MEMBER_ID)).thenReturn(Optional.of(member));
+        when(followRepository.findByToMember(member, pageable)).thenReturn(follows);
 
         // given
-        followService.findFollow(MEMBER_ID);
+        followService.findFollow(MEMBER_ID, pageable);
+        
+        // then
+        verify(followRepository).findByToMember(member, pageable);
+    }
+
+    @Test
+    void 나를_팔로우한_사람_목록_출력() {
+        // when
+        when(memberRepository.findById(MEMBER_ID)).thenReturn(Optional.of(member));
+        when(followRepository.findByFromMember(member, pageable)).thenReturn(follows);
+
+        // given
+        followService.findFollower(MEMBER_ID, pageable);
 
         // then
-        verify(followRepository).findByToMember(member);
+        verify(followRepository).findByFromMember(member, pageable);
     }
 }

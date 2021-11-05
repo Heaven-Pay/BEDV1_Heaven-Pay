@@ -20,7 +20,9 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.autoconfigure.web.servlet.WebMvcTest;
 import org.springframework.boot.test.mock.mockito.MockBean;
 import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
 import org.springframework.hateoas.EntityModel;
+import org.springframework.hateoas.Link;
 import org.springframework.hateoas.MediaTypes;
 import org.springframework.hateoas.server.mvc.WebMvcLinkBuilder;
 import org.springframework.http.ResponseEntity;
@@ -48,7 +50,13 @@ class FollowControllerTest {
     private FollowService followService;
 
     @MockBean
+    private Pageable pageable;
+
+    @MockBean
     private ResponseConverter responseConverter;
+
+    @MockBean
+    private Page<FollowFindResponse> followFindResponses;
 
     private WebMvcLinkBuilder getLinkToAddress() {
         return linkTo(FollowController.class);
@@ -60,15 +68,14 @@ class FollowControllerTest {
 
     private FollowFindRequest followFindRequest = new FollowFindRequest(MEMBER_ID);
 
-    @Mock
-    private Page<FollowFindResponse> followFindResponses;
-
     @Test
     void 친구추가() throws Exception {
         // given
         EntityModel<FollowResponse> entityModel = EntityModel.of(response,
                 getLinkToAddress().withSelfRel().withTitle(HttpMethod.POST.name()),
-                getLinkToAddress().withRel(LinkType.DELETE_METHOD).withType(HttpMethod.DELETE.name())
+                getLinkToAddress().withRel(LinkType.DELETE_METHOD).withType(HttpMethod.DELETE.name()),
+                getLinkToAddress().withRel(LinkType.READ_ALL_METHOD + "-follow").withType(HttpMethod.GET.name()),
+                getLinkToAddress().withRel(LinkType.READ_ALL_METHOD + "-follower").withType(HttpMethod.GET.name())
         );
 
         // when
@@ -90,7 +97,10 @@ class FollowControllerTest {
         // given
         EntityModel<FollowResponse> entityModel = EntityModel.of(response,
                 getLinkToAddress().withRel(LinkType.CREATE_METHOD).withType(HttpMethod.POST.name()),
-                getLinkToAddress().withSelfRel().withType(HttpMethod.DELETE.name()));
+                getLinkToAddress().withSelfRel().withType(HttpMethod.DELETE.name()),
+                getLinkToAddress().withRel(LinkType.READ_ALL_METHOD + "-follow").withType(HttpMethod.GET.name()),
+                getLinkToAddress().withRel(LinkType.READ_ALL_METHOD + "-follower").withType(HttpMethod.GET.name())
+        );
 
         // when
         when(followService.unfollow(MEMBER_ID, FOLLOWER_ID)).thenReturn(response);
@@ -109,19 +119,34 @@ class FollowControllerTest {
     @Test
     void 내가_팔로우한_사람_목록_출력() throws Exception {
         // given
-        EntityModel<Page<FollowFindResponse>> entityModel = EntityModel.of(followFindResponses,
-                getLinkToAddress().withRel(LinkType.CREATE_METHOD).withType(HttpMethod.POST.name()),
-                getLinkToAddress().withRel(LinkType.DELETE_METHOD).withType(HttpMethod.DELETE.name()),
-                getLinkToAddress().withSelfRel().withType(HttpMethod.GET.name())
-        );
+        Link link = getLinkToAddress().withSelfRel().withType(HttpMethod.GET.name());
 
         // when
-        when(followService.findFollow(MEMBER_ID)).thenReturn(followFindResponses);
-        when(responseConverter.toResponseEntity(ResponseMessage.FOLLOW_FIND_SUCCESS, entityModel))
-                .thenReturn(ResponseEntity.ok(ResponseDto.of(ResponseMessage.FOLLOW_FIND_SUCCESS, entityModel)));
+        when(followService.findFollower(MEMBER_ID, pageable)).thenReturn(followFindResponses);
+        when(responseConverter.toResponseEntity(ResponseMessage.FOLLOW_FIND_SUCCESS, followFindResponses, link))
+                .thenReturn(ResponseEntity.ok(ResponseDto.of(ResponseMessage.FOLLOW_FIND_SUCCESS, followFindResponses, link)));
 
         // then
         mockMvc.perform(get("/api/v1/follows/follow")
+                        .contentType(MediaTypes.HAL_JSON_VALUE)
+                        .accept(MediaTypes.HAL_JSON_VALUE)
+                        .content(objectMapper.writeValueAsString(followFindRequest)))
+                .andExpect(status().isOk())
+                .andDo(print());
+    }
+
+    @Test
+    void 나를_팔로우한_사람_목록_출력() throws Exception {
+        // given
+        Link link = getLinkToAddress().withSelfRel().withType(HttpMethod.GET.name());
+
+        // when
+        when(followService.findFollower(MEMBER_ID, pageable)).thenReturn(followFindResponses);
+        when(responseConverter.toResponseEntity(ResponseMessage.FOLLOWER_FIND_SUCCESS, followFindResponses, link))
+                .thenReturn(ResponseEntity.ok(ResponseDto.of(ResponseMessage.FOLLOWER_FIND_SUCCESS, followFindResponses, link)));
+
+        // then
+        mockMvc.perform(get("/api/v1/follows/follower")
                         .contentType(MediaTypes.HAL_JSON_VALUE)
                         .accept(MediaTypes.HAL_JSON_VALUE)
                         .content(objectMapper.writeValueAsString(followFindRequest)))

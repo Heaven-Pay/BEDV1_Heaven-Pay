@@ -11,6 +11,7 @@ import com.programmers.heavenpay.member.entity.Member;
 import com.programmers.heavenpay.member.repository.MemberRepository;
 import lombok.RequiredArgsConstructor;
 import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -51,12 +52,27 @@ public class FollowService {
     }
 
     @Transactional
-    public Page<FollowFindResponse> findFollow(Long memberId) {
+    public Page<FollowFindResponse> findFollow(Long memberId, Pageable pageable) {
         Member member = memberRepository.findById(memberId)
                 .orElseThrow(
                         () -> new NotExistsException(ErrorMessage.NOT_EXIST_MEMBER_ID)
                 );
-        return followRepository.findByToMember(member)
+        return followRepository.findByToMember(member, pageable)
+                .map(
+                        follow -> new FollowFindResponse(
+                                follow.getFromMember().getId(),
+                                follow.getFromMember().getName()
+                        )
+                );
+    }
+
+    @Transactional
+    public Page<FollowFindResponse> findFollower(Long memberId, Pageable pageable) {
+        Member member = memberRepository.findById(memberId)
+                .orElseThrow(
+                        () -> new NotExistsException(ErrorMessage.NOT_EXIST_MEMBER_ID)
+                );
+        return followRepository.findByFromMember(member, pageable)
                 .map(
                         follow -> new FollowFindResponse(
                                 follow.getFromMember().getId(),
