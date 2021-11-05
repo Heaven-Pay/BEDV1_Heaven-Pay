@@ -27,7 +27,9 @@ public enum ErrorMessage {
     NOT_EXIST_ORDER(HttpStatus.NOT_FOUND, "존재하지 않는 주문"),
     NOT_EXIST_REVIEW(HttpStatus.NOT_FOUND, "존재하지 않는 리뷰 ID"),
     NOT_EXIST_PRODUCT_ID(HttpStatus.NOT_FOUND, "존재하지 않는 상품 ID"),
-    NOT_EXIST_POINT_WALLET_ID(HttpStatus.NOT_FOUND, "존재하지 않는 포인트 지갑 ID");
+    NOT_EXIST_POINT_WALLET_ID(HttpStatus.NOT_FOUND, "존재하지 않는 포인트 지갑 ID"),
+    NOT_EXIST_PAYMENT(HttpStatus.NOT_FOUND, "존재하지 않는 결제 ID"),
+    NOT_ENOUGH_POINT(HttpStatus.PRECONDITION_FAILED, "금액이 부족합니다");
 
     private final HttpStatus status;
     private final String message;
