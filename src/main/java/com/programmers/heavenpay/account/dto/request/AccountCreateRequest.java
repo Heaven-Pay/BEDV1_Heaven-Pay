@@ -4,12 +4,14 @@ import com.programmers.heavenpay.annotation.ArbitraryAuthenticationPrincipal;
 import lombok.*;
 
 import javax.validation.constraints.NotBlank;
+import javax.validation.constraints.NotNull;
 import javax.validation.constraints.Pattern;
 
 @Getter
 @NoArgsConstructor(access = AccessLevel.PROTECTED)
 @AllArgsConstructor
 public class AccountCreateRequest {
+    @NotNull(message = "아이디를 입력하세요.")
     @ArbitraryAuthenticationPrincipal
     private Long memberId;
 
@@ -22,6 +24,6 @@ public class AccountCreateRequest {
     @NotBlank(message = "계좌 번호는 공백이 될 수 없습니다")
     private String number;
 
-    @NonNull
+    @NotNull(message = "아이디를 입력하세요.")
     private Long financeId;
 }

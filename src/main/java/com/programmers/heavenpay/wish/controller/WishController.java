@@ -19,7 +19,6 @@ import org.springframework.hateoas.Link;
 import org.springframework.hateoas.MediaTypes;
 import org.springframework.hateoas.server.mvc.WebMvcLinkBuilder;
 import org.springframework.http.HttpMethod;
-import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
@@ -30,7 +29,7 @@ import static org.springframework.hateoas.server.mvc.WebMvcLinkBuilder.linkTo;
 @RestController
 @RequiredArgsConstructor
 @RequestMapping(value = "/api/v1", produces = MediaTypes.HAL_JSON_VALUE)
-@Api(value = "Wish API")
+@Api(tags = "Wish")
 public class WishController {
     private final WishService wishService;
     private final ResponseConverter responseConverter;

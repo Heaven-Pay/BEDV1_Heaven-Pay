@@ -13,7 +13,7 @@ import javax.persistence.*;
 @AllArgsConstructor
 public class Member extends BaseEntity<Long> {
     @Id
-    @GeneratedValue(strategy= GenerationType.AUTO)
+    @GeneratedValue(strategy = GenerationType.AUTO)
     @Column(name = "member_id", unique = true, nullable = false)
     private Long id;
 

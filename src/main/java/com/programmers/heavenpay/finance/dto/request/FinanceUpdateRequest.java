@@ -10,6 +10,7 @@ import javax.validation.constraints.Pattern;
 @NoArgsConstructor(access = AccessLevel.PROTECTED)
 @AllArgsConstructor
 public class FinanceUpdateRequest {
+    @NotNull(message = "아이디를 입력하세요.")
     @ArbitraryAuthenticationPrincipal
     private Long memberId;
 

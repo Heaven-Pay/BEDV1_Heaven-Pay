@@ -44,25 +44,25 @@ class PointWalletServiceTest {
     private static final Long FINANCE_ID = 1L;
 
     @InjectMocks
-    PointWalletService pointWalletService;
+    private PointWalletService pointWalletService;
 
     @Mock
-    PointWalletRepository pointWalletRepository;
+    private PointWalletRepository pointWalletRepository;
 
     @Mock
-    MemberRepository memberRepository;
+    private MemberRepository memberRepository;
 
     @Mock
-    AccountRepository accountRepository;
+    private AccountRepository accountRepository;
 
     @Mock
-    PointWalletConverter converter;
+    private PointWalletConverter converter;
 
     @Mock
-    Pageable pageable;
+    private Pageable pageable;
 
     @Mock
-    Page<PointWallet> pointWallets;
+    private Page<PointWallet> pointWallets;
 
     private PointWallet pointWallet = PointWallet.builder()
             .id(POINT_WALLET_ID)
