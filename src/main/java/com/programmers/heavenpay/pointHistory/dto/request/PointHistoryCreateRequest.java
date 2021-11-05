@@ -7,6 +7,8 @@ import lombok.Getter;
 import lombok.NoArgsConstructor;
 
 import javax.validation.constraints.Pattern;
+import javax.validation.constraints.Positive;
+import java.lang.annotation.Native;
 
 @Getter
 @NoArgsConstructor(access = AccessLevel.PROTECTED)
@@ -21,5 +23,7 @@ public class PointHistoryCreateRequest {
     @Pattern(regexp = "^.{0,100}$", message = "설명은 100자 내이어야 합니다.")
     private String description;
 
+    @Positive()
+    @Native()
     private Integer usePoint;
 }

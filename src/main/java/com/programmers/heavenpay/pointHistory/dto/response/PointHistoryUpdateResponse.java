@@ -8,7 +8,7 @@ import lombok.Getter;
 @Getter
 public class PointHistoryUpdateResponse {
     private final Long id;
-    private UsedAppType usedApp;
-    private String description;
-    private Integer usePoint;
+    private final UsedAppType usedApp;
+    private final String description;
+    private final Integer usePoint;
 }

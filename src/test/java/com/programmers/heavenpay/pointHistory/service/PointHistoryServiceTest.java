@@ -36,31 +36,31 @@ class PointHistoryServiceTest {
     private static final GenderType GENDER = GenderType.MALE;
 
     @InjectMocks
-    PointHistoryService pointHistoryService;
+    private PointHistoryService pointHistoryService;
 
     @Mock
-    PointHistoryRepository pointHistoryRepository;
+    private PointHistoryRepository pointHistoryRepository;
 
     @Mock
-    MemberRepository memberRepository;
+    private MemberRepository memberRepository;
 
     @Mock
-    PointHistoryConverter converter;
+    private PointHistoryConverter converter;
 
     @Mock
-    Pageable pageable;
+    private Pageable pageable;
 
     @Mock
-    Page<PointHistory> pages;
+    private Page<PointHistory> pages;
 
-    PointHistory pointHistory = PointHistory.builder()
+    private PointHistory pointHistory = PointHistory.builder()
             .id(POINT_HISTORY_ID)
             .usedApp(USED_APP_TYPE)
             .description(DESCRIPTION)
             .usePoint(USE_POINT)
             .build();
 
-    Member member = Member.builder()
+    private Member member = Member.builder()
             .id(MEMBER_ID)
             .email(EMAIL)
             .name(NAME)
@@ -69,7 +69,7 @@ class PointHistoryServiceTest {
             .gender(GENDER)
             .build();
 
-    PointHistoryGetOneResponse getOneResponse = PointHistoryGetOneResponse.builder()
+    private PointHistoryGetOneResponse getOneResponse = PointHistoryGetOneResponse.builder()
             .id(POINT_HISTORY_ID)
             .usedApp(USED_APP_TYPE)
             .description(DESCRIPTION)
