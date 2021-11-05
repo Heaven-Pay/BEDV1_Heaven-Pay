@@ -6,5 +6,5 @@ import lombok.Getter;
 @Builder
 @Getter
 public class ProductDeleteResponse {
-    private Long id;
+    private final Long id;
 }
