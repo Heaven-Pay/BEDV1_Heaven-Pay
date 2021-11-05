@@ -74,4 +74,16 @@ class FollowServiceTest {
         // then
         verify(followRepository).deleteByToMemberAndFromMember(member, member);
     }
+
+    @Test
+    void 내가_팔로우한_사람_목록_출력() {
+        // when
+        when(memberRepository.findById(MEMBER_ID)).thenReturn(Optional.of(member));
+
+        // given
+        followService.findFollow(MEMBER_ID);
+
+        // then
+        verify(followRepository).findByToMember(member);
+    }
 }

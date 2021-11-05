@@ -43,4 +43,12 @@ public class Follow extends BaseEntity<Long> {
     public int hashCode() {
         return Objects.hash(id, toMember, fromMember);
     }
+
+    public Long getId() {
+        return id;
+    }
+
+    public Member getFromMember() {
+        return fromMember;
+    }
 }

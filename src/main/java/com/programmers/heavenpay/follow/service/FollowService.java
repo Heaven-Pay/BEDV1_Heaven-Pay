@@ -2,6 +2,7 @@ package com.programmers.heavenpay.follow.service;
 
 import com.programmers.heavenpay.error.ErrorMessage;
 import com.programmers.heavenpay.error.exception.NotExistsException;
+import com.programmers.heavenpay.follow.dto.response.FollowFindResponse;
 import com.programmers.heavenpay.follow.dto.response.FollowResponse;
 import com.programmers.heavenpay.follow.entity.Follow;
 import com.programmers.heavenpay.follow.entity.vo.FollowStatus;
@@ -9,6 +10,7 @@ import com.programmers.heavenpay.follow.repository.FollowRepository;
 import com.programmers.heavenpay.member.entity.Member;
 import com.programmers.heavenpay.member.repository.MemberRepository;
 import lombok.RequiredArgsConstructor;
+import org.springframework.data.domain.Page;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -46,5 +48,20 @@ public class FollowService {
                 );
         followRepository.deleteByToMemberAndFromMember(member, follower);
         return new FollowResponse(FollowStatus.UNFOLLOWING, follower.getName());
+    }
+
+    @Transactional
+    public Page<FollowFindResponse> findFollow(Long memberId) {
+        Member member = memberRepository.findById(memberId)
+                .orElseThrow(
+                        () -> new NotExistsException(ErrorMessage.NOT_EXIST_MEMBER_ID)
+                );
+        return followRepository.findByToMember(member)
+                .map(
+                        follow -> new FollowFindResponse(
+                                follow.getFromMember().getId(),
+                                follow.getFromMember().getName()
+                        )
+                );
     }
 }

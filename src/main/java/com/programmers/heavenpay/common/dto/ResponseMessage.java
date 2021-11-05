@@ -40,7 +40,8 @@ public enum ResponseMessage {
     REVIEW_SEARCH_SUCCESS(HttpStatus.OK, "review 단건 조회 성공"),
     REVIEW_UPDATE_SUCCESS(HttpStatus.OK, "review 수정 성공"),
     FOLLOW_SUCCESS(HttpStatus.OK, "팔로잉 성공"),
-    UNFOLLOW_SUCCESS(HttpStatus.OK, "언팔로잉 성공");
+    UNFOLLOW_SUCCESS(HttpStatus.OK, "언팔로잉 성공"),
+    FOLLOW_FIND_SUCCESS(HttpStatus.OK, "팔로우 조회 성공");
 
     private final HttpStatus status;
     private final String message;

@@ -4,13 +4,16 @@ import com.programmers.heavenpay.common.converter.ResponseConverter;
 import com.programmers.heavenpay.common.dto.LinkType;
 import com.programmers.heavenpay.common.dto.ResponseDto;
 import com.programmers.heavenpay.common.dto.ResponseMessage;
+import com.programmers.heavenpay.follow.dto.request.FollowFindRequest;
 import com.programmers.heavenpay.follow.dto.request.FollowRequest;
+import com.programmers.heavenpay.follow.dto.response.FollowFindResponse;
 import com.programmers.heavenpay.follow.dto.response.FollowResponse;
 import com.programmers.heavenpay.follow.service.FollowService;
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiOperation;
 import io.swagger.models.HttpMethod;
 import lombok.RequiredArgsConstructor;
+import org.springframework.data.domain.Page;
 import org.springframework.hateoas.EntityModel;
 import org.springframework.hateoas.MediaTypes;
 import org.springframework.hateoas.server.mvc.WebMvcLinkBuilder;
@@ -40,7 +43,8 @@ public class FollowController {
 
         EntityModel<FollowResponse> entityModel = EntityModel.of(response,
                 getLinkToAddress().withSelfRel().withTitle(HttpMethod.POST.name()),
-                getLinkToAddress().withRel(LinkType.DELETE_METHOD).withType(HttpMethod.DELETE.name())
+                getLinkToAddress().withRel(LinkType.DELETE_METHOD).withType(HttpMethod.DELETE.name()),
+                getLinkToAddress().withRel(LinkType.READ_ALL_METHOD + "/FOLLOW").withType(HttpMethod.GET.name())
         );
 
         return responseConverter.toResponseEntity(
@@ -56,11 +60,29 @@ public class FollowController {
 
         EntityModel<FollowResponse> entityModel = EntityModel.of(response,
                 getLinkToAddress().withRel(LinkType.CREATE_METHOD).withType(HttpMethod.POST.name()),
-                getLinkToAddress().withSelfRel().withType(HttpMethod.DELETE.name())
+                getLinkToAddress().withSelfRel().withType(HttpMethod.DELETE.name()),
+                getLinkToAddress().withRel(LinkType.READ_ALL_METHOD + "/FOLLOW").withType(HttpMethod.GET.name())
         );
 
         return responseConverter.toResponseEntity(
                 ResponseMessage.UNFOLLOW_SUCCESS,
+                entityModel
+        );
+    }
+
+    @ApiOperation("내가 팔로우한 사람 조회")
+    @GetMapping(value = "/follow", consumes = MediaTypes.HAL_JSON_VALUE)
+    public ResponseEntity<ResponseDto> getAllFollow(@Valid @RequestBody FollowFindRequest request) {
+        Page<FollowFindResponse> response = followService.findFollow(request.getMemberId());
+
+        EntityModel<Page<FollowFindResponse>> entityModel = EntityModel.of(response,
+                getLinkToAddress().withRel(LinkType.CREATE_METHOD).withType(HttpMethod.POST.name()),
+                getLinkToAddress().withRel(LinkType.DELETE_METHOD).withType(HttpMethod.DELETE.name()),
+                getLinkToAddress().withSelfRel().withType(HttpMethod.GET.name())
+        );
+
+        return responseConverter.toResponseEntity(
+                ResponseMessage.FOLLOW_FIND_SUCCESS,
                 entityModel
         );
     }
