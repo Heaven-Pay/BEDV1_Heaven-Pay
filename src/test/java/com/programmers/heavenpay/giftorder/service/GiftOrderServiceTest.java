@@ -26,6 +26,7 @@ import static org.mockito.Mockito.when;
 @ExtendWith(MockitoExtension.class)
 class GiftOrderServiceTest {
     private Long memberId = 1L;
+    private Long targetMemberId = 4L;
     private Long productId = 2L;
     private int quantity = 3;
     private Long giftOrderId = 3L;
@@ -54,7 +55,9 @@ class GiftOrderServiceTest {
 
     Member member = Member.builder().build();
 
-    Product product = Product.builder().build();
+    Member targetMember = Member.builder().build();
+
+    Product product = Product.builder().stock(3).build();
 
     GiftOrder giftOrder = GiftOrder.builder().build();
 
@@ -72,18 +75,20 @@ class GiftOrderServiceTest {
     void 주문_신규생성_성공_테스트() {
         // given
         when(memberRepository.findById(memberId)).thenReturn(Optional.of(member));
+        when(memberRepository.findById(targetMemberId)).thenReturn(Optional.of(targetMember));
         when(productRepository.findById(productId)).thenReturn(Optional.of(product));
-        when(giftOrderConverter.toGiftOrderEntity(quantity, member, product)).thenReturn(giftOrder);
+        when(giftOrderConverter.toGiftOrderEntity(quantity, member, targetMember, product)).thenReturn(giftOrder);
         when(giftOrderRepository.save(giftOrder)).thenReturn(giftOrderEntity);
         when(giftOrderConverter.toGiftOrderCreateResponse(giftOrderEntity)).thenReturn(giftOrderCreateResponse);
 
         // when
-        giftOrderService.create(quantity, memberId, productId);
+        giftOrderService.create(quantity, memberId, targetMemberId, productId);
 
         // then
         verify(memberRepository).findById(memberId);
+        verify(memberRepository).findById(targetMemberId);
         verify(productRepository).findById(productId);
-        verify(giftOrderConverter).toGiftOrderEntity(quantity, member, product);
+        verify(giftOrderConverter).toGiftOrderEntity(quantity, member, targetMember, product);
         verify(giftOrderRepository).save(giftOrder);
         verify(giftOrderConverter).toGiftOrderCreateResponse(giftOrderEntity);
     }

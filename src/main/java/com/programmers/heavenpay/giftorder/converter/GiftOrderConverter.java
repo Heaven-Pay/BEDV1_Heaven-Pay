@@ -18,12 +18,13 @@ public class GiftOrderConverter {
                 .build();
     }
 
-    public GiftOrder toGiftOrderEntity(int quantity, Member member, Product product) {
+    public GiftOrder toGiftOrderEntity(int quantity, Member member, Member targetMember, Product product) {
         return GiftOrder.builder()
                 .quantity(quantity)
                 .giftOrderStatus(GiftOrderStatus.PAYMENT)
                 .member(member)
                 .product(product)
+                .tMember(targetMember)
                 .build();
     }
 

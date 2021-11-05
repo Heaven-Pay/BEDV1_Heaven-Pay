@@ -32,6 +32,10 @@ public class GiftOrder extends BaseEntity<Long> {
     private Member member;
 
     @ManyToOne(fetch = FetchType.LAZY)
+    @JoinColumn(name = "tMember_id", referencedColumnName = "member_id", nullable = false)
+    private Member tMember;
+
+    @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "product_id", referencedColumnName = "product_id", nullable = false)
     private Product product;
 

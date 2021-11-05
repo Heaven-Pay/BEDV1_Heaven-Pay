@@ -15,5 +15,8 @@ public class GiftOrderCreateRequest {
     private Long memberId;
 
     @Min(value = 1L)
+    private Long targetMemberId;
+
+    @Min(value = 1L)
     private Long produtId;
 }

@@ -27,15 +27,20 @@ public class GiftOrderService {
     private final ProductRepository productRepository;
 
     @Transactional
-    public GiftOrderCreateResponse create(int quantity, Long memberId, Long productId) {
+    public GiftOrderCreateResponse create(int quantity, Long memberId, Long targetMemberId, Long productId) {
         Member member = memberRepository.findById(memberId)
                 .orElseThrow(() -> new NotExistsException(ErrorMessage.NOT_EXIST_MEMBER_ID));
+
+        Member targetMember = memberRepository.findById(targetMemberId)
+                .orElseThrow(() -> new NotExistsException(ErrorMessage.NOT_EXIST_TARGET_MEMBER_ID));
 
         Product product = productRepository.findById(productId)
                 .orElseThrow(() -> new NotExistsException(ErrorMessage.NOT_EXIST_PRODUCT));
 
-        GiftOrder giftOrder = giftOrderConverter.toGiftOrderEntity(quantity, member, product);
+        GiftOrder giftOrder = giftOrderConverter.toGiftOrderEntity(quantity, member, targetMember, product);
         GiftOrder giftOrderEntity = giftOrderRepository.save(giftOrder);
+
+        product.subtractStock();
 
         return giftOrderConverter.toGiftOrderCreateResponse(giftOrderEntity);
     }

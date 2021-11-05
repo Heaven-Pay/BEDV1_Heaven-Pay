@@ -41,6 +41,7 @@ import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.
 @WebMvcTest(GiftOrderController.class)
 class GiftOrderControllerTest {
     private Long memberId = 1L;
+    private Long targetMemberId = 4L;
     private Long productId = 2L;
     private int quantity = 3;
     private Long giftOrderId = 3L;
@@ -68,6 +69,7 @@ class GiftOrderControllerTest {
     private GiftOrderCreateRequest giftOrderCreateRequest = GiftOrderCreateRequest.builder()
             .memberId(memberId)
             .produtId(productId)
+            .targetMemberId(targetMemberId)
             .quantity(quantity)
             .build();
 
@@ -112,7 +114,7 @@ class GiftOrderControllerTest {
         );
 
         //when
-        when(giftOrderService.create(quantity, memberId, productId))
+        when(giftOrderService.create(quantity, memberId, targetMemberId, productId))
                 .thenReturn(giftOrderCreateResponse);
         when(responseConverter.toResponseEntity(ResponseMessage.GIFT_ORDER_INSERT_SUCCESS, entityModel))
                 .thenReturn(ResponseEntity.ok(ResponseDto.of(ResponseMessage.GIFT_ORDER_INSERT_SUCCESS, entityModel)));

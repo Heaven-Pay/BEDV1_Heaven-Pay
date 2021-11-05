@@ -42,7 +42,7 @@ public class GiftOrderController {
     @ApiOperation("Gift Order 신규 추가, 성공시 생성된 Gift Order ID 반환")
     @PostMapping(value = "/gift_orders", consumes = MediaTypes.HAL_JSON_VALUE)
     public ResponseEntity<ResponseDto> insert(@Valid @RequestBody GiftOrderCreateRequest request) {
-        GiftOrderCreateResponse response = giftOrderService.create(request.getQuantity(), request.getMemberId(), request.getProdutId());
+        GiftOrderCreateResponse response = giftOrderService.create(request.getQuantity(), request.getMemberId(), request.getTargetMemberId(), request.getProdutId());
 
         EntityModel<GiftOrderCreateResponse> entityModel = EntityModel.of(
                 response,
