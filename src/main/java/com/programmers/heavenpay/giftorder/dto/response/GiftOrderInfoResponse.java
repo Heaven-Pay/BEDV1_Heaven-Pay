@@ -1,4 +1,4 @@
-package com.programmers.heavenpay.order.dto.response;
+package com.programmers.heavenpay.giftorder.dto.response;
 
 import lombok.Builder;
 import lombok.Getter;
@@ -7,7 +7,7 @@ import java.time.LocalDateTime;
 
 @Builder
 @Getter
-public class OrderInfoResponse {
+public class GiftOrderInfoResponse {
     private final Long id;
 
     private final int quantity;

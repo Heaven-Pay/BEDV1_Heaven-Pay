@@ -1,4 +1,4 @@
-package com.programmers.heavenpay.order.dto.request;
+package com.programmers.heavenpay.giftorder.dto.request;
 
 import lombok.Builder;
 import lombok.Getter;
@@ -7,7 +7,7 @@ import javax.validation.constraints.Min;
 
 @Builder
 @Getter
-public class OrderCreateRequest {
+public class GiftOrderCreateRequest {
     @Min(value = 1)
     private int quantity;
 
