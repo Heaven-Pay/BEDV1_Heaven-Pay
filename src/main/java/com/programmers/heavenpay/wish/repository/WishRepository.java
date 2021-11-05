@@ -13,10 +13,10 @@ public interface WishRepository extends JpaRepository<Wish, Long> {
     <S extends Wish> S save(S entity);
 
     @Override
-    Optional<Wish> findById(Long aLong);
+    Optional<Wish> findById(Long wishId);
 
     @Override
-    void deleteById(Long aLong);
+    void deleteById(Long wishId);
 
     Page<Wish> findAllByMember(Member member, Pageable pageable);
 }

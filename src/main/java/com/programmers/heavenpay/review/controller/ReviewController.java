@@ -32,7 +32,7 @@ import static org.springframework.hateoas.server.mvc.WebMvcLinkBuilder.linkTo;
 @RestController
 @RequiredArgsConstructor
 @RequestMapping(value = "/api/v1", produces = MediaTypes.HAL_JSON_VALUE)
-@Api(value = "Review API")
+@Api(tags = "Review")
 public class ReviewController {
     private final ReviewService reviewService;
     private final ResponseConverter responseConverter;
