@@ -7,7 +7,7 @@ import com.programmers.heavenpay.common.dto.ResponseDto;
 import com.programmers.heavenpay.common.dto.ResponseMessage;
 import com.programmers.heavenpay.pointWallet.dto.request.PointWalletCreateRequest;
 import com.programmers.heavenpay.pointWallet.dto.request.PointWalletDeleteRequest;
-import com.programmers.heavenpay.pointWallet.dto.request.PointWalletGetRequest;
+import com.programmers.heavenpay.pointWallet.dto.request.PointWalletGetOneRequest;
 import com.programmers.heavenpay.pointWallet.dto.request.PointWalletUpdateRequest;
 import com.programmers.heavenpay.pointWallet.dto.response.PointWalletCreateResponse;
 import com.programmers.heavenpay.pointWallet.dto.response.PointWalletDeleteResponse;
@@ -68,7 +68,7 @@ class PointWalletControllerTest {
             .id(POINT_WALLET_ID)
             .build();
 
-    private PointWalletGetRequest pointWalletGetRequest = new PointWalletGetRequest(MEMBER_ID, ACCOUNT_ID);
+    private PointWalletGetOneRequest pointWalletGetRequest = new PointWalletGetOneRequest(MEMBER_ID, ACCOUNT_ID);
 
     private PointWalletGetOneResponse pointWalletGetOneResponse = PointWalletGetOneResponse.builder()
             .id(POINT_WALLET_ID)
@@ -186,8 +186,8 @@ class PointWalletControllerTest {
         // when
         when(pointWalletService.getOne(POINT_WALLET_ID, MEMBER_ID, ACCOUNT_ID))
                 .thenReturn(pointWalletGetOneResponse);
-        when(responseConverter.toResponseEntity(ResponseMessage.POINT_WALLET_SEARCH_SUCCESS, entityModel))
-                .thenReturn(ResponseEntity.ok(ResponseDto.of(ResponseMessage.POINT_WALLET_SEARCH_SUCCESS, entityModel)));
+        when(responseConverter.toResponseEntity(ResponseMessage.POINT_WALLET_READ_ONE_SUCCESS, entityModel))
+                .thenReturn(ResponseEntity.ok(ResponseDto.of(ResponseMessage.POINT_WALLET_READ_ONE_SUCCESS, entityModel)));
 
         // then
         mockMvc.perform(get("/api/v1/point_wallets/{pointWalletId}", POINT_WALLET_ID)
@@ -205,8 +205,8 @@ class PointWalletControllerTest {
 
         // when
         when(pointWalletService.getAll(pageable)).thenReturn(pointWalletGetOneResponses);
-        when(responseConverter.toResponseEntity(ResponseMessage.POINT_WALLET_SEARCH_SUCCESS, pointWalletGetOneResponses, link))
-                .thenReturn(ResponseEntity.ok(ResponseDto.of(ResponseMessage.POINT_WALLET_SEARCH_SUCCESS, pointWalletGetOneResponses, link)));
+        when(responseConverter.toResponseEntity(ResponseMessage.POINT_WALLET_READ_ONE_SUCCESS, pointWalletGetOneResponses, link))
+                .thenReturn(ResponseEntity.ok(ResponseDto.of(ResponseMessage.POINT_WALLET_READ_ONE_SUCCESS, pointWalletGetOneResponses, link)));
 
         // then
         mockMvc.perform(get("/api/v1/point_wallets")

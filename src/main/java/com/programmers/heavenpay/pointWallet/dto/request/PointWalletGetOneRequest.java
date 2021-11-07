@@ -11,7 +11,7 @@ import javax.validation.constraints.NotNull;
 @Getter
 @NoArgsConstructor(access = AccessLevel.PROTECTED)
 @AllArgsConstructor
-public class PointWalletGetRequest {
+public class PointWalletGetOneRequest {
     @NotNull(message = "고객 아이디를 입력하세요.")
     @ArbitraryAuthenticationPrincipal
     private Long memberId;
