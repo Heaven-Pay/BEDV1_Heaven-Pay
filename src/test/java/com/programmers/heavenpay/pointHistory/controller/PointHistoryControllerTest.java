@@ -8,7 +8,7 @@ import com.programmers.heavenpay.common.dto.ResponseMessage;
 import com.programmers.heavenpay.member.entity.vo.GenderType;
 import com.programmers.heavenpay.pointHistory.dto.request.PointHistoryCreateRequest;
 import com.programmers.heavenpay.pointHistory.dto.request.PointHistoryDeleteRequest;
-import com.programmers.heavenpay.pointHistory.dto.request.PointHistoryGetRequest;
+import com.programmers.heavenpay.pointHistory.dto.request.PointHistoryGetOneRequest;
 import com.programmers.heavenpay.pointHistory.dto.request.PointHistoryUpdateRequest;
 import com.programmers.heavenpay.pointHistory.dto.response.PointHistoryCreateResponse;
 import com.programmers.heavenpay.pointHistory.dto.response.PointHistoryDeleteResponse;
@@ -77,7 +77,7 @@ class PointHistoryControllerTest {
     // request
     PointHistoryCreateRequest pointHistoryCreateRequest = new PointHistoryCreateRequest(MEMBER_ID, USED_APP_TYPE.getTypeStr(), DESCRIPTION, USE_POINT);
     PointHistoryUpdateRequest pointHistoryUpdateRequest = new PointHistoryUpdateRequest(MEMBER_ID, DESCRIPTION, USE_POINT);
-    PointHistoryGetRequest pointHistoryGetRequest = new PointHistoryGetRequest(MEMBER_ID);
+    PointHistoryGetOneRequest pointHistoryGetRequest = new PointHistoryGetOneRequest(MEMBER_ID);
     PointHistoryDeleteRequest pointHistoryDeleteRequest = new PointHistoryDeleteRequest(MEMBER_ID);
 
     // response
@@ -120,8 +120,8 @@ class PointHistoryControllerTest {
         // when
         when(pointHistoryService.create(MEMBER_ID, USED_APP_TYPE.getTypeStr(), DESCRIPTION, USE_POINT))
                 .thenReturn(pointHistoryCreateResponse);
-        when(responseConverter.toResponseEntity(ResponseMessage.POINT_HISTORY_INSERT_SUCCESS, entityModel))
-                .thenReturn(ResponseEntity.ok(ResponseDto.of(ResponseMessage.POINT_HISTORY_INSERT_SUCCESS, entityModel)));
+        when(responseConverter.toResponseEntity(ResponseMessage.POINT_HISTORY_CREATE_SUCCESS, entityModel))
+                .thenReturn(ResponseEntity.ok(ResponseDto.of(ResponseMessage.POINT_HISTORY_CREATE_SUCCESS, entityModel)));
 
         // then
         mockMvc.perform(post("/api/v1/point_histories")
@@ -195,8 +195,8 @@ class PointHistoryControllerTest {
         // when
         when(pointHistoryService.getOne(POINT_HISTORY_ID, MEMBER_ID))
                 .thenReturn(pointHistoryGetOneResponse);
-        when(responseConverter.toResponseEntity(ResponseMessage.POINT_HISTORY_FIND_SUCCESS, entityModel))
-                .thenReturn(ResponseEntity.ok(ResponseDto.of(ResponseMessage.POINT_HISTORY_FIND_SUCCESS, entityModel)));
+        when(responseConverter.toResponseEntity(ResponseMessage.POINT_HISTORY_READ_ONE_SUCCESS, entityModel))
+                .thenReturn(ResponseEntity.ok(ResponseDto.of(ResponseMessage.POINT_HISTORY_READ_ONE_SUCCESS, entityModel)));
 
         // then
         mockMvc.perform(get("/api/v1/point_histories/{pointHistoryId}", POINT_HISTORY_ID)
@@ -214,8 +214,8 @@ class PointHistoryControllerTest {
         // when
         when(pointHistoryService.getAll(MEMBER_ID, pageable))
                 .thenReturn(getAllResponses);
-        when(responseConverter.toResponseEntity(ResponseMessage.POINT_HISTORY_FIND_ALL_SUCCESS, getAllResponses, link))
-                .thenReturn(ResponseEntity.ok(ResponseDto.of(ResponseMessage.POINT_HISTORY_FIND_ALL_SUCCESS, getAllResponses, link)));
+        when(responseConverter.toResponseEntity(ResponseMessage.POINT_HISTORY_READ_ALL_SUCCESS, getAllResponses, link))
+                .thenReturn(ResponseEntity.ok(ResponseDto.of(ResponseMessage.POINT_HISTORY_READ_ALL_SUCCESS, getAllResponses, link)));
 
         // then
         mockMvc.perform(get("/api/v1/point_histories")

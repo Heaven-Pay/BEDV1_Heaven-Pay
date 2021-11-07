@@ -51,11 +51,11 @@ public enum ResponseMessage {
     POINT_WALLET_UPDATE_SUCCESS(HttpStatus.OK, "포인트 지갑 단건 삭제 성공"),
     POINT_WALLET_DELETE_SUCCESS(HttpStatus.OK, "포인트 지갑 단건 조회 성공"),
     POINT_WALLET_SEARCH_SUCCESS(HttpStatus.OK, "포인트 지갑 수정 성공"),
-    POINT_HISTORY_INSERT_SUCCESS(HttpStatus.OK, "포인트 내역 데이터 추가 성공"),
+    POINT_HISTORY_CREATE_SUCCESS(HttpStatus.OK, "포인트 내역 데이터 추가 성공"),
     POINT_HISTORY_UPDATE_SUCCESS(HttpStatus.OK, "포인트 내역 데이터 수정 성공"),
     POINT_HISTORY_DELETE_SUCCESS(HttpStatus.OK, "포인트 내역 데이터 삭제 성공"),
-    POINT_HISTORY_FIND_SUCCESS(HttpStatus.OK, "포인트 내역 데이터 단건 조회 성공"),
-    POINT_HISTORY_FIND_ALL_SUCCESS(HttpStatus.OK, "포인트 내역 데이터 전체 조회 성공"),
+    POINT_HISTORY_READ_ONE_SUCCESS(HttpStatus.OK, "포인트 내역 데이터 단건 조회 성공"),
+    POINT_HISTORY_READ_ALL_SUCCESS(HttpStatus.OK, "포인트 내역 데이터 전체 조회 성공"),
     PAYMENT_INSERT_SUCCESS(HttpStatus.OK, "결제 추가 성공"),
     PAYMENT_DELETE_SUCCESS(HttpStatus.OK, "결제 삭제 성공");
 

@@ -6,7 +6,7 @@ import com.programmers.heavenpay.common.dto.ResponseDto;
 import com.programmers.heavenpay.common.dto.ResponseMessage;
 import com.programmers.heavenpay.pointHistory.dto.request.PointHistoryCreateRequest;
 import com.programmers.heavenpay.pointHistory.dto.request.PointHistoryDeleteRequest;
-import com.programmers.heavenpay.pointHistory.dto.request.PointHistoryGetRequest;
+import com.programmers.heavenpay.pointHistory.dto.request.PointHistoryGetOneRequest;
 import com.programmers.heavenpay.pointHistory.dto.request.PointHistoryUpdateRequest;
 import com.programmers.heavenpay.pointHistory.dto.response.PointHistoryCreateResponse;
 import com.programmers.heavenpay.pointHistory.dto.response.PointHistoryDeleteResponse;
@@ -62,7 +62,7 @@ public class PointHistoryController {
         );
 
         return responseConverter.toResponseEntity(
-                ResponseMessage.POINT_HISTORY_INSERT_SUCCESS,
+                ResponseMessage.POINT_HISTORY_CREATE_SUCCESS,
                 entityModel
         );
     }
@@ -112,7 +112,7 @@ public class PointHistoryController {
 
     @ApiOperation("포인트 결제 내역 단건 조회, 성공시 조회한 한 개의 포인트 결제 내역 데이터 반환")
     @GetMapping(value = "/{pointHistoryId}", consumes = MediaTypes.HAL_JSON_VALUE)
-    public ResponseEntity<ResponseDto> getOne(@PathVariable Long pointHistoryId, @RequestBody PointHistoryGetRequest request) {
+    public ResponseEntity<ResponseDto> readSingleData(@PathVariable Long pointHistoryId, @RequestBody PointHistoryGetOneRequest request) {
         PointHistoryGetOneResponse response = pointHistoryService.getOne(pointHistoryId, request.getMemberId());
 
         EntityModel<PointHistoryGetOneResponse> entityModel = EntityModel.of(
@@ -125,20 +125,20 @@ public class PointHistoryController {
         );
 
         return responseConverter.toResponseEntity(
-                ResponseMessage.POINT_HISTORY_FIND_SUCCESS,
+                ResponseMessage.POINT_HISTORY_READ_ONE_SUCCESS,
                 entityModel
         );
     }
 
     @ApiOperation("포인트 결제 내역 고객의 모든 데이터 조회, 성공시 조회한 한 개의 포인트 결제 내역 데이터 반환")
     @GetMapping(consumes = MediaTypes.HAL_JSON_VALUE)
-    public ResponseEntity<ResponseDto> getAll(@RequestBody PointHistoryGetRequest request, Pageable pageable) {
+    public ResponseEntity<ResponseDto> readPage(@RequestBody PointHistoryGetOneRequest request, Pageable pageable) {
         Page<PointHistoryGetOneResponse> response = pointHistoryService.getAll(request.getMemberId(), pageable);
 
         Link link = getLinkToAddress().withSelfRel().withType(HttpMethod.GET.name());
 
         return responseConverter.toResponseEntity(
-                ResponseMessage.POINT_HISTORY_FIND_ALL_SUCCESS,
+                ResponseMessage.POINT_HISTORY_READ_ALL_SUCCESS,
                 response,
                 link
         );
