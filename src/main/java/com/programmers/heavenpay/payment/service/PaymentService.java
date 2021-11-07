@@ -30,8 +30,8 @@ public class PaymentService {
     private final PaymentRepository paymentRepository;
     private final MemberRepository memberRepository;
     private final StoreRepository storeRepository;
-    private final PointHistoryRepository pointHistoryRepository;
     private final PointWalletRepository pointWalletRepository;
+
     private final PaymentConverter converter;
 
     @Transactional

@@ -44,22 +44,22 @@ class PaymentServiceTest {
     private static final String STORE_VENDOR_CODE = "111-55-33333";
 
     @InjectMocks
-    PaymentService paymentService;
+    private PaymentService paymentService;
 
     @Mock
-    PaymentRepository paymentRepository;
+    private PaymentRepository paymentRepository;
 
     @Mock
-    MemberRepository memberRepository;
+    private MemberRepository memberRepository;
 
     @Mock
-    StoreRepository storeRepository;
+    private StoreRepository storeRepository;
 
     @Mock
-    PointWalletRepository pointWalletRepository;
+    private PointWalletRepository pointWalletRepository;
 
     @Mock
-    PaymentConverter converter;
+    private PaymentConverter converter;
 
     private Payment payment = Payment.builder()
             .id(PAYMENT_ID)
