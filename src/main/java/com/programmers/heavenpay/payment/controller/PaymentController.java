@@ -56,7 +56,7 @@ public class PaymentController {
         );
 
         return responseConverter.toResponseEntity(
-                ResponseMessage.PAYMENT_INSERT_SUCCESS,
+                ResponseMessage.PAYMENT_CREATE_SUCCESS,
                 entityModel
         );
     }

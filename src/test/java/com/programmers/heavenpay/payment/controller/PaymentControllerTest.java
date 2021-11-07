@@ -82,8 +82,8 @@ class PaymentControllerTest {
 
         when(paymentService.create(MEMBER_ID, STORE_ID, POINT_WALLET_ID, PAYMENT_POINT))
                 .thenReturn(paymentCreateResponse);
-        when(responseConverter.toResponseEntity(ResponseMessage.PAYMENT_INSERT_SUCCESS, entityModel))
-                .thenReturn(ResponseEntity.ok(ResponseDto.of(ResponseMessage.PAYMENT_INSERT_SUCCESS, entityModel)));
+        when(responseConverter.toResponseEntity(ResponseMessage.PAYMENT_CREATE_SUCCESS, entityModel))
+                .thenReturn(ResponseEntity.ok(ResponseDto.of(ResponseMessage.PAYMENT_CREATE_SUCCESS, entityModel)));
 
         // Then
         mockMvc.perform(post("/api/v1/payments")

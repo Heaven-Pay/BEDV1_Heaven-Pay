@@ -57,7 +57,7 @@ public enum ResponseMessage {
     POINT_HISTORY_DELETE_SUCCESS(HttpStatus.OK, "포인트 내역 데이터 삭제 성공"),
     POINT_HISTORY_READ_ONE_SUCCESS(HttpStatus.OK, "포인트 내역 데이터 단건 조회 성공"),
     POINT_HISTORY_READ_ALL_SUCCESS(HttpStatus.OK, "포인트 내역 데이터 전체 조회 성공"),
-    PAYMENT_INSERT_SUCCESS(HttpStatus.OK, "결제 추가 성공"),
+    PAYMENT_CREATE_SUCCESS(HttpStatus.OK, "결제 추가 성공"),
     PAYMENT_DELETE_SUCCESS(HttpStatus.OK, "결제 삭제 성공");
 
     private final HttpStatus status;
