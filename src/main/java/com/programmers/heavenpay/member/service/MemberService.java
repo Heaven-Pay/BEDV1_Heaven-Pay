@@ -30,16 +30,16 @@ public class MemberService {
     }
 
     @Transactional(readOnly = true)
-    public MemberGetOneResponse findById(Long id) {
+    public MemberGetOneResponse getOne(Long id) {
         return memberRepository.findById(id)
                 .map(converter::toMemberFindResponse)
                 .orElseThrow(
-                        () -> new NotExistsException(ErrorMessage.NOT_EXIST_MEMBER_ID)
+                        () -> new NotExistsException(ErrorMessage.NOT_EXIST_MEMBER)
                 );
     }
 
     @Transactional(readOnly = true)
-    public Page<MemberGetOneResponse> findAllByPages(Pageable pageable){
+    public Page<MemberGetOneResponse> getAll(Pageable pageable){
         return memberRepository.findAll(pageable)
                 .map(converter::toMemberFindResponse);
     }
@@ -47,7 +47,7 @@ public class MemberService {
     @Transactional
     public MemberUpdateResponse update(Long id, String email, String name, String phoneNumber, String birth, String gender) {
         Member originMember = memberRepository.findById(id)
-                .orElseThrow(() -> new NotExistsException(ErrorMessage.NOT_EXIST_MEMBER_ID));
+                .orElseThrow(() -> new NotExistsException(ErrorMessage.NOT_EXIST_MEMBER));
 
         originMember.changeValues(email, name, phoneNumber, birth, gender);
         return converter.toMemberUpdateResponse(originMember);
@@ -57,7 +57,7 @@ public class MemberService {
     public MemberDeleteResponse delete(Long id) {
         Member member = memberRepository.findById(id)
                 .orElseThrow(
-                        () -> new NotExistsException(ErrorMessage.NOT_EXIST_MEMBER_ID)
+                        () -> new NotExistsException(ErrorMessage.NOT_EXIST_MEMBER)
                 );
 
         MemberDeleteResponse result = converter.toMemberDeleteResponse(member);

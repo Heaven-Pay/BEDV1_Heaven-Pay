@@ -31,7 +31,7 @@ public class PointWalletService {
     public PointWalletCreateResponse create(Long memberId, Long accountId, Integer walletPoint) {
         Member originMember = memberRepository.findById(memberId)
                 .orElseThrow(
-                        () -> new NotExistsException(ErrorMessage.NOT_EXIST_MEMBER_ID)
+                        () -> new NotExistsException(ErrorMessage.NOT_EXIST_MEMBER)
                 );
         Account account = accountRepository.findById(accountId)
                 .orElseThrow(
@@ -48,7 +48,7 @@ public class PointWalletService {
     public PointWalletGetOneResponse getOne(Long id, Long memberId, Long accountId) {
         Member member = memberRepository.findById(memberId)
                 .orElseThrow(
-                        () -> new NotExistsException(ErrorMessage.NOT_EXIST_MEMBER_ID)
+                        () -> new NotExistsException(ErrorMessage.NOT_EXIST_MEMBER)
                 );
         Account account = accountRepository.findById(accountId)
                 .orElseThrow(
@@ -56,7 +56,7 @@ public class PointWalletService {
                 );
         PointWallet pointWallet = pointWalletRepository.findByIdAndMemberAndAccount(id, member, account)
                 .orElseThrow(
-                        () -> new NotExistsException(ErrorMessage.NOT_EXIST_POINT_WALLET_ID)
+                        () -> new NotExistsException(ErrorMessage.NOT_EXIST_POINT_WALLET)
                 );;
         return converter.toPointWalletFindResponse(pointWallet);
     }
@@ -71,7 +71,7 @@ public class PointWalletService {
     public PointWalletUpdateResponse update(Long id, Long memberId, Long accountId, Integer walletPoint) {
         Member member = memberRepository.findById(memberId)
                 .orElseThrow(
-                        () -> new NotExistsException(ErrorMessage.NOT_EXIST_MEMBER_ID)
+                        () -> new NotExistsException(ErrorMessage.NOT_EXIST_MEMBER)
                 );
 
         Account account = accountRepository.findById(accountId)
@@ -80,7 +80,7 @@ public class PointWalletService {
                 );
 
         PointWallet orginPointWallet = pointWalletRepository.findByIdAndMemberAndAccount(id, member, account)
-                .orElseThrow(() -> new NotExistsException(ErrorMessage.NOT_EXIST_POINT_WALLET_ID));
+                .orElseThrow(() -> new NotExistsException(ErrorMessage.NOT_EXIST_POINT_WALLET));
 
         orginPointWallet.updateData(walletPoint, account);
         return converter.toPointWalletUpdateResponse(orginPointWallet);
@@ -90,7 +90,7 @@ public class PointWalletService {
     public PointWalletDeleteResponse delete(Long id, Long memberId, Long accountId) {
         Member member = memberRepository.findById(memberId)
                 .orElseThrow(
-                        () -> new NotExistsException(ErrorMessage.NOT_EXIST_MEMBER_ID)
+                        () -> new NotExistsException(ErrorMessage.NOT_EXIST_MEMBER)
                 );
         Account account = accountRepository.findById(accountId)
                 .orElseThrow(
@@ -98,7 +98,7 @@ public class PointWalletService {
                 );
         PointWallet pointWallet = pointWalletRepository.findById(id)
                 .orElseThrow(
-                        () -> new NotExistsException(ErrorMessage.NOT_EXIST_POINT_WALLET_ID)
+                        () -> new NotExistsException(ErrorMessage.NOT_EXIST_POINT_WALLET)
                 );
         PointWalletDeleteResponse result = converter.toPointWalletDeleteResponse(pointWallet);
 

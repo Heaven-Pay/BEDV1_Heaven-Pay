@@ -143,8 +143,8 @@ class MemberControllerTest {
         // When
         when(memberService.create(EMAIL, NAME, PHONE_NUMBER, BIRTH, GENDER.getTypeStr()))
                 .thenReturn(memberCreateResponse);
-        when(responseConverter.toResponseEntity(ResponseMessage.MEMBER_INSERT_SUCCESS, entityModel))
-                .thenReturn(ResponseEntity.ok(ResponseDto.of(ResponseMessage.MEMBER_INSERT_SUCCESS, entityModel)));
+        when(responseConverter.toResponseEntity(ResponseMessage.MEMBER_CREATE_SUCCESS, entityModel))
+                .thenReturn(ResponseEntity.ok(ResponseDto.of(ResponseMessage.MEMBER_CREATE_SUCCESS, entityModel)));
 
         // Then
         mockMvc.perform(post("/api/v1/members")
@@ -168,10 +168,10 @@ class MemberControllerTest {
         );
 
         // when
-        when(memberService.findById(MEMBER_ID))
+        when(memberService.getOne(MEMBER_ID))
                 .thenReturn(memberGetOneResponse);
-        when(responseConverter.toResponseEntity(ResponseMessage.MEMBER_FIND_SUCCESS, entityModel))
-                .thenReturn(ResponseEntity.ok(ResponseDto.of(ResponseMessage.MEMBER_FIND_SUCCESS, entityModel)));
+        when(responseConverter.toResponseEntity(ResponseMessage.MEMBER_READ_ONE_SUCCESS, entityModel))
+                .thenReturn(ResponseEntity.ok(ResponseDto.of(ResponseMessage.MEMBER_READ_ONE_SUCCESS, entityModel)));
 
         // then
         mockMvc.perform(get("/api/v1/members/{memberId}", MEMBER_ID)
@@ -195,10 +195,10 @@ class MemberControllerTest {
         );
 
         // when
-        when(memberService.findAllByPages(pageable))
+        when(memberService.getAll(pageable))
                 .thenReturn(getPage);
-        when(responseConverter.toResponseEntity(ResponseMessage.MEMBER_FIND_SUCCESS, entityModel))
-                .thenReturn(ResponseEntity.ok(ResponseDto.of(ResponseMessage.MEMBER_FIND_SUCCESS, entityModel)));
+        when(responseConverter.toResponseEntity(ResponseMessage.MEMBER_READ_ONE_SUCCESS, entityModel))
+                .thenReturn(ResponseEntity.ok(ResponseDto.of(ResponseMessage.MEMBER_READ_ONE_SUCCESS, entityModel)));
 
         // then
         mockMvc.perform(get("/api/v1/members", MEMBER_ID)

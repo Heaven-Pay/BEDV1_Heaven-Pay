@@ -28,7 +28,7 @@ public class AccountService {
     public AccountCreateResponse create(Long memberId, String title, String description, String number, Long financeId) {
         Member member = memberRepository.findById(memberId)
                 .orElseThrow(
-                        () -> new NotExistsException(ErrorMessage.NOT_EXIST_MEMBER_ID)
+                        () -> new NotExistsException(ErrorMessage.NOT_EXIST_MEMBER)
                 );
         Finance finance = financeRepository.findById(financeId)
                 .orElseThrow(
@@ -46,7 +46,7 @@ public class AccountService {
     public AccountDetailResponse getOne(Long accountId, Long memberId) {
         Member member = memberRepository.findById(memberId)
                 .orElseThrow(
-                        () -> new NotExistsException(ErrorMessage.NOT_EXIST_MEMBER_ID)
+                        () -> new NotExistsException(ErrorMessage.NOT_EXIST_MEMBER)
                 );
 
         Account account = accountRepository.findByIdAndMember(accountId, member)
@@ -60,7 +60,7 @@ public class AccountService {
     public Page<AccountDetailAllResponse> getAll(Long memberId, Pageable pageable) {
         Member member = memberRepository.findById(memberId)
                 .orElseThrow(
-                        () -> new NotExistsException(ErrorMessage.NOT_EXIST_MEMBER_ID)
+                        () -> new NotExistsException(ErrorMessage.NOT_EXIST_MEMBER)
                 );
         Page<Account> allByMember = accountRepository.findAllByMember(member, pageable);
 
@@ -71,7 +71,7 @@ public class AccountService {
     public AccountUpdateResponse update(Long memberId, Long accountId, String title, String description) {
         Member member = memberRepository.findById(memberId)
                 .orElseThrow(
-                        () -> new NotExistsException(ErrorMessage.NOT_EXIST_MEMBER_ID)
+                        () -> new NotExistsException(ErrorMessage.NOT_EXIST_MEMBER)
                 );
 
         Account account = accountRepository.findByIdAndMember(accountId, member)
@@ -88,7 +88,7 @@ public class AccountService {
     public AccountDeleteResponse delete(Long memberId, Long accountId) {
         Member member = memberRepository.findById(memberId)
                 .orElseThrow(
-                        () -> new NotExistsException(ErrorMessage.NOT_EXIST_MEMBER_ID)
+                        () -> new NotExistsException(ErrorMessage.NOT_EXIST_MEMBER)
                 );
         accountRepository.deleteByIdAndMember(accountId, member);
 

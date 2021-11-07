@@ -9,9 +9,9 @@ import java.util.Arrays;
 @Getter
 public enum ErrorMessage {
     INTERNAL_SERVER_ERROR(HttpStatus.INTERNAL_SERVER_ERROR, "정의되지 않은 서버 에러"),
-    NOT_EXIST_MEMBER_ID(HttpStatus.NOT_FOUND, "존재하지 않는 Member Id"),
+    NOT_EXIST_MEMBER(HttpStatus.NOT_FOUND, "존재하지 않는 Member Id"),
     NOT_EXIST_GENDER_TYPE(HttpStatus.NOT_FOUND, "존재하지 않는 성별(gender) 값"),
-    NOT_EXIST_POINT_HISTORY_ID(HttpStatus.NOT_FOUND, "존재하지 않는 PointHistory Id"),
+    NOT_EXIST_POINT_HISTORY(HttpStatus.NOT_FOUND, "존재하지 않는 PointHistory Id"),
     NOT_EXIST_USED_APP_TYPE(HttpStatus.NOT_FOUND, "존재하지 않는 사용 앱(usedApp) 타입"),
     NOT_EXIST_STORE_TYPE(HttpStatus.NOT_FOUND, "존재하지 않는 Store Type"),
     NOT_EXIST_STORE(HttpStatus.NOT_FOUND, "존재하지 않는 Store"),
@@ -29,7 +29,7 @@ public enum ErrorMessage {
     NOT_EXIST_GIFT_ORDER(HttpStatus.NOT_FOUND, "존재하지 않는 주문"),
     NOT_EXIST_REVIEW(HttpStatus.NOT_FOUND, "존재하지 않는 리뷰 ID"),
     NOT_EXIST_PRODUCT_ID(HttpStatus.NOT_FOUND, "존재하지 않는 상품 ID"),
-    NOT_EXIST_POINT_WALLET_ID(HttpStatus.NOT_FOUND, "존재하지 않는 포인트 지갑 ID"),
+    NOT_EXIST_POINT_WALLET(HttpStatus.NOT_FOUND, "존재하지 않는 포인트 지갑 ID"),
     NOT_EXIST_PAYMENT(HttpStatus.NOT_FOUND, "존재하지 않는 결제 ID"),
     NOT_ENOUGH_POINT(HttpStatus.PRECONDITION_FAILED, "금액이 부족합니다");
 

@@ -29,7 +29,7 @@ public class WishService {
     @Transactional
     public WishCreateResponse create(Long memberId, Long productId) {
         Member member = memberRepository.findById(memberId)
-                .orElseThrow(() -> new NotExistsException(ErrorMessage.NOT_EXIST_MEMBER_ID));
+                .orElseThrow(() -> new NotExistsException(ErrorMessage.NOT_EXIST_MEMBER));
 
         Product product = productRepository.findById(productId)
                 .orElseThrow(() -> new NotExistsException(ErrorMessage.NOT_EXIST_PRODUCT));
@@ -43,7 +43,7 @@ public class WishService {
     @Transactional(readOnly = true)
     public Page<WishInfoResponse> findAllByPages(Long memberId, Pageable pageable) {
         Member member = memberRepository.findById(memberId)
-                .orElseThrow(() -> new NotExistsException(ErrorMessage.NOT_EXIST_MEMBER_ID));
+                .orElseThrow(() -> new NotExistsException(ErrorMessage.NOT_EXIST_MEMBER));
 
         Page<Wish> wishPage = wishRepository.findAllByMember(member, pageable);
 

@@ -28,7 +28,7 @@ public class PointHistoryService {
     public PointHistoryCreateResponse create(Long memberId, String appType, String description, Integer usePoint) {
         Member originMember = memberRepository.findById(memberId)
                 .orElseThrow(
-                        () -> new NotExistsException(ErrorMessage.NOT_EXIST_MEMBER_ID)
+                        () -> new NotExistsException(ErrorMessage.NOT_EXIST_MEMBER)
                 );
 
         PointHistory orginPointHistory = converter.toPointHistoryEntity(originMember, appType, description, usePoint);
@@ -41,11 +41,11 @@ public class PointHistoryService {
     public PointHistoryGetOneResponse getOne(Long id, Long memberId) {
         Member member = memberRepository.findById(memberId)
                 .orElseThrow(
-                        () -> new NotExistsException(ErrorMessage.NOT_EXIST_MEMBER_ID)
+                        () -> new NotExistsException(ErrorMessage.NOT_EXIST_MEMBER)
                 );
         PointHistory pointHistory = pointHistoryRepository.findByIdAndMember(id, member)
                 .orElseThrow(
-                        () -> new NotExistsException(ErrorMessage.NOT_EXIST_POINT_HISTORY_ID)
+                        () -> new NotExistsException(ErrorMessage.NOT_EXIST_POINT_HISTORY)
                 );;
         return converter.toPointHistoryFindResponse(pointHistory);
     }
@@ -54,7 +54,7 @@ public class PointHistoryService {
     public Page<PointHistoryGetOneResponse> getAll(Long memberId, Pageable pageable){
         Member member = memberRepository.findById(memberId)
                 .orElseThrow(
-                        () -> new NotExistsException(ErrorMessage.NOT_EXIST_MEMBER_ID)
+                        () -> new NotExistsException(ErrorMessage.NOT_EXIST_MEMBER)
                 );
         Page<PointHistory> allByMember = pointHistoryRepository.findAllByMember(member, pageable);
         return allByMember.map(converter::toPointHistoryFindResponse);
@@ -64,11 +64,11 @@ public class PointHistoryService {
     public PointHistoryUpdateResponse update(Long id, Long memberId, String description, int usePoint) {
         Member member = memberRepository.findById(memberId)
                 .orElseThrow(
-                        () -> new NotExistsException(ErrorMessage.NOT_EXIST_MEMBER_ID)
+                        () -> new NotExistsException(ErrorMessage.NOT_EXIST_MEMBER)
                 );
 
         PointHistory orginPointHistory = pointHistoryRepository.findByIdAndMember(id, member)
-                .orElseThrow(() -> new NotExistsException(ErrorMessage.NOT_EXIST_POINT_HISTORY_ID));
+                .orElseThrow(() -> new NotExistsException(ErrorMessage.NOT_EXIST_POINT_HISTORY));
 
         orginPointHistory.updateData(description, usePoint);
         return converter.toPointHistoryUpdateResponse(orginPointHistory);
@@ -78,11 +78,11 @@ public class PointHistoryService {
     public PointHistoryDeleteResponse delete(Long id, Long memberId) {
         Member member = memberRepository.findById(memberId)
                 .orElseThrow(
-                        () -> new NotExistsException(ErrorMessage.NOT_EXIST_MEMBER_ID)
+                        () -> new NotExistsException(ErrorMessage.NOT_EXIST_MEMBER)
                 );
         PointHistory pointHistory = pointHistoryRepository.findById(id)
                 .orElseThrow(
-                        () -> new NotExistsException(ErrorMessage.NOT_EXIST_POINT_HISTORY_ID)
+                        () -> new NotExistsException(ErrorMessage.NOT_EXIST_POINT_HISTORY)
                 );
         PointHistoryDeleteResponse result = converter.toPointHistoryDeleteResponse(pointHistory);
 

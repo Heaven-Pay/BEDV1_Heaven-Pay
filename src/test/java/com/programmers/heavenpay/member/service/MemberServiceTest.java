@@ -81,7 +81,7 @@ class MemberServiceTest {
         when(converter.toMemberFindResponse(member)).thenReturn(findResponse);
 
         // when
-        memberService.findById(MEMBER_ID);
+        memberService.getOne(MEMBER_ID);
 
         // then
         verify(memberRepository).findById(MEMBER_ID);
@@ -93,7 +93,7 @@ class MemberServiceTest {
         when(memberRepository.findAll(pageable)).thenReturn(members);
 
         // when
-        memberService.findAllByPages(pageable);
+        memberService.getAll(pageable);
 
         // then
         verify(memberRepository).findAll(pageable);

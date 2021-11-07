@@ -33,7 +33,7 @@ public class RemittanceService {
     public RemittanceCreateResponse create(Long memberId, Long accountId, Long financeId, String name, String number, Integer money) {
         Member member = memberRepository.findById(memberId)
                 .orElseThrow(
-                        () -> new NotExistsException(ErrorMessage.NOT_EXIST_MEMBER_ID)
+                        () -> new NotExistsException(ErrorMessage.NOT_EXIST_MEMBER)
                 );
 
         Account account = accountRepository.findByIdAndMember(accountId, member)
@@ -57,7 +57,7 @@ public class RemittanceService {
     public RemittanceGetResponse get(Long memberId, Long remittanceId) {
         Member member = memberRepository.findById(memberId)
                 .orElseThrow(
-                        () -> new NotExistsException(ErrorMessage.NOT_EXIST_MEMBER_ID)
+                        () -> new NotExistsException(ErrorMessage.NOT_EXIST_MEMBER)
                 );
         Remittance remittance = remittanceRepository.findByIdAndMember(remittanceId, member)
                 .orElseThrow(
@@ -71,7 +71,7 @@ public class RemittanceService {
     public Page<RemittanceDetailAllResponse> getAll(Long memberId, Pageable pageable) {
         Member member = memberRepository.findById(memberId)
                 .orElseThrow(
-                        () -> new NotExistsException(ErrorMessage.NOT_EXIST_MEMBER_ID)
+                        () -> new NotExistsException(ErrorMessage.NOT_EXIST_MEMBER)
                 );
         return remittanceRepository.findByMember(member, pageable)
                 .map(remittanceConverter::toRemittanceDetailAllResponse);

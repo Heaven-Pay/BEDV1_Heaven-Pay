@@ -25,11 +25,11 @@ public class FollowService {
     public FollowResponse follow(Long memberId, Long followerId) {
         Member member = memberRepository.findById(memberId)
                 .orElseThrow(
-                        () -> new NotExistsException(ErrorMessage.NOT_EXIST_MEMBER_ID)
+                        () -> new NotExistsException(ErrorMessage.NOT_EXIST_MEMBER)
                 );
         Member follower = memberRepository.findById(followerId)
                 .orElseThrow(
-                        () -> new NotExistsException(ErrorMessage.NOT_EXIST_MEMBER_ID)
+                        () -> new NotExistsException(ErrorMessage.NOT_EXIST_MEMBER)
                 );
 
         Follow followInstance = new Follow(member, follower);
@@ -41,11 +41,11 @@ public class FollowService {
     public FollowResponse unfollow(Long memberId, Long followerId) {
         Member member = memberRepository.findById(memberId)
                 .orElseThrow(
-                        () -> new NotExistsException(ErrorMessage.NOT_EXIST_MEMBER_ID)
+                        () -> new NotExistsException(ErrorMessage.NOT_EXIST_MEMBER)
                 );
         Member follower = memberRepository.findById(followerId)
                 .orElseThrow(
-                        () -> new NotExistsException(ErrorMessage.NOT_EXIST_MEMBER_ID)
+                        () -> new NotExistsException(ErrorMessage.NOT_EXIST_MEMBER)
                 );
         followRepository.deleteByToMemberAndFromMember(member, follower);
         return new FollowResponse(FollowStatus.UNFOLLOWING, follower.getName());
@@ -55,7 +55,7 @@ public class FollowService {
     public Page<FollowFindResponse> findFollow(Long memberId, Pageable pageable) {
         Member member = memberRepository.findById(memberId)
                 .orElseThrow(
-                        () -> new NotExistsException(ErrorMessage.NOT_EXIST_MEMBER_ID)
+                        () -> new NotExistsException(ErrorMessage.NOT_EXIST_MEMBER)
                 );
         return followRepository.findByToMember(member, pageable)
                 .map(
@@ -70,7 +70,7 @@ public class FollowService {
     public Page<FollowFindResponse> findFollower(Long memberId, Pageable pageable) {
         Member member = memberRepository.findById(memberId)
                 .orElseThrow(
-                        () -> new NotExistsException(ErrorMessage.NOT_EXIST_MEMBER_ID)
+                        () -> new NotExistsException(ErrorMessage.NOT_EXIST_MEMBER)
                 );
         return followRepository.findByFromMember(member, pageable)
                 .map(

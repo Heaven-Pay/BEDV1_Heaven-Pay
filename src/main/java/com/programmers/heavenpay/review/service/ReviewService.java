@@ -33,7 +33,7 @@ public class ReviewService {
                 .orElseThrow(() -> new NotExistsException(ErrorMessage.NOT_EXIST_PRODUCT));
 
         Member reviewer = memberRepository.findById(reviewerId)
-                .orElseThrow(() -> new NotExistsException(ErrorMessage.NOT_EXIST_MEMBER_ID));
+                .orElseThrow(() -> new NotExistsException(ErrorMessage.NOT_EXIST_MEMBER));
 
         Review review = reviewConverter.toReviewEntity(content, score, product, reviewer);
         Review reviewEntity = reviewRepository.save(review);
