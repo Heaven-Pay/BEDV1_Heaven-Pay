@@ -5,10 +5,9 @@ import com.programmers.heavenpay.error.ErrorMessage;
 import com.programmers.heavenpay.error.exception.NotDefinitionException;
 import com.programmers.heavenpay.product.entitiy.vo.Category;
 import com.programmers.heavenpay.product.entitiy.vo.Reviews;
-import com.programmers.heavenpay.product.exception.LackStockException;
+import com.programmers.heavenpay.error.exception.LackStockException;
 import com.programmers.heavenpay.store.entity.Store;
 import lombok.*;
-import org.hibernate.annotations.ColumnDefault;
 import org.hibernate.annotations.DynamicInsert;
 import org.hibernate.annotations.DynamicUpdate;
 

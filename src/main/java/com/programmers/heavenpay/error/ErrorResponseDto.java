@@ -1,9 +1,7 @@
 package com.programmers.heavenpay.error;
 
-import lombok.Getter;
 import java.time.LocalDateTime;
 
-@Getter
 public class ErrorResponseDto {
     private final int status;
     private final String message;
@@ -17,5 +15,17 @@ public class ErrorResponseDto {
 
     public static ErrorResponseDto of(ErrorMessage message) {
         return new ErrorResponseDto(message);
+    }
+
+    public int getStatus() {
+        return status;
+    }
+
+    public String getMessage() {
+        return message;
+    }
+
+    public LocalDateTime getServerDateTime() {
+        return serverDateTime;
     }
 }
