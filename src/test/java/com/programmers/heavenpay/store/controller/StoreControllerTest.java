@@ -66,7 +66,7 @@ class StoreControllerTest {
     private Page<StoreInfoResponse> storePage;
 
     private StoreCreateResponse storeCreateResponse = StoreCreateResponse.builder().build();
-    private StoreDeleteResponse storeDeleteResponse = StoreDeleteResponse.builder().build();
+    private StoreDeleteResponse storeDeleteResponse = new StoreDeleteResponse(id);
     private StoreUpdateResponse storeUpdateResponse = StoreUpdateResponse.builder().build();
     private StoreInfoResponse storeInfoResponse = StoreInfoResponse.builder().build();
 

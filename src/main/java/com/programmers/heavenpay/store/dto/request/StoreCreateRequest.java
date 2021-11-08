@@ -1,11 +1,8 @@
 package com.programmers.heavenpay.store.dto.request;
 
-import lombok.Builder;
-
 import javax.validation.constraints.NotBlank;
 import javax.validation.constraints.Pattern;
 
-@Builder
 public class StoreCreateRequest {
     @Pattern(regexp = "^[ㄱ-ㅎ|가-힣|a-z|A-Z|]{2,10}$", message = "store name은 공백없는 2~10자이어야 합니다")
     private String name;
@@ -32,5 +29,39 @@ public class StoreCreateRequest {
 
     public String getVendorCode() {
         return vendorCode;
+    }
+
+    public static StoreCreateRequest.StoreCreateRequestBuilder builder() {
+        return new StoreCreateRequest.StoreCreateRequestBuilder();
+    }
+
+    public static class StoreCreateRequestBuilder {
+        private String name;
+
+        private String type;
+
+        private String vendorCode;
+
+        StoreCreateRequestBuilder(){
+        }
+
+        public StoreCreateRequest.StoreCreateRequestBuilder name(final String name){
+            this.name = name;
+            return this;
+        }
+
+        public StoreCreateRequest.StoreCreateRequestBuilder type(final String type){
+            this.type = type;
+            return this;
+        }
+
+        public StoreCreateRequest.StoreCreateRequestBuilder vendorCode(final String vendorCode){
+            this.vendorCode = vendorCode;
+            return this;
+        }
+
+        public StoreCreateRequest build() {
+            return new StoreCreateRequest(this.name, this.type, this.vendorCode);
+        }
     }
 }

@@ -1,10 +1,7 @@
 package com.programmers.heavenpay.store.dto.response;
 
-import lombok.Builder;
-
 import java.time.LocalDateTime;
 
-@Builder
 public class StoreInfoResponse {
     private final Long id;
 
@@ -49,5 +46,60 @@ public class StoreInfoResponse {
 
     public LocalDateTime getModifiedAt() {
         return modifiedAt;
+    }
+
+    public static StoreInfoResponse.StoreInfoResponseBuilder builder() {
+        return new StoreInfoResponse.StoreInfoResponseBuilder();
+    }
+
+    public static class StoreInfoResponseBuilder {
+        private Long id;
+
+        private String name;
+
+        private String type;
+
+        private String vendorCode;
+
+        private LocalDateTime createdAt;
+
+        private LocalDateTime modifiedAt;
+
+        StoreInfoResponseBuilder() {
+        }
+
+        public StoreInfoResponse.StoreInfoResponseBuilder id(final Long id) {
+            this.id = id;
+            return this;
+        }
+
+        public StoreInfoResponse.StoreInfoResponseBuilder name(final String name) {
+            this.name = name;
+            return this;
+        }
+
+        public StoreInfoResponse.StoreInfoResponseBuilder type(final String type) {
+            this.type = type;
+            return this;
+        }
+
+        public StoreInfoResponse.StoreInfoResponseBuilder vendorCode(final String vendorCode) {
+            this.vendorCode = vendorCode;
+            return this;
+        }
+
+        public StoreInfoResponse.StoreInfoResponseBuilder createdAt(final LocalDateTime createdAt) {
+            this.createdAt = createdAt;
+            return this;
+        }
+
+        public StoreInfoResponse.StoreInfoResponseBuilder modifiedAt(final LocalDateTime modifiedAt) {
+            this.modifiedAt = modifiedAt;
+            return this;
+        }
+
+        public StoreInfoResponse build() {
+            return new StoreInfoResponse(this.id, this.name, this.type, this.vendorCode, this.createdAt, this.modifiedAt);
+        }
     }
 }

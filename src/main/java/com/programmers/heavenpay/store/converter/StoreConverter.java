@@ -32,9 +32,7 @@ public class StoreConverter {
     }
 
     public StoreDeleteResponse toStoreDeleteResponse(Long id) {
-        return StoreDeleteResponse.builder()
-                .id(id)
-                .build();
+        return new StoreDeleteResponse(id);
     }
 
     public StoreCreateResponse toStoreCreateResponse(Long id, LocalDateTime createdAt) {
