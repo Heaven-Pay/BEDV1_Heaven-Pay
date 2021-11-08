@@ -1,13 +1,10 @@
 package com.programmers.heavenpay.store.dto.response;
 
-import com.programmers.heavenpay.store.entity.vo.StoreType;
 import lombok.Builder;
-import lombok.Getter;
 
 import java.time.LocalDateTime;
 
 @Builder
-@Getter
 public class StoreInfoResponse {
     private final Long id;
 
@@ -20,4 +17,37 @@ public class StoreInfoResponse {
     private final LocalDateTime createdAt;
 
     private final LocalDateTime modifiedAt;
+
+    public StoreInfoResponse(Long id, String name, String type, String vendorCode, LocalDateTime createdAt, LocalDateTime modifiedAt) {
+        this.id = id;
+        this.name = name;
+        this.type = type;
+        this.vendorCode = vendorCode;
+        this.createdAt = createdAt;
+        this.modifiedAt = modifiedAt;
+    }
+
+    public Long getId() {
+        return id;
+    }
+
+    public String getName() {
+        return name;
+    }
+
+    public String getType() {
+        return type;
+    }
+
+    public String getVendorCode() {
+        return vendorCode;
+    }
+
+    public LocalDateTime getCreatedAt() {
+        return createdAt;
+    }
+
+    public LocalDateTime getModifiedAt() {
+        return modifiedAt;
+    }
 }

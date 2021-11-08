@@ -10,17 +10,20 @@ import com.programmers.heavenpay.store.dto.response.StoreInfoResponse;
 import com.programmers.heavenpay.store.dto.response.StoreUpdateResponse;
 import com.programmers.heavenpay.store.entity.Store;
 import com.programmers.heavenpay.store.repository.StoreRepository;
-import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 
 @Service
-@RequiredArgsConstructor
 public class StoreService {
     private final StoreRepository storeRepository;
     private final StoreConverter storeConverter;
+
+    public StoreService(StoreRepository storeRepository, StoreConverter storeConverter) {
+        this.storeRepository = storeRepository;
+        this.storeConverter = storeConverter;
+    }
 
     @Transactional
     public StoreCreateResponse create(String name, String typeStr, String vendorCode) {

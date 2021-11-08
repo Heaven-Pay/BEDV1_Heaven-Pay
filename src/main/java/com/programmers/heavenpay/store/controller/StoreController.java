@@ -13,13 +13,11 @@ import com.programmers.heavenpay.store.dto.response.StoreUpdateResponse;
 import com.programmers.heavenpay.store.service.StoreService;
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiOperation;
-import lombok.RequiredArgsConstructor;
 import org.springframework.hateoas.EntityModel;
 import org.springframework.hateoas.Link;
 import org.springframework.hateoas.MediaTypes;
 import org.springframework.hateoas.server.mvc.WebMvcLinkBuilder;
 import org.springframework.http.HttpMethod;
-import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.data.domain.Page;
@@ -30,12 +28,16 @@ import javax.validation.Valid;
 import static org.springframework.hateoas.server.mvc.WebMvcLinkBuilder.linkTo;
 
 @RestController
-@RequiredArgsConstructor
 @RequestMapping(value = "/api/v1/stores", produces = MediaTypes.HAL_JSON_VALUE)
 @Api(tags = "Store")
 public class StoreController {
     private final StoreService storeService;
     private final ResponseConverter responseConverter;
+
+    public StoreController(StoreService storeService, ResponseConverter responseConverter) {
+        this.storeService = storeService;
+        this.responseConverter = responseConverter;
+    }
 
     private WebMvcLinkBuilder getLinkToAddress() {
         return linkTo(StoreController.class);
