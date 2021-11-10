@@ -80,7 +80,7 @@ public class Store extends BaseEntity<Long> {
         private String vendorCode;
 
         private List<Product> products;
-        
+
         StoreBuilder() {
         }
 
