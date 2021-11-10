@@ -12,19 +12,24 @@ import com.programmers.heavenpay.giftorder.entity.GiftOrder;
 import com.programmers.heavenpay.giftorder.repository.GiftOrderRepository;
 import com.programmers.heavenpay.product.entitiy.Product;
 import com.programmers.heavenpay.product.repository.ProductRepository;
-import lombok.RequiredArgsConstructor;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 @Service
-@RequiredArgsConstructor
 public class GiftOrderService {
     private final GiftOrderRepository giftOrderRepository;
     private final GiftOrderConverter giftOrderConverter;
     private final MemberRepository memberRepository;
     private final ProductRepository productRepository;
+
+    public GiftOrderService(GiftOrderRepository giftOrderRepository, GiftOrderConverter giftOrderConverter, MemberRepository memberRepository, ProductRepository productRepository) {
+        this.giftOrderRepository = giftOrderRepository;
+        this.giftOrderConverter = giftOrderConverter;
+        this.memberRepository = memberRepository;
+        this.productRepository = productRepository;
+    }
 
     @Transactional
     public GiftOrderCreateResponse create(int quantity, Long memberId, Long targetMemberId, Long productId) {

@@ -12,7 +12,6 @@ import com.programmers.heavenpay.giftorder.dto.response.GiftOrderUpdateResponse;
 import com.programmers.heavenpay.giftorder.service.GiftOrderService;
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiOperation;
-import lombok.RequiredArgsConstructor;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.hateoas.EntityModel;
@@ -28,12 +27,16 @@ import javax.validation.Valid;
 import static org.springframework.hateoas.server.mvc.WebMvcLinkBuilder.linkTo;
 
 @RestController
-@RequiredArgsConstructor
 @RequestMapping(value = "/api/v1", produces = MediaTypes.HAL_JSON_VALUE)
 @Api(tags = "Gift Order")
 public class GiftOrderController {
     private final GiftOrderService giftOrderService;
     private final ResponseConverter responseConverter;
+
+    public GiftOrderController(GiftOrderService giftOrderService, ResponseConverter responseConverter) {
+        this.giftOrderService = giftOrderService;
+        this.responseConverter = responseConverter;
+    }
 
     private WebMvcLinkBuilder getLinkToAddress() {
         return linkTo(GiftOrderController.class);
