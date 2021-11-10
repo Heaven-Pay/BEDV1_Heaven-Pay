@@ -30,38 +30,4 @@ public class StoreUpdateRequest {
     public String getVendorCode() {
         return vendorCode;
     }
-
-    public static StoreUpdateRequest.StoreUpdateRequestBuilder builder() {
-        return new StoreUpdateRequest.StoreUpdateRequestBuilder();
-    }
-
-    public static class StoreUpdateRequestBuilder {
-        private String name;
-
-        private String type;
-
-        private String vendorCode;
-
-        StoreUpdateRequestBuilder() {
-        }
-
-        public StoreUpdateRequest.StoreUpdateRequestBuilder name(final String name) {
-            this.name = name;
-            return this;
-        }
-
-        public StoreUpdateRequest.StoreUpdateRequestBuilder type(final String type) {
-            this.type = type;
-            return this;
-        }
-
-        public StoreUpdateRequest.StoreUpdateRequestBuilder vendorCode(final String vendorCode) {
-            this.vendorCode = vendorCode;
-            return this;
-        }
-
-        public StoreUpdateRequest build() {
-            return new StoreUpdateRequest(this.name, this.type, this.vendorCode);
-        }
-    }
 }
