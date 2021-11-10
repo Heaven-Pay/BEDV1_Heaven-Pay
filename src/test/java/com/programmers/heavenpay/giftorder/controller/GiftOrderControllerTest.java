@@ -66,22 +66,16 @@ class GiftOrderControllerTest {
     @Mock
     private Page<GiftOrderInfoResponse> orderInfoResponsePage;
 
-    private GiftOrderCreateRequest giftOrderCreateRequest = GiftOrderCreateRequest.builder()
-            .memberId(memberId)
-            .produtId(productId)
-            .targetMemberId(targetMemberId)
-            .quantity(quantity)
-            .build();
+    private GiftOrderCreateRequest giftOrderCreateRequest = new GiftOrderCreateRequest(
+            quantity, memberId, targetMemberId, productId
+    );
 
     private GiftOrderCreateResponse giftOrderCreateResponse = GiftOrderCreateResponse.builder()
             .createdAt(LocalDateTime.now())
             .id(giftOrderId)
             .build();
 
-    private GiftOrderUpdateRequest giftOrderUpdateRequest = GiftOrderUpdateRequest.builder()
-            .quantity(quantity)
-            .status(status)
-            .build();
+    private GiftOrderUpdateRequest giftOrderUpdateRequest = new GiftOrderUpdateRequest(quantity, status);
 
     private GiftOrderUpdateResponse giftOrderUpdateResponse = GiftOrderUpdateResponse.builder()
             .id(giftOrderId)
