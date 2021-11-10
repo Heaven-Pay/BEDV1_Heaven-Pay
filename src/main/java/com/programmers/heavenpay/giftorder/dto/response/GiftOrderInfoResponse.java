@@ -1,12 +1,10 @@
 package com.programmers.heavenpay.giftorder.dto.response;
 
 import lombok.Builder;
-import lombok.Getter;
 
 import java.time.LocalDateTime;
 
 @Builder
-@Getter
 public class GiftOrderInfoResponse {
     private final Long id;
 
@@ -19,4 +17,28 @@ public class GiftOrderInfoResponse {
     private final LocalDateTime createdAt;
 
     private final LocalDateTime mdifiedAt;
+
+    public Long getId() {
+        return id;
+    }
+
+    public int getQuantity() {
+        return quantity;
+    }
+
+    public String getStatus() {
+        return status;
+    }
+
+    public Long getProductId() {
+        return productId;
+    }
+
+    public LocalDateTime getCreatedAt() {
+        return createdAt;
+    }
+
+    public LocalDateTime getMdifiedAt() {
+        return mdifiedAt;
+    }
 }

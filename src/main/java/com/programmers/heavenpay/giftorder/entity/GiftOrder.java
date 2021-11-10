@@ -9,7 +9,6 @@ import lombok.*;
 import javax.persistence.*;
 
 @Entity
-@Getter
 @Builder
 @NoArgsConstructor(access = AccessLevel.PROTECTED)
 @AllArgsConstructor
@@ -42,5 +41,29 @@ public class GiftOrder extends BaseEntity<Long> {
     public void updateInfos(int quantity, String giftOrderStatus){
         this.quantity = quantity;
         this.giftOrderStatus = GiftOrderStatus.of(giftOrderStatus);
+    }
+
+    public Long getId() {
+        return id;
+    }
+
+    public int getQuantity() {
+        return quantity;
+    }
+
+    public GiftOrderStatus getGiftOrderStatus() {
+        return giftOrderStatus;
+    }
+
+    public Member getMember() {
+        return member;
+    }
+
+    public Member gettMember() {
+        return tMember;
+    }
+
+    public Product getProduct() {
+        return product;
     }
 }
