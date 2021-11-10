@@ -13,12 +13,6 @@ public class StoreUpdateRequest {
     @Pattern(regexp = "^(\\S{3,3})+[-]+(\\S{2,2})+[-]+(\\S{5,5})", message = "vendor code validation fail")
     private String vendorCode;
 
-    public StoreUpdateRequest(String name, String type, String vendorCode) {
-        this.name = name;
-        this.type = type;
-        this.vendorCode = vendorCode;
-    }
-
     public String getName() {
         return name;
     }
