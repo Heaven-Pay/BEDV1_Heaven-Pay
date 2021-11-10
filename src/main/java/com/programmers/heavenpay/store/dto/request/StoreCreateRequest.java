@@ -13,6 +13,12 @@ public class StoreCreateRequest {
     @Pattern(regexp = "^(\\S{3,3})+[-]+(\\S{2,2})+[-]+(\\S{5,5})", message = "사업자코드 형식이 올바르지 않습니다.")
     private String vendorCode;
 
+    public StoreCreateRequest(String name, String type, String vendorCode) {  // for test code
+        this.name = name;
+        this.type = type;
+        this.vendorCode = vendorCode;
+    }
+
     public String getName() {
         return name;
     }
