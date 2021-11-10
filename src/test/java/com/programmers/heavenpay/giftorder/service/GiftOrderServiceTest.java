@@ -1,5 +1,6 @@
 package com.programmers.heavenpay.giftorder.service;
 
+import com.programmers.heavenpay.giftorder.entity.vo.GiftOrderStatus;
 import com.programmers.heavenpay.member.entity.Member;
 import com.programmers.heavenpay.member.repository.MemberRepository;
 import com.programmers.heavenpay.giftorder.converter.GiftOrderConverter;
@@ -18,6 +19,7 @@ import org.mockito.junit.jupiter.MockitoExtension;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 
+import java.time.LocalDateTime;
 import java.util.Optional;
 
 import static org.mockito.Mockito.verify;
@@ -59,14 +61,21 @@ class GiftOrderServiceTest {
 
     Product product = Product.builder().stock(3).build();
 
-    GiftOrder giftOrder = GiftOrder.builder().build();
+    GiftOrder giftOrder = new GiftOrder(
+            giftOrderId,
+            quantity,
+            GiftOrderStatus.COMPLETED,
+            member,
+            targetMember,
+            product
+    );
 
     GiftOrder giftOrderEntity = GiftOrder.builder().build();
 
     // ## dto define area ### //
-    GiftOrderCreateResponse giftOrderCreateResponse = GiftOrderCreateResponse.builder().build();
+    GiftOrderCreateResponse giftOrderCreateResponse = new GiftOrderCreateResponse(giftOrderId, LocalDateTime.now());
 
-    GiftOrderUpdateResponse giftOrderUpdateResponse = GiftOrderUpdateResponse.builder().build();
+    GiftOrderUpdateResponse giftOrderUpdateResponse = new GiftOrderUpdateResponse(giftOrderId);
 
     GiftOrderInfoResponse giftOrderInfoResponse = GiftOrderInfoResponse.builder().build();
     // ## end of dto define area ### //

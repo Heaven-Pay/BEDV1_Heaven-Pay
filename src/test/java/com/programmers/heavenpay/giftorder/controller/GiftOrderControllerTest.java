@@ -70,19 +70,14 @@ class GiftOrderControllerTest {
             quantity, memberId, targetMemberId, productId
     );
 
-    private GiftOrderCreateResponse giftOrderCreateResponse = GiftOrderCreateResponse.builder()
-            .createdAt(LocalDateTime.now())
-            .id(giftOrderId)
-            .build();
+    private GiftOrderCreateResponse giftOrderCreateResponse = new GiftOrderCreateResponse(giftOrderId, LocalDateTime.now());
 
     private GiftOrderUpdateRequest giftOrderUpdateRequest = new GiftOrderUpdateRequest(quantity, status);
 
-    private GiftOrderUpdateResponse giftOrderUpdateResponse = GiftOrderUpdateResponse.builder()
-            .id(giftOrderId)
-            .build();
+    private GiftOrderUpdateResponse giftOrderUpdateResponse = new GiftOrderUpdateResponse(giftOrderId);
 
     private GiftOrderInfoResponse giftOrderInfoResponse = GiftOrderInfoResponse.builder()
-            .mdifiedAt(LocalDateTime.now())
+            .modifiedAt(LocalDateTime.now())
             .createdAt(LocalDateTime.now())
             .id(giftOrderId)
             .status(status)

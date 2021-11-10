@@ -12,10 +12,7 @@ import org.springframework.stereotype.Component;
 @Component
 public class GiftOrderConverter {
     public GiftOrderCreateResponse toGiftOrderCreateResponse(GiftOrder giftOrder) {
-        return GiftOrderCreateResponse.builder()
-                .id(giftOrder.getId())
-                .createdAt(giftOrder.getCreatedDate())
-                .build();
+        return new GiftOrderCreateResponse(giftOrder.getId(), giftOrder.getCreatedDate());
     }
 
     public GiftOrder toGiftOrderEntity(int quantity, Member member, Member targetMember, Product product) {
@@ -29,9 +26,7 @@ public class GiftOrderConverter {
     }
 
     public GiftOrderUpdateResponse toGiftOrderUpdateResponse(GiftOrder giftOrder) {
-        return GiftOrderUpdateResponse.builder()
-                .id(giftOrder.getId())
-                .build();
+        return new GiftOrderUpdateResponse(giftOrder.getId());
     }
 
     public GiftOrderInfoResponse toGiftOrderInfoResponse(GiftOrder giftOrder) {
@@ -41,7 +36,7 @@ public class GiftOrderConverter {
                 .quantity(giftOrder.getQuantity())
                 .status(giftOrder.getGiftOrderStatus().getGiftOrderStatus())
                 .createdAt(giftOrder.getCreatedDate())
-                .mdifiedAt(giftOrder.getModifiedDate())
+                .modifiedAt(giftOrder.getModifiedDate())
                 .build();
     }
 }

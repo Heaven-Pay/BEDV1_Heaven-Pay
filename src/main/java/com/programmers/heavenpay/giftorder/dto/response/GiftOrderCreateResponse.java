@@ -1,14 +1,16 @@
 package com.programmers.heavenpay.giftorder.dto.response;
 
-import lombok.Builder;
-
 import java.time.LocalDateTime;
 
-@Builder
 public class GiftOrderCreateResponse {
     private final Long id;
 
     private final LocalDateTime createdAt;
+
+    public GiftOrderCreateResponse(Long id, LocalDateTime createdAt) {
+        this.id = id;
+        this.createdAt = createdAt;
+    }
 
     public Long getId() {
         return id;
