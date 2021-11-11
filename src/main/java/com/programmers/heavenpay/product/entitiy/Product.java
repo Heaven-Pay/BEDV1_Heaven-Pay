@@ -27,7 +27,7 @@ public class Product extends BaseEntity<Long> {
     private Category category;
 
     @Column(name = "product_price", nullable = false)
-    private int price;
+    private Integer price;
 
     @Column(name = "product_title", nullable = false, length = 70)
     private String title;
@@ -41,7 +41,7 @@ public class Product extends BaseEntity<Long> {
     private String s3Path;
 
     @Column(name = "product_stock", nullable = false)
-    private int stock;
+    private Integer stock;
 
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "store_id", referencedColumnName = "store_id", nullable = false)
@@ -53,7 +53,7 @@ public class Product extends BaseEntity<Long> {
     protected Product(){
     }
 
-    public Product(Long id, Category category, int price, String title, String description, String s3Path, int stock, Store store, Reviews reviews) {
+    public Product(Long id, Category category, Integer price, String title, String description, String s3Path, Integer stock, Store store, Reviews reviews) {
         this.id = id;
         this.category = category;
         this.price = price;
@@ -162,7 +162,7 @@ public class Product extends BaseEntity<Long> {
 
         private Category category;
 
-        private int price;
+        private Integer price;
 
         private String title;
 
@@ -170,7 +170,7 @@ public class Product extends BaseEntity<Long> {
 
         private String s3Path;
 
-        private int stock;
+        private Integer stock;
 
         private Store store;
 
@@ -189,7 +189,7 @@ public class Product extends BaseEntity<Long> {
             return this;
         }
 
-        public Product.ProductBuilder price(final int price) {
+        public Product.ProductBuilder price(final Integer price) {
             this.price = price;
             return this;
         }
@@ -209,7 +209,7 @@ public class Product extends BaseEntity<Long> {
             return this;
         }
 
-        public Product.ProductBuilder stock(final int stock) {
+        public Product.ProductBuilder stock(final Integer stock) {
             this.stock = stock;
             return this;
         }

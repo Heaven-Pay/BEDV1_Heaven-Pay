@@ -5,7 +5,7 @@ public class ProductInfoResponse {
 
     private final String category;
 
-    private final int price;
+    private final Integer price;
 
     private final String title;
 
@@ -13,7 +13,7 @@ public class ProductInfoResponse {
 
     private final String s3Path;
 
-    private final int stock;
+    private final Integer stock;
 
     private final Long storeId;
 
@@ -39,7 +39,7 @@ public class ProductInfoResponse {
         return category;
     }
 
-    public int getPrice() {
+    public Integer getPrice() {
         return price;
     }
 
@@ -55,7 +55,7 @@ public class ProductInfoResponse {
         return s3Path;
     }
 
-    public int getStock() {
+    public Integer getStock() {
         return stock;
     }
 
@@ -76,7 +76,7 @@ public class ProductInfoResponse {
 
         private String category;
 
-        private int price;
+        private Integer price;
 
         private String title;
 
@@ -84,7 +84,7 @@ public class ProductInfoResponse {
 
         private String s3Path;
 
-        private int stock;
+        private Integer stock;
 
         private Long storeId;
 
@@ -103,7 +103,7 @@ public class ProductInfoResponse {
             return this;
         }
 
-        public ProductInfoResponse.ProductInfoResponseBuilder price(final int price) {
+        public ProductInfoResponse.ProductInfoResponseBuilder price(final Integer price) {
             this.price = price;
             return this;
         }
@@ -123,7 +123,7 @@ public class ProductInfoResponse {
             return this;
         }
 
-        public ProductInfoResponse.ProductInfoResponseBuilder stock(final int stock) {
+        public ProductInfoResponse.ProductInfoResponseBuilder stock(final Integer stock) {
             this.stock = stock;
             return this;
         }
