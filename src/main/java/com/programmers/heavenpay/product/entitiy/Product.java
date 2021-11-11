@@ -7,7 +7,6 @@ import com.programmers.heavenpay.product.entitiy.vo.Category;
 import com.programmers.heavenpay.product.entitiy.vo.Reviews;
 import com.programmers.heavenpay.error.exception.LackStockException;
 import com.programmers.heavenpay.store.entity.Store;
-import lombok.*;
 import org.hibernate.annotations.DynamicInsert;
 import org.hibernate.annotations.DynamicUpdate;
 
@@ -15,10 +14,6 @@ import javax.persistence.*;
 import java.util.Objects;
 
 @Entity
-@Getter
-@Builder
-@NoArgsConstructor(access = AccessLevel.PROTECTED)
-@AllArgsConstructor
 @DynamicInsert
 @DynamicUpdate
 public class Product extends BaseEntity<Long> {
@@ -54,6 +49,57 @@ public class Product extends BaseEntity<Long> {
 
     @Embedded
     private Reviews reviews;
+
+    protected Product(){
+    }
+
+    public Product(Long id, Category category, int price, String title, String description, String s3Path, int stock, Store store, Reviews reviews) {
+        this.id = id;
+        this.category = category;
+        this.price = price;
+        this.title = title;
+        this.description = description;
+        this.s3Path = s3Path;
+        this.stock = stock;
+        this.store = store;
+        this.reviews = reviews;
+    }
+
+    public Long getId() {
+        return id;
+    }
+
+    public Category getCategory() {
+        return category;
+    }
+
+    public int getPrice() {
+        return price;
+    }
+
+    public String getTitle() {
+        return title;
+    }
+
+    public String getDescription() {
+        return description;
+    }
+
+    public String getS3Path() {
+        return s3Path;
+    }
+
+    public int getStock() {
+        return stock;
+    }
+
+    public Store getStore() {
+        return store;
+    }
+
+    public Reviews getReviews() {
+        return reviews;
+    }
 
     public synchronized void updateInfos(String description, int price, String s3Path, String title, String categoryStr, int stock) {
         this.description = description;
@@ -103,5 +149,93 @@ public class Product extends BaseEntity<Long> {
      */
     public synchronized void deleteFromStore() {
         this.store.getProducts().remove(this);
+    }
+
+    // builder blow //
+
+    public static Product.ProductBuilder builder() {
+        return new Product.ProductBuilder();
+    }
+
+    public static class ProductBuilder {
+        private Long id;
+
+        private Category category;
+
+        private int price;
+
+        private String title;
+
+        private String description;
+
+        private String s3Path;
+
+        private int stock;
+
+        private Store store;
+
+        private Reviews reviews;
+
+        ProductBuilder() {
+        }
+
+        public Product.ProductBuilder id(final Long id) {
+            this.id = id;
+            return this;
+        }
+
+        public Product.ProductBuilder category(final Category category) {
+            this.category = category;
+            return this;
+        }
+
+        public Product.ProductBuilder price(final int price) {
+            this.price = price;
+            return this;
+        }
+
+        public Product.ProductBuilder title(final String title) {
+            this.title = title;
+            return this;
+        }
+
+        public Product.ProductBuilder description(final String description) {
+            this.description = description;
+            return this;
+        }
+
+        public Product.ProductBuilder s3Path(final String s3Path) {
+            this.s3Path = s3Path;
+            return this;
+        }
+
+        public Product.ProductBuilder stock(final int stock) {
+            this.stock = stock;
+            return this;
+        }
+
+        public Product.ProductBuilder store(final Store store) {
+            this.store = store;
+            return this;
+        }
+
+        public Product.ProductBuilder reviews(final Reviews reviews) {
+            this.reviews = reviews;
+            return this;
+        }
+
+        public Product build() {
+            return new Product(
+                    this.id,
+                    this.category,
+                    this.price,
+                    this.title,
+                    this.description,
+                    this.s3Path,
+                    this.stock,
+                    this.store,
+                    this.reviews
+            );
+        }
     }
 }

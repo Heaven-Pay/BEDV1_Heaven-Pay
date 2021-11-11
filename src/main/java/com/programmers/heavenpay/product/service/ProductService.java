@@ -12,7 +12,6 @@ import com.programmers.heavenpay.product.repository.ProductRepository;
 import com.programmers.heavenpay.s3.S3Uploader;
 import com.programmers.heavenpay.store.entity.Store;
 import com.programmers.heavenpay.store.repository.StoreRepository;
-import lombok.RequiredArgsConstructor;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
@@ -23,7 +22,6 @@ import java.io.IOException;
 import java.util.Optional;
 
 @Service
-@RequiredArgsConstructor
 public class ProductService {
     private final ProductRepository productRepository;
     private final ProductConverter productConverter;
@@ -32,6 +30,13 @@ public class ProductService {
 
     private final static String s3Dir = "product";
     private final static String EMPTY_URL = "EMPTY_URL";
+
+    public ProductService(ProductRepository productRepository, ProductConverter productConverter, StoreRepository storeRepository, S3Uploader s3Uploader) {
+        this.productRepository = productRepository;
+        this.productConverter = productConverter;
+        this.storeRepository = storeRepository;
+        this.s3Uploader = s3Uploader;
+    }
 
     @Transactional
     public ProductCreateResponse create(Long storeId, String categoryStr, int price, String title, String description, int stock, MultipartFile multipartFile) throws IOException {

@@ -1,15 +1,11 @@
 package com.programmers.heavenpay.product.dto.request;
 
-import lombok.Builder;
-import lombok.Getter;
 import org.springframework.web.multipart.MultipartFile;
 
 import javax.validation.constraints.Min;
 import javax.validation.constraints.NotBlank;
 import javax.validation.constraints.Pattern;
 
-@Builder
-@Getter
 public class ProductUpdateRequest {
     @Min(value = 1L)
     private Long storeID;
@@ -30,4 +26,45 @@ public class ProductUpdateRequest {
     private int stock;
 
     private MultipartFile multipartFile;
+
+    protected ProductUpdateRequest(){
+    }
+
+    public ProductUpdateRequest(Long storeID, String category, int price, String title, String description, int stock, MultipartFile multipartFile) {
+        this.storeID = storeID;
+        this.category = category;
+        this.price = price;
+        this.title = title;
+        this.description = description;
+        this.stock = stock;
+        this.multipartFile = multipartFile;
+    }
+
+    public Long getStoreID() {
+        return storeID;
+    }
+
+    public String getCategory() {
+        return category;
+    }
+
+    public int getPrice() {
+        return price;
+    }
+
+    public String getTitle() {
+        return title;
+    }
+
+    public String getDescription() {
+        return description;
+    }
+
+    public int getStock() {
+        return stock;
+    }
+
+    public MultipartFile getMultipartFile() {
+        return multipartFile;
+    }
 }

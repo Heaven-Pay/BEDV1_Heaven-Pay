@@ -25,11 +25,12 @@ import org.springframework.hateoas.Link;
 import org.springframework.hateoas.MediaTypes;
 import org.springframework.hateoas.server.mvc.WebMvcLinkBuilder;
 import org.springframework.http.HttpMethod;
-import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.test.web.servlet.MockMvc;
 import org.springframework.test.web.servlet.request.MockHttpServletRequestBuilder;
 import org.springframework.web.multipart.MultipartFile;
+
+import java.time.LocalDateTime;
 
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.*;
 import static org.springframework.hateoas.server.mvc.WebMvcLinkBuilder.linkTo;
@@ -50,6 +51,9 @@ class ProductControllerTest {
     private String title = "title123";
     private String description = "descreiption123";
     private int stock = 2;
+    private String s3Path = "http://";
+    private LocalDateTime createdAt = LocalDateTime.now();
+    private LocalDateTime modifiedAt = LocalDateTime.now();
     private MultipartFile multipartFile;
 
 //    MockMultipartFile multipartFile
@@ -78,24 +82,25 @@ class ProductControllerTest {
     @MockBean
     private Page<ProductInfoResponse> productPage;
 
-    private ProductCreateResponse productCreateResponse = ProductCreateResponse.builder().build();
-    private ProductDeleteResponse productDeleteResponse = ProductDeleteResponse.builder().build();
-    private ProductUpdateResponse productUpdateResponse = ProductUpdateResponse.builder().build();
+    private ProductCreateResponse productCreateResponse = new ProductCreateResponse(id, s3Path, createdAt);
+    private ProductDeleteResponse productDeleteResponse = new ProductDeleteResponse(id);
+    private ProductUpdateResponse productUpdateResponse = new ProductUpdateResponse(id, s3Path, createdAt, modifiedAt);
     private ProductInfoResponse productInfoResponse = ProductInfoResponse.builder().build();
 
     @Test
-    @DisplayName("Product 생성 성공 테스트")   //TODO: 테스트 통과 못함. actual status : 400
+    @DisplayName("Product 생성 성공 테스트")
+        //TODO: 테스트 통과 못함. actual status : 400
     void insertSuccessTest() throws Exception {
         //given
-        ProductCreateRequest productCreateRequest = ProductCreateRequest.builder()
-                .category(category)
-                .price(price)
-                .description(description)
-                .multipartFile(multipartFile)
-                .stock(stock)
-                .storeID(storeId)
-                .title(title)
-                .build();
+        ProductCreateRequest productCreateRequest = new ProductCreateRequest(
+                storeId,
+                category,
+                price,
+                title,
+                description,
+                stock,
+                multipartFile
+        );
 
         EntityModel<ProductCreateResponse> entityModel = EntityModel.of(
                 productCreateResponse,
@@ -125,7 +130,7 @@ class ProductControllerTest {
 
     @Test
     @DisplayName("patch 요청으로 product 를 수정할 수 있다.")
-    void patchSuccesstest(){
+    void patchSuccesstest() {
         //TODO: insert 테스트 성공 후 작성
     }
 

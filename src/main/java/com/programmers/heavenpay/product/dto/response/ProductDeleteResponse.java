@@ -1,10 +1,13 @@
 package com.programmers.heavenpay.product.dto.response;
 
-import lombok.Builder;
-import lombok.Getter;
-
-@Builder
-@Getter
 public class ProductDeleteResponse {
     private final Long id;
+
+    public ProductDeleteResponse(Long id) {
+        this.id = id;
+    }
+
+    public Long getId() {
+        return id;
+    }
 }

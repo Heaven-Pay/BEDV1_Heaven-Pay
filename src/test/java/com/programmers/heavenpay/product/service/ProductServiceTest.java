@@ -4,7 +4,6 @@ import com.programmers.heavenpay.product.converter.ProductConverter;
 import com.programmers.heavenpay.product.dto.response.ProductCreateResponse;
 import com.programmers.heavenpay.product.dto.response.ProductDeleteResponse;
 import com.programmers.heavenpay.product.dto.response.ProductInfoResponse;
-import com.programmers.heavenpay.product.dto.response.ProductUpdateResponse;
 import com.programmers.heavenpay.product.entitiy.Product;
 import com.programmers.heavenpay.product.repository.ProductRepository;
 import org.junit.jupiter.api.DisplayName;
@@ -50,17 +49,12 @@ class ProductServiceTest {
     @Mock
     Page<Product> productPage;
 
-    @Mock
-    Page<ProductInfoResponse> returnPage;
-
     Product product = Product.builder().build();
 
     @Mock
     ProductInfoResponse productInfoResponse;
 
     ProductDeleteResponse productDeleteResponse;
-
-    ProductUpdateResponse productUpdateResponse;
 
     ProductCreateResponse productCreateResponse;
 

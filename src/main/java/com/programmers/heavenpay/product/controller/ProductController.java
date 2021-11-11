@@ -13,7 +13,6 @@ import com.programmers.heavenpay.product.dto.response.ProductUpdateResponse;
 import com.programmers.heavenpay.product.service.ProductService;
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiOperation;
-import lombok.RequiredArgsConstructor;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.hateoas.EntityModel;
@@ -30,12 +29,16 @@ import java.io.IOException;
 import static org.springframework.hateoas.server.mvc.WebMvcLinkBuilder.linkTo;
 
 @RestController
-@RequiredArgsConstructor
 @RequestMapping(value = "/api/v1/products", produces = MediaTypes.HAL_JSON_VALUE)
 @Api(tags = "Product")
 public class ProductController {
     private final ProductService productService;
     private final ResponseConverter responseConverter;
+
+    public ProductController(ProductService productService, ResponseConverter responseConverter) {
+        this.productService = productService;
+        this.responseConverter = responseConverter;
+    }
 
     private WebMvcLinkBuilder getLinkToAddress() {
         return linkTo(ProductController.class);

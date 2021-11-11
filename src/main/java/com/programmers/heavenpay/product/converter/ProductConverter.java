@@ -23,11 +23,7 @@ public class ProductConverter {
     }
 
     public ProductCreateResponse toProductCreateResponse(Product product) {
-        return ProductCreateResponse.builder()
-                .createdAt(product.getCreatedDate())
-                .s3Path(product.getS3Path().equals(EMPTY) ? EMPTY : product.getS3Path())
-                .id(product.getId())
-                .build();
+        return new ProductCreateResponse(product.getId(), product.getS3Path().equals(EMPTY) ? EMPTY : product.getS3Path(), product.getCreatedDate());
     }
 
     public ProductInfoResponse toProductInfoResponse(Product product) {
@@ -45,9 +41,7 @@ public class ProductConverter {
     }
 
     public ProductDeleteResponse toProductDeleteResponse(Long id) {
-        return ProductDeleteResponse.builder()
-                .id(id)
-                .build();
+        return new ProductDeleteResponse(id);
     }
 
     public ProductUpdateResponse toProductUpdateResponse(Product product) {
