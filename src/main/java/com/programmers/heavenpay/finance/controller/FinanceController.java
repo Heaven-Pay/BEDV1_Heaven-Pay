@@ -13,7 +13,6 @@ import com.programmers.heavenpay.finance.service.FinanceService;
 import com.programmers.heavenpay.common.dto.LinkType;
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiOperation;
-import lombok.RequiredArgsConstructor;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.hateoas.EntityModel;
@@ -31,10 +30,14 @@ import static org.springframework.hateoas.server.mvc.WebMvcLinkBuilder.linkTo;
 @Api(tags = "Finance")
 @RestController
 @RequestMapping(value = "/api/v1/finances", produces = MediaTypes.HAL_JSON_VALUE)
-@RequiredArgsConstructor
 public class FinanceController {
     private final FinanceService financeService;
     private final ResponseConverter responseConverter;
+
+    public FinanceController(FinanceService financeService, ResponseConverter responseConverter) {
+        this.financeService = financeService;
+        this.responseConverter = responseConverter;
+    }
 
     private WebMvcLinkBuilder getLinkToAddress() {
         return linkTo(FinanceController.class);
@@ -62,7 +65,7 @@ public class FinanceController {
     @ApiOperation("금융 정보 단건 조회")
     @GetMapping(value = "/{financeId}")
     public ResponseEntity<ResponseDto> get(@PathVariable Long financeId) {
-        FinanceDetailResponse response = financeService.getOne(financeId);
+        FinanceDetailResponse response = financeService.find(financeId);
 
         EntityModel<FinanceDetailResponse> entityModel = EntityModel.of(response,
                 getLinkToAddress().withRel(LinkType.CREATE_METHOD).withType(HttpMethod.POST.name()),
@@ -81,7 +84,7 @@ public class FinanceController {
     @ApiOperation("금융 정보 전체 조회")
     @GetMapping()
     public ResponseEntity<ResponseDto> getAll(Pageable pageable) {
-        Page<FinanceDetailResponse> response = financeService.getAll(pageable);
+        Page<FinanceDetailResponse> response = financeService.findAll(pageable);
 
         Link link = getLinkToAddress().withSelfRel().withType(HttpMethod.GET.name());
 

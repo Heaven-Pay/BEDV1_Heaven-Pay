@@ -66,7 +66,7 @@ class StoreControllerTest {
     private Page<StoreInfoResponse> storePage;
 
     private StoreCreateResponse storeCreateResponse = StoreCreateResponse.builder().build();
-    private StoreDeleteResponse storeDeleteResponse = StoreDeleteResponse.builder().build();
+    private StoreDeleteResponse storeDeleteResponse = new StoreDeleteResponse(id);
     private StoreUpdateResponse storeUpdateResponse = StoreUpdateResponse.builder().build();
     private StoreInfoResponse storeInfoResponse = StoreInfoResponse.builder().build();
 
@@ -74,11 +74,7 @@ class StoreControllerTest {
     @DisplayName("post 요청으로 store를 삽입할 수 있다.")
     void insertSuccessTest() throws Exception {
         // Given
-        StoreCreateRequest request = StoreCreateRequest.builder()
-                .vendorCode(vendorCode)
-                .type(typeStr)
-                .name(name)
-                .build();
+        StoreCreateRequest request = new StoreCreateRequest(name, typeStr, vendorCode);
 
         EntityModel<StoreCreateResponse> entityModel = EntityModel.of(
                 storeCreateResponse,
@@ -137,11 +133,7 @@ class StoreControllerTest {
     @DisplayName("patch 요청으로 store를 수정할 수 있다.")
     void updateSuccessTest() throws Exception {
         // Given
-        StoreUpdateRequest request = StoreUpdateRequest.builder()
-                .name(name)
-                .type(typeStr)
-                .vendorCode(vendorCode)
-                .build();
+        StoreUpdateRequest request = new StoreUpdateRequest(name, typeStr, vendorCode);
 
         EntityModel<StoreUpdateResponse> entityModel = EntityModel.of(
                 storeUpdateResponse,

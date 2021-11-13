@@ -1,5 +1,6 @@
 package com.programmers.heavenpay.giftorder.service;
 
+import com.programmers.heavenpay.giftorder.entity.vo.GiftOrderStatus;
 import com.programmers.heavenpay.member.entity.Member;
 import com.programmers.heavenpay.member.repository.MemberRepository;
 import com.programmers.heavenpay.giftorder.converter.GiftOrderConverter;
@@ -18,6 +19,7 @@ import org.mockito.junit.jupiter.MockitoExtension;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 
+import java.time.LocalDateTime;
 import java.util.Optional;
 
 import static org.mockito.Mockito.verify;
@@ -26,6 +28,7 @@ import static org.mockito.Mockito.when;
 @ExtendWith(MockitoExtension.class)
 class GiftOrderServiceTest {
     private Long memberId = 1L;
+    private Long targetMemberId = 4L;
     private Long productId = 2L;
     private int quantity = 3;
     private Long giftOrderId = 3L;
@@ -54,16 +57,25 @@ class GiftOrderServiceTest {
 
     Member member = Member.builder().build();
 
-    Product product = Product.builder().build();
+    Member targetMember = Member.builder().build();
 
-    GiftOrder giftOrder = GiftOrder.builder().build();
+    Product product = Product.builder().stock(3).build();
+
+    GiftOrder giftOrder = new GiftOrder(
+            giftOrderId,
+            quantity,
+            GiftOrderStatus.COMPLETED,
+            member,
+            targetMember,
+            product
+    );
 
     GiftOrder giftOrderEntity = GiftOrder.builder().build();
 
     // ## dto define area ### //
-    GiftOrderCreateResponse giftOrderCreateResponse = GiftOrderCreateResponse.builder().build();
+    GiftOrderCreateResponse giftOrderCreateResponse = new GiftOrderCreateResponse(giftOrderId, LocalDateTime.now());
 
-    GiftOrderUpdateResponse giftOrderUpdateResponse = GiftOrderUpdateResponse.builder().build();
+    GiftOrderUpdateResponse giftOrderUpdateResponse = new GiftOrderUpdateResponse(giftOrderId);
 
     GiftOrderInfoResponse giftOrderInfoResponse = GiftOrderInfoResponse.builder().build();
     // ## end of dto define area ### //
@@ -72,18 +84,20 @@ class GiftOrderServiceTest {
     void 주문_신규생성_성공_테스트() {
         // given
         when(memberRepository.findById(memberId)).thenReturn(Optional.of(member));
+        when(memberRepository.findById(targetMemberId)).thenReturn(Optional.of(targetMember));
         when(productRepository.findById(productId)).thenReturn(Optional.of(product));
-        when(giftOrderConverter.toGiftOrderEntity(quantity, member, product)).thenReturn(giftOrder);
+        when(giftOrderConverter.toGiftOrderEntity(quantity, member, targetMember, product)).thenReturn(giftOrder);
         when(giftOrderRepository.save(giftOrder)).thenReturn(giftOrderEntity);
         when(giftOrderConverter.toGiftOrderCreateResponse(giftOrderEntity)).thenReturn(giftOrderCreateResponse);
 
         // when
-        giftOrderService.create(quantity, memberId, productId);
+        giftOrderService.create(quantity, memberId, targetMemberId, productId);
 
         // then
         verify(memberRepository).findById(memberId);
+        verify(memberRepository).findById(targetMemberId);
         verify(productRepository).findById(productId);
-        verify(giftOrderConverter).toGiftOrderEntity(quantity, member, product);
+        verify(giftOrderConverter).toGiftOrderEntity(quantity, member, targetMember, product);
         verify(giftOrderRepository).save(giftOrder);
         verify(giftOrderConverter).toGiftOrderCreateResponse(giftOrderEntity);
     }

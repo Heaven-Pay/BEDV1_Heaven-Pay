@@ -41,6 +41,7 @@ import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.
 @WebMvcTest(GiftOrderController.class)
 class GiftOrderControllerTest {
     private Long memberId = 1L;
+    private Long targetMemberId = 4L;
     private Long productId = 2L;
     private int quantity = 3;
     private Long giftOrderId = 3L;
@@ -65,28 +66,18 @@ class GiftOrderControllerTest {
     @Mock
     private Page<GiftOrderInfoResponse> orderInfoResponsePage;
 
-    private GiftOrderCreateRequest giftOrderCreateRequest = GiftOrderCreateRequest.builder()
-            .memberId(memberId)
-            .produtId(productId)
-            .quantity(quantity)
-            .build();
+    private GiftOrderCreateRequest giftOrderCreateRequest = new GiftOrderCreateRequest(
+            quantity, memberId, targetMemberId, productId
+    );
 
-    private GiftOrderCreateResponse giftOrderCreateResponse = GiftOrderCreateResponse.builder()
-            .createdAt(LocalDateTime.now())
-            .id(giftOrderId)
-            .build();
+    private GiftOrderCreateResponse giftOrderCreateResponse = new GiftOrderCreateResponse(giftOrderId, LocalDateTime.now());
 
-    private GiftOrderUpdateRequest giftOrderUpdateRequest = GiftOrderUpdateRequest.builder()
-            .quantity(quantity)
-            .status(status)
-            .build();
+    private GiftOrderUpdateRequest giftOrderUpdateRequest = new GiftOrderUpdateRequest(quantity, status);
 
-    private GiftOrderUpdateResponse giftOrderUpdateResponse = GiftOrderUpdateResponse.builder()
-            .id(giftOrderId)
-            .build();
+    private GiftOrderUpdateResponse giftOrderUpdateResponse = new GiftOrderUpdateResponse(giftOrderId);
 
     private GiftOrderInfoResponse giftOrderInfoResponse = GiftOrderInfoResponse.builder()
-            .mdifiedAt(LocalDateTime.now())
+            .modifiedAt(LocalDateTime.now())
             .createdAt(LocalDateTime.now())
             .id(giftOrderId)
             .status(status)
@@ -112,7 +103,7 @@ class GiftOrderControllerTest {
         );
 
         //when
-        when(giftOrderService.create(quantity, memberId, productId))
+        when(giftOrderService.create(quantity, memberId, targetMemberId, productId))
                 .thenReturn(giftOrderCreateResponse);
         when(responseConverter.toResponseEntity(ResponseMessage.GIFT_ORDER_INSERT_SUCCESS, entityModel))
                 .thenReturn(ResponseEntity.ok(ResponseDto.of(ResponseMessage.GIFT_ORDER_INSERT_SUCCESS, entityModel)));

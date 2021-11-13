@@ -2,11 +2,9 @@ package com.programmers.heavenpay.giftorder.entity.vo;
 
 import com.programmers.heavenpay.error.ErrorMessage;
 import com.programmers.heavenpay.error.exception.NotExistsException;
-import lombok.Getter;
 
 import java.util.Arrays;
 
-@Getter
 public enum GiftOrderStatus {
     COMPLETED("사용완료"),
     PAYMENT("결제완료");
@@ -22,5 +20,9 @@ public enum GiftOrderStatus {
                 .filter(v -> v.giftOrderStatus.equals(orderStatus))
                 .findFirst()
                 .orElseThrow(() -> new NotExistsException(ErrorMessage.NOT_EXIST_GIFT_ORDER_STATUS));
+    }
+
+    public String getGiftOrderStatus() {
+        return giftOrderStatus;
     }
 }

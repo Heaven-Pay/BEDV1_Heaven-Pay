@@ -12,7 +12,6 @@ import com.programmers.heavenpay.giftorder.dto.response.GiftOrderUpdateResponse;
 import com.programmers.heavenpay.giftorder.service.GiftOrderService;
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiOperation;
-import lombok.RequiredArgsConstructor;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.hateoas.EntityModel;
@@ -28,12 +27,16 @@ import javax.validation.Valid;
 import static org.springframework.hateoas.server.mvc.WebMvcLinkBuilder.linkTo;
 
 @RestController
-@RequiredArgsConstructor
 @RequestMapping(value = "/api/v1", produces = MediaTypes.HAL_JSON_VALUE)
 @Api(tags = "Gift Order")
 public class GiftOrderController {
     private final GiftOrderService giftOrderService;
     private final ResponseConverter responseConverter;
+
+    public GiftOrderController(GiftOrderService giftOrderService, ResponseConverter responseConverter) {
+        this.giftOrderService = giftOrderService;
+        this.responseConverter = responseConverter;
+    }
 
     private WebMvcLinkBuilder getLinkToAddress() {
         return linkTo(GiftOrderController.class);
@@ -42,7 +45,7 @@ public class GiftOrderController {
     @ApiOperation("Gift Order 신규 추가, 성공시 생성된 Gift Order ID 반환")
     @PostMapping(value = "/gift_orders", consumes = MediaTypes.HAL_JSON_VALUE)
     public ResponseEntity<ResponseDto> insert(@Valid @RequestBody GiftOrderCreateRequest request) {
-        GiftOrderCreateResponse response = giftOrderService.create(request.getQuantity(), request.getMemberId(), request.getProdutId());
+        GiftOrderCreateResponse response = giftOrderService.create(request.getQuantity(), request.getMemberId(), request.getTargetMemberId(), request.getProdutId());
 
         EntityModel<GiftOrderCreateResponse> entityModel = EntityModel.of(
                 response,
