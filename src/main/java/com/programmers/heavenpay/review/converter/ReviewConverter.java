@@ -23,18 +23,11 @@ public class ReviewConverter {
     }
 
     public ReviewCreateResponse toReviewCreateResponse(Long id, LocalDateTime createdDate) {
-        return ReviewCreateResponse.builder()
-                .id(id)
-                .createdAt(createdDate)
-                .build();
+        return new ReviewCreateResponse(id, createdDate);
     }
 
     public ReviewUpdateResponse toReviewUpdateResponse(Review review) {
-        return ReviewUpdateResponse.builder()
-                .id(review.getId())
-                .createdAt(review.getCreatedDate())
-                .modifiedAt(review.getModifiedDate())
-                .build();
+        return new ReviewUpdateResponse(review.getId(), review.getCreatedDate(), review.getModifiedDate());
     }
 
     public ReviewInfoResponse toReviewInfoResponse(Review review) {
@@ -49,8 +42,6 @@ public class ReviewConverter {
     }
 
     public ReviewDeleteResponse toStoreDeleteResponse(Review review) {
-        return ReviewDeleteResponse.builder()
-                .id(review.getId())
-                .build();
+        return new ReviewDeleteResponse(review.getId());
     }
 }
