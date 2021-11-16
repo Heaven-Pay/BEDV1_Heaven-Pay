@@ -19,6 +19,7 @@ import org.mockito.junit.jupiter.MockitoExtension;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 
+import java.time.LocalDateTime;
 import java.util.Optional;
 
 import static org.mockito.ArgumentMatchers.*;
@@ -75,10 +76,10 @@ class ReviewServiceTest {
             .build();
 
     // dto
-    private ReviewCreateResponse reviewCreateResponse = ReviewCreateResponse.builder().build();
-    private ReviewUpdateResponse reviewUpdateResponse = ReviewUpdateResponse.builder().build();
+    private ReviewCreateResponse reviewCreateResponse = new ReviewCreateResponse(reviewerId, LocalDateTime.now());
+    private ReviewUpdateResponse reviewUpdateResponse = new ReviewUpdateResponse(reviewId, LocalDateTime.now(), LocalDateTime.now());
     private ReviewInfoResponse reviewInfoResponse = ReviewInfoResponse.builder().build();
-    private ReviewDeleteResponse reviewDeleteResponse = ReviewDeleteResponse.builder().build();
+    private ReviewDeleteResponse reviewDeleteResponse = new ReviewDeleteResponse(reviewerId);
 
     @Test
     void 리뷰_신규_추가_성공_테스트() {

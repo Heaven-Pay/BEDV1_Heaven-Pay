@@ -66,15 +66,9 @@ class ReviewControllerTest {
     @Mock
     private Page<ReviewInfoResponse> reviewInfoResponsePage;
 
-    private ReviewDeleteResponse reviewDeleteResponse = ReviewDeleteResponse.builder()
-            .id(reviewId)
-            .build();
+    private ReviewDeleteResponse reviewDeleteResponse = new ReviewDeleteResponse(reviewId);
 
-    private ReviewUpdateResponse reviewUpdateResponse = ReviewUpdateResponse.builder()
-            .id(reviewId)
-            .modifiedAt(LocalDateTime.now())
-            .modifiedAt(LocalDateTime.now())
-            .build();
+    private ReviewUpdateResponse reviewUpdateResponse = new ReviewUpdateResponse(reviewId, LocalDateTime.now(), LocalDateTime.now());
 
     private ReviewInfoResponse reviewInfoResponse = ReviewInfoResponse.builder()
             .score(score)
@@ -84,22 +78,11 @@ class ReviewControllerTest {
             .content(content)
             .build();
 
-    private ReviewCreateRequest reviewCreateRequest = ReviewCreateRequest.builder()
-            .content(content)
-            .productId(productId)
-            .reviewerId(reviewerId)
-            .score(score)
-            .build();
+    private ReviewCreateRequest reviewCreateRequest = new ReviewCreateRequest(reviewerId, content, score, productId);
 
-    private ReviewCreateResponse reviewCreateResponse = ReviewCreateResponse.builder()
-            .id(reviewId)
-            .createdAt(LocalDateTime.now())
-            .build();
+    private ReviewCreateResponse reviewCreateResponse = new ReviewCreateResponse(reviewId, LocalDateTime.now());
 
-    private ReviewUpdateRequest reviewUpdateRequest = ReviewUpdateRequest.builder()
-            .content(content)
-            .score(score)
-            .build();
+    private ReviewUpdateRequest reviewUpdateRequest = new ReviewUpdateRequest(content, score);
     // ### end of dto define area ### //
 
     private WebMvcLinkBuilder getLinkToAddress() {
