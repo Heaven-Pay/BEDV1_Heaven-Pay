@@ -6,7 +6,6 @@ import lombok.Getter;
 import java.time.LocalDateTime;
 
 @Builder
-@Getter
 public class ReviewInfoResponse {
     private final Long id;
 
@@ -19,4 +18,28 @@ public class ReviewInfoResponse {
     private final Long reviewerId;
 
     private final LocalDateTime modifiedAt;
+
+    public Long getId() {
+        return id;
+    }
+
+    public int getScore() {
+        return score;
+    }
+
+    public String getContent() {
+        return content;
+    }
+
+    public Long getProductId() {
+        return productId;
+    }
+
+    public Long getReviewerId() {
+        return reviewerId;
+    }
+
+    public LocalDateTime getModifiedAt() {
+        return modifiedAt;
+    }
 }

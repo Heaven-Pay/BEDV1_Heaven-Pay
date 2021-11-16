@@ -9,10 +9,7 @@ import javax.persistence.*;
 import java.util.Objects;
 
 @Entity
-@Getter
 @Builder
-@NoArgsConstructor(access = AccessLevel.PROTECTED)
-@AllArgsConstructor
 public class Review extends BaseEntity<Long> {
     @Id
     @GeneratedValue(strategy = GenerationType.AUTO)
@@ -33,9 +30,40 @@ public class Review extends BaseEntity<Long> {
     @JoinColumn(name = "reviewer_id", referencedColumnName = "member_id", nullable = false)
     private Member reviewer;
 
+    public Review(Long id, int score, String content, Product product, Member reviewer) {
+        this.id = id;
+        this.score = score;
+        this.content = content;
+        this.product = product;
+        this.reviewer = reviewer;
+    }
+
+    protected Review() { // @Entity는 생성자 바인딩
+    }
+
     public void updateInfo(String content, int score){
         this.content = content;
         this.score = score;
+    }
+
+    public Long getId() {
+        return id;
+    }
+
+    public int getScore() {
+        return score;
+    }
+
+    public String getContent() {
+        return content;
+    }
+
+    public Product getProduct() {
+        return product;
+    }
+
+    public Member getReviewer() {
+        return reviewer;
     }
 
     /**

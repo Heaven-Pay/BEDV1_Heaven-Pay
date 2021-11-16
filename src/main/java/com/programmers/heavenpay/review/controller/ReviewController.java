@@ -13,7 +13,6 @@ import com.programmers.heavenpay.review.dto.response.ReviewUpdateResponse;
 import com.programmers.heavenpay.review.service.ReviewService;
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiOperation;
-import lombok.RequiredArgsConstructor;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.hateoas.EntityModel;
@@ -21,7 +20,6 @@ import org.springframework.hateoas.Link;
 import org.springframework.hateoas.MediaTypes;
 import org.springframework.hateoas.server.mvc.WebMvcLinkBuilder;
 import org.springframework.http.HttpMethod;
-import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
@@ -30,12 +28,16 @@ import javax.validation.Valid;
 import static org.springframework.hateoas.server.mvc.WebMvcLinkBuilder.linkTo;
 
 @RestController
-@RequiredArgsConstructor
 @RequestMapping(value = "/api/v1", produces = MediaTypes.HAL_JSON_VALUE)
 @Api(tags = "Review")
 public class ReviewController {
     private final ReviewService reviewService;
     private final ResponseConverter responseConverter;
+
+    public ReviewController(ReviewService reviewService, ResponseConverter responseConverter) {
+        this.reviewService = reviewService;
+        this.responseConverter = responseConverter;
+    }
 
     private WebMvcLinkBuilder getLinkToAddress() {
         return linkTo(ReviewController.class);
