@@ -137,7 +137,7 @@ class RemittanceControllerTest {
         );
 
         // when
-        when(remittanceService.get(MEMBER_ID, REMITTANCE_ID))
+        when(remittanceService.getOne(MEMBER_ID, REMITTANCE_ID))
                 .thenReturn(remittanceGetResponse);
         when(responseConverter.toResponseEntity(ResponseMessage.REMITTANCE_READ_SUCCESS, entityModel))
                 .thenReturn(ResponseEntity.ok(ResponseDto.of(ResponseMessage.REMITTANCE_READ_SUCCESS, entityModel)));

@@ -60,7 +60,7 @@ public class RemittanceService {
     }
 
     @Transactional(readOnly = true)
-    public RemittanceGetResponse get(Long memberId, Long remittanceId) {
+    public RemittanceGetResponse getOne(Long memberId, Long remittanceId) {
         Member member = memberRepository.findById(memberId)
                 .orElseThrow(
                         () -> new NotExistsException(ErrorMessage.NOT_EXIST_MEMBER)

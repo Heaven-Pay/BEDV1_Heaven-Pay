@@ -136,7 +136,7 @@ class RemittanceServiceTest {
         when(remittanceConverter.toRemittanceGetResponse(remittance)).thenReturn(remittanceGetResponse);
 
         // when
-        remittanceService.get(MEMBER_ID, REMITTANCE_ID);
+        remittanceService.getOne(MEMBER_ID, REMITTANCE_ID);
 
         // then
         verify(remittanceRepository).findByIdAndMember(REMITTANCE_ID, member);

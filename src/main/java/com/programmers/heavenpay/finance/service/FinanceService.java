@@ -42,7 +42,7 @@ public class FinanceService {
     }
 
     @Transactional(readOnly = true)
-    public FinanceDetailResponse find(Long financeId) {
+    public FinanceDetailResponse findById(Long financeId) {
         Finance finance = financeRepository.findById(financeId)
                 .orElseThrow(() -> {
                     throw new NotExistsException(ErrorMessage.NOT_EXIST_FINANCE);
@@ -52,7 +52,7 @@ public class FinanceService {
     }
 
     @Transactional(readOnly = true)
-    public Page<FinanceDetailResponse> findAll(Pageable pageable) {
+    public Page<FinanceDetailResponse> findAllByPages(Pageable pageable) {
         return financeRepository.findAll(pageable)
                 .map(financeConverter::toFinanceDetailResponse);
     }

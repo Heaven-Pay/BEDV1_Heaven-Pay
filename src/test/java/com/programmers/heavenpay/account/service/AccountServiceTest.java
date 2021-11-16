@@ -110,7 +110,7 @@ class AccountServiceTest {
         when(accountRepository.findAllByMember(member, pageable)).thenReturn(accounts);
 
         // when
-        accountService.getAll(MEMBER_ID, pageable);
+        accountService.findAllByPages(MEMBER_ID, pageable);
 
         // then
         verify(accountRepository).findAllByMember(member, pageable);

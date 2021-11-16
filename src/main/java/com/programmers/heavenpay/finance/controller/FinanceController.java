@@ -45,7 +45,7 @@ public class FinanceController {
 
     @ApiOperation("금융 정보 생성")
     @PostMapping(consumes = MediaTypes.HAL_JSON_VALUE)
-    public ResponseEntity<ResponseDto> add(@Valid @RequestBody FinanceCreateRequest request) {
+    public ResponseEntity<ResponseDto> insert(@Valid @RequestBody FinanceCreateRequest request) {
         FinanceCreateResponse response = financeService.create(request.getMemberId(), request.getFinanceName(), request.getFinanceType());
 
         EntityModel<FinanceCreateResponse> entityModel = EntityModel.of(response,
@@ -64,8 +64,8 @@ public class FinanceController {
 
     @ApiOperation("금융 정보 단건 조회")
     @GetMapping(value = "/{financeId}")
-    public ResponseEntity<ResponseDto> get(@PathVariable Long financeId) {
-        FinanceDetailResponse response = financeService.find(financeId);
+    public ResponseEntity<ResponseDto> getOne(@PathVariable Long financeId) {
+        FinanceDetailResponse response = financeService.findById(financeId);
 
         EntityModel<FinanceDetailResponse> entityModel = EntityModel.of(response,
                 getLinkToAddress().withRel(LinkType.CREATE_METHOD).withType(HttpMethod.POST.name()),
@@ -84,7 +84,7 @@ public class FinanceController {
     @ApiOperation("금융 정보 전체 조회")
     @GetMapping()
     public ResponseEntity<ResponseDto> getAll(Pageable pageable) {
-        Page<FinanceDetailResponse> response = financeService.findAll(pageable);
+        Page<FinanceDetailResponse> response = financeService.findAllByPages(pageable);
 
         Link link = getLinkToAddress().withSelfRel().withType(HttpMethod.GET.name());
 

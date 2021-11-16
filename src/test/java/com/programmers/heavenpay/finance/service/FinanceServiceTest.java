@@ -61,7 +61,7 @@ class FinanceServiceTest {
         when(financeConverter.toFinanceDetailResponse(finance)).thenReturn(financeDetailResponse);
 
         // when
-        financeService.find(financeId);
+        financeService.findById(financeId);
 
         // then
         verify(financeRepository).findById(financeId);

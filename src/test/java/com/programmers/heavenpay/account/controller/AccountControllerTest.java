@@ -177,7 +177,7 @@ class AccountControllerTest {
         Link link = getLinkToAddress().withSelfRel().withType(HttpMethod.GET.name());
 
         // when
-        when(accountService.getAll(ACCOUNT_ID, pageable)).thenReturn(accountDetailAllResponses);
+        when(accountService.findAllByPages(ACCOUNT_ID, pageable)).thenReturn(accountDetailAllResponses);
         when(responseConverter.toResponseEntity(ResponseMessage.ACCOUNT_GET_ALL_SUCCESS, accountDetailAllResponses, link))
                 .thenReturn(ResponseEntity.ok(ResponseDto.of(ResponseMessage.ACCOUNT_GET_ALL_SUCCESS, accountDetailAllResponses, link)));
 

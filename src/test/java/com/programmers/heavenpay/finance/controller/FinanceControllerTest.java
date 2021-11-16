@@ -149,7 +149,7 @@ class FinanceControllerTest {
         );
 
         // when
-        when(financeService.find(FINANCE_ID))
+        when(financeService.findById(FINANCE_ID))
                 .thenReturn(financeDetailResponse);
         when(responseConverter.toResponseEntity(ResponseMessage.FINANCE_READ_SUCCESS, entityModel))
                 .thenReturn(ResponseEntity.ok(ResponseDto.of(ResponseMessage.FINANCE_READ_SUCCESS, entityModel)));
@@ -169,7 +169,7 @@ class FinanceControllerTest {
         Link link = getLinkToAddress().withSelfRel().withType(HttpMethod.GET.name());
 
         // when
-        when(financeService.findAll(pageable)).thenReturn(financeDetailAllResponse);
+        when(financeService.findAllByPages(pageable)).thenReturn(financeDetailAllResponse);
         when(responseConverter.toResponseEntity(ResponseMessage.FINANCE_READ_ALL_SUCCESS, financeDetailAllResponse, link))
                 .thenReturn(ResponseEntity.ok(ResponseDto.of(ResponseMessage.FINANCE_READ_ALL_SUCCESS, financeDetailAllResponse, link)));
 

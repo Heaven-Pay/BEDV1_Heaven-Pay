@@ -62,7 +62,7 @@ public class AccountService {
     }
 
     @Transactional(readOnly = true)
-    public Page<AccountDetailAllResponse> getAll(Long memberId, Pageable pageable) {
+    public Page<AccountDetailAllResponse> findAllByPages(Long memberId, Pageable pageable) {
         Member member = memberRepository.findById(memberId)
                 .orElseThrow(
                         () -> new NotExistsException(ErrorMessage.NOT_EXIST_MEMBER)

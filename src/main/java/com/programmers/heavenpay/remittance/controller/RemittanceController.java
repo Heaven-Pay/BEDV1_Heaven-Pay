@@ -44,7 +44,7 @@ public class RemittanceController {
 
     @ApiOperation("송금하기")
     @PostMapping(consumes = MediaTypes.HAL_JSON_VALUE)
-    public ResponseEntity<ResponseDto> add(@Valid @RequestBody RemittanceCreateRequest request) {
+    public ResponseEntity<ResponseDto> insert(@Valid @RequestBody RemittanceCreateRequest request) {
         RemittanceCreateResponse response = remittanceService.create(
                 request.getMemberId(),
                 request.getAccountId(),
@@ -68,8 +68,8 @@ public class RemittanceController {
 
     @ApiOperation("송금 단건 조회")
     @GetMapping(value = "/{remittanceId}", consumes = MediaTypes.HAL_JSON_VALUE)
-    public ResponseEntity<ResponseDto> get(@PathVariable Long remittanceId, @Valid @RequestBody RemittanceGetRequest request) {
-        RemittanceGetResponse response = remittanceService.get(request.getMemberId(), remittanceId);
+    public ResponseEntity<ResponseDto> getOne(@PathVariable Long remittanceId, @Valid @RequestBody RemittanceGetRequest request) {
+        RemittanceGetResponse response = remittanceService.getOne(request.getMemberId(), remittanceId);
 
         EntityModel<RemittanceGetResponse> entityModel = EntityModel.of(response,
                 getLinkToAddress().withRel(LinkType.CREATE_METHOD).withType(HttpMethod.POST.name()),
