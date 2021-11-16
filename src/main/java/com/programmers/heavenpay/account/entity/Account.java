@@ -4,15 +4,10 @@ import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.programmers.heavenpay.common.entity.BaseEntity;
 import com.programmers.heavenpay.finance.entity.Finance;
 import com.programmers.heavenpay.member.entity.Member;
-import lombok.*;
 
 import javax.persistence.*;
 
 @Entity
-@Getter
-@Builder
-@NoArgsConstructor(access = AccessLevel.PROTECTED)
-@AllArgsConstructor
 public class Account extends BaseEntity<Long> {
     @Id
     @GeneratedValue(strategy = GenerationType.AUTO)
@@ -38,8 +33,101 @@ public class Account extends BaseEntity<Long> {
     @JoinColumn(name = "finance_id")
     private Finance finance;
 
+    protected Account() {
+
+    }
+
+    public Account(Long id, String title, String description, String number, Member member, Finance finance) {
+        this.id = id;
+        this.title = title;
+        this.description = description;
+        this.number = number;
+        this.member = member;
+        this.finance = finance;
+    }
+
     public void update(String title, String description) {
         this.title = title;
         this.description = description;
+    }
+
+    public Long getId() {
+        return id;
+    }
+
+    public String getTitle() {
+        return title;
+    }
+
+    public String getDescription() {
+        return description;
+    }
+
+    public String getNumber() {
+        return number;
+    }
+
+    public Member getMember() {
+        return member;
+    }
+
+    public Finance getFinance() {
+        return finance;
+    }
+
+    public static Account.AccountBuilder builder() {
+        return new Account.AccountBuilder();
+    }
+
+    public static class AccountBuilder {
+        private Long id;
+        private String title;
+        private String description;
+        private String number;
+        private Member member;
+        private Finance finance;
+
+        AccountBuilder() {
+        }
+
+        public Account.AccountBuilder id(final Long id) {
+            this.id = id;
+            return this;
+        }
+
+        public Account.AccountBuilder title(final String title) {
+            this.title = title;
+            return this;
+        }
+
+        public Account.AccountBuilder description(final String description) {
+            this.description = description;
+            return this;
+        }
+
+        public Account.AccountBuilder number(final String number) {
+            this.number = number;
+            return this;
+        }
+
+        @JsonIgnore
+        public Account.AccountBuilder member(final Member member) {
+            this.member = member;
+            return this;
+        }
+
+        @JsonIgnore
+        public Account.AccountBuilder finance(final Finance finance) {
+            this.finance = finance;
+            return this;
+        }
+
+        public Account build() {
+            return new Account(this.id, this.title, this.description, this.number, this.member, this.finance);
+        }
+
+        public String toString() {
+            return "Account.AccountBuilder(id=" + this.id + ", title=" + this.title + ", description=" + this.description + ", number=" + this.number + ", member=" + this.member + ", finance=" + this.finance + ")";
+        }
     }
 }

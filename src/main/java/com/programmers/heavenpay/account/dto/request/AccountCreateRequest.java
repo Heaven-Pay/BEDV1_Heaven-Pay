@@ -1,15 +1,11 @@
 package com.programmers.heavenpay.account.dto.request;
 
 import com.programmers.heavenpay.annotation.ArbitraryAuthenticationPrincipal;
-import lombok.*;
 
 import javax.validation.constraints.NotBlank;
 import javax.validation.constraints.NotNull;
 import javax.validation.constraints.Pattern;
 
-@Getter
-@NoArgsConstructor(access = AccessLevel.PROTECTED)
-@AllArgsConstructor
 public class AccountCreateRequest {
     @NotNull(message = "아이디를 입력하세요.")
     @ArbitraryAuthenticationPrincipal
@@ -26,4 +22,36 @@ public class AccountCreateRequest {
 
     @NotNull(message = "아이디를 입력하세요.")
     private Long financeId;
+
+    protected AccountCreateRequest() {
+
+    }
+
+    public AccountCreateRequest(Long memberId, String title, String description, String number, Long financeId) {
+        this.memberId = memberId;
+        this.title = title;
+        this.description = description;
+        this.number = number;
+        this.financeId = financeId;
+    }
+
+    public Long getMemberId() {
+        return memberId;
+    }
+
+    public String getTitle() {
+        return title;
+    }
+
+    public String getDescription() {
+        return description;
+    }
+
+    public String getNumber() {
+        return number;
+    }
+
+    public Long getFinanceId() {
+        return financeId;
+    }
 }

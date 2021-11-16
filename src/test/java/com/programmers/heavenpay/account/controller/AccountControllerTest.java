@@ -116,9 +116,7 @@ class AccountControllerTest {
             ACCOUNT_ID
     );
 
-    private AccountDeleteResponse accountDeleteResponse = AccountDeleteResponse.builder()
-            .id(ACCOUNT_ID)
-            .build();
+    private AccountDeleteResponse accountDeleteResponse = new AccountDeleteResponse(ACCOUNT_ID);
 
     @Test
     void 계좌_생성() throws Exception {

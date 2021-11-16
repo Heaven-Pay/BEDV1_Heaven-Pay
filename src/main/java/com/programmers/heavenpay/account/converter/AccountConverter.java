@@ -61,8 +61,6 @@ public class AccountConverter {
     }
 
     public AccountDeleteResponse toAccountDeleteResponse(Long accountId) {
-        return AccountDeleteResponse.builder()
-                .id(accountId)
-                .build();
+        return new AccountDeleteResponse(accountId);
     }
 }

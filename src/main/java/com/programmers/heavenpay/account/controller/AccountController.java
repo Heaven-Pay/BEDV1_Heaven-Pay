@@ -12,7 +12,6 @@ import com.programmers.heavenpay.common.dto.ResponseDto;
 import com.programmers.heavenpay.common.dto.ResponseMessage;
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiOperation;
-import lombok.RequiredArgsConstructor;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.hateoas.EntityModel;
@@ -30,10 +29,14 @@ import static org.springframework.hateoas.server.mvc.WebMvcLinkBuilder.linkTo;
 @Api(tags = "Account")
 @RestController
 @RequestMapping(value = "/api/v1/accounts", produces = MediaTypes.HAL_JSON_VALUE)
-@RequiredArgsConstructor
 public class AccountController {
     private final AccountService accountService;
     private final ResponseConverter responseConverter;
+
+    public AccountController(AccountService accountService, ResponseConverter responseConverter) {
+        this.accountService = accountService;
+        this.responseConverter = responseConverter;
+    }
 
     private WebMvcLinkBuilder getLinkToAddress() {
         return linkTo(AccountController.class);
