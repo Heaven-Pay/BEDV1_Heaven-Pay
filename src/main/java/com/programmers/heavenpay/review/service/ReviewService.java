@@ -29,7 +29,8 @@ public class ReviewService {
             ReviewRepository reviewRepository,
             ReviewConverter reviewConverter,
             ProductRepository productRepository,
-            MemberRepository memberRepository) {
+            MemberRepository memberRepository
+    ) {
 
         this.reviewRepository = reviewRepository;
         this.reviewConverter = reviewConverter;
