@@ -1,8 +1,5 @@
 package com.programmers.heavenpay.follow.entity.vo;
 
-import lombok.Getter;
-
-@Getter
 public enum FollowStatus {
     FOLLOWING("팔로우"),
     UNFOLLOWING("언팔로우");
@@ -11,5 +8,9 @@ public enum FollowStatus {
 
     FollowStatus(String status) {
         this.status = status;
+    }
+
+    public String getStatus() {
+        return status;
     }
 }

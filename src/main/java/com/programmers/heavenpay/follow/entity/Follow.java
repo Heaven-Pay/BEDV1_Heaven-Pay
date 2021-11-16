@@ -2,16 +2,11 @@ package com.programmers.heavenpay.follow.entity;
 
 import com.programmers.heavenpay.common.entity.BaseEntity;
 import com.programmers.heavenpay.member.entity.Member;
-import lombok.AccessLevel;
-import lombok.AllArgsConstructor;
-import lombok.NoArgsConstructor;
 
 import javax.persistence.*;
 import java.util.Objects;
 
 @Entity
-@NoArgsConstructor(access = AccessLevel.PROTECTED)
-@AllArgsConstructor
 public class Follow extends BaseEntity<Long> {
     @Id
     @GeneratedValue(strategy = GenerationType.AUTO)
@@ -25,6 +20,16 @@ public class Follow extends BaseEntity<Long> {
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "follow_from_member")
     private Member fromMember;
+
+    protected Follow() {
+
+    }
+
+    public Follow(Long id, Member toMember, Member fromMember) {
+        this.id = id;
+        this.toMember = toMember;
+        this.fromMember = fromMember;
+    }
 
     public Follow(Member toMember, Member fromMember) {
         this.toMember = toMember;

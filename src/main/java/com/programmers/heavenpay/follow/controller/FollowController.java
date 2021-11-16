@@ -12,7 +12,6 @@ import com.programmers.heavenpay.follow.service.FollowService;
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiOperation;
 import io.swagger.models.HttpMethod;
-import lombok.RequiredArgsConstructor;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.hateoas.EntityModel;
@@ -28,11 +27,15 @@ import static org.springframework.hateoas.server.mvc.WebMvcLinkBuilder.linkTo;
 
 @Api("Follow")
 @RestController
-@RequiredArgsConstructor
 @RequestMapping(value = "/api/v1/follows", produces = MediaTypes.HAL_JSON_VALUE, consumes = MediaTypes.HAL_JSON_VALUE)
 public class FollowController {
     private final FollowService followService;
     private final ResponseConverter responseConverter;
+
+    public FollowController(FollowService followService, ResponseConverter responseConverter) {
+        this.followService = followService;
+        this.responseConverter = responseConverter;
+    }
 
     private WebMvcLinkBuilder getLinkToAddress() {
         return linkTo(FollowController.class);
