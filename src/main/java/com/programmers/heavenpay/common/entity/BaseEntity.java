@@ -1,6 +1,5 @@
 package com.programmers.heavenpay.common.entity;
 
-import lombok.Getter;
 import org.springframework.data.annotation.CreatedBy;
 import org.springframework.data.annotation.CreatedDate;
 import org.springframework.data.annotation.LastModifiedBy;
@@ -14,7 +13,6 @@ import java.time.LocalDateTime;
 
 @MappedSuperclass
 @EntityListeners(AuditingEntityListener.class)
-@Getter
 public abstract class BaseEntity<U> {
     @CreatedBy
     @Column(name = "created_by")
@@ -39,5 +37,21 @@ public abstract class BaseEntity<U> {
 
     public void updateLastModifiedMember(U lastModifiedBy) {
         this.lastModifiedBy = lastModifiedBy;
+    }
+
+    public U getCreatedBy() {
+        return createdBy;
+    }
+
+    public U getLastModifiedBy() {
+        return lastModifiedBy;
+    }
+
+    public LocalDateTime getCreatedDate() {
+        return createdDate;
+    }
+
+    public LocalDateTime getModifiedDate() {
+        return modifiedDate;
     }
 }

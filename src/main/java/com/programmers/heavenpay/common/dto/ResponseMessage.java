@@ -1,9 +1,7 @@
 package com.programmers.heavenpay.common.dto;
 
-import lombok.Getter;
 import org.springframework.http.HttpStatus;
 
-@Getter
 public enum ResponseMessage {
     FINANCE_CREATE_SUCCESS(HttpStatus.CREATED, "금융 데이터 생성 성공입니다."),
     FINANCE_UPDATE_SUCCESS(HttpStatus.OK, "금융 데이터 수정 성공입니다."),
@@ -66,5 +64,13 @@ public enum ResponseMessage {
     ResponseMessage(HttpStatus status, String message) {
         this.status = status;
         this.message = message;
+    }
+
+    public HttpStatus getStatus() {
+        return status;
+    }
+
+    public String getMessage() {
+        return message;
     }
 }

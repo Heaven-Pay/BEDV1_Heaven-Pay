@@ -1,12 +1,10 @@
 package com.programmers.heavenpay.error;
 
 import com.programmers.heavenpay.error.exception.NotDefinitionException;
-import lombok.Getter;
 import org.springframework.http.HttpStatus;
 
 import java.util.Arrays;
 
-@Getter
 public enum ErrorMessage {
     INTERNAL_SERVER_ERROR(HttpStatus.INTERNAL_SERVER_ERROR, "정의되지 않은 서버 에러"),
     NOT_EXIST_MEMBER(HttpStatus.NOT_FOUND, "존재하지 않는 Member Id"),
@@ -47,5 +45,13 @@ public enum ErrorMessage {
                 .filter(e -> e.message.equals(errorMessage))
                 .findFirst()
                 .orElseThrow(() -> new NotDefinitionException(ErrorMessage.INTERNAL_SERVER_ERROR));
+    }
+
+    public HttpStatus getStatus() {
+        return status;
+    }
+
+    public String getMessage() {
+        return message;
     }
 }
