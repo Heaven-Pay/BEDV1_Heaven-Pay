@@ -12,7 +12,6 @@ import com.programmers.heavenpay.remittance.dto.response.RemittanceGetResponse;
 import com.programmers.heavenpay.remittance.service.RemittanceService;
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiOperation;
-import lombok.RequiredArgsConstructor;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.hateoas.EntityModel;
@@ -30,10 +29,14 @@ import static org.springframework.hateoas.server.mvc.WebMvcLinkBuilder.linkTo;
 @Api(tags = "Remittance")
 @RestController
 @RequestMapping(value = "/api/v1/remittances", produces = MediaTypes.HAL_JSON_VALUE)
-@RequiredArgsConstructor
 public class RemittanceController {
     private final RemittanceService remittanceService;
     private final ResponseConverter responseConverter;
+
+    public RemittanceController(RemittanceService remittanceService, ResponseConverter responseConverter) {
+        this.remittanceService = remittanceService;
+        this.responseConverter = responseConverter;
+    }
 
     private WebMvcLinkBuilder getLinkToAddress() {
         return linkTo(RemittanceController.class);

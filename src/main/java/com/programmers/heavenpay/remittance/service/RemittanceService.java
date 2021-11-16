@@ -14,20 +14,26 @@ import com.programmers.heavenpay.remittance.dto.response.RemittanceDetailAllResp
 import com.programmers.heavenpay.remittance.dto.response.RemittanceGetResponse;
 import com.programmers.heavenpay.remittance.entity.Remittance;
 import com.programmers.heavenpay.remittance.repository.RemittanceRepository;
-import lombok.RequiredArgsConstructor;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 @Service
-@RequiredArgsConstructor
 public class RemittanceService {
     private final RemittanceRepository remittanceRepository;
     private final MemberRepository memberRepository;
     private final AccountRepository accountRepository;
     private final FinanceRepository financeRepository;
     private final RemittanceConverter remittanceConverter;
+
+    public RemittanceService(RemittanceRepository remittanceRepository, MemberRepository memberRepository, AccountRepository accountRepository, FinanceRepository financeRepository, RemittanceConverter remittanceConverter) {
+        this.remittanceRepository = remittanceRepository;
+        this.memberRepository = memberRepository;
+        this.accountRepository = accountRepository;
+        this.financeRepository = financeRepository;
+        this.remittanceConverter = remittanceConverter;
+    }
 
     @Transactional
     public RemittanceCreateResponse create(Long memberId, Long accountId, Long financeId, String name, String number, Integer money) {
