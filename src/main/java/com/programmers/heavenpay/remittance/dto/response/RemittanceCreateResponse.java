@@ -12,7 +12,7 @@ public class RemittanceCreateResponse {
     private final LocalDateTime createdAt;
     private final LocalDateTime modifiedAt;
 
-    RemittanceCreateResponse(final Long remittanceId, final String memberName, final String financeName, final String remittanceName, final String remittanceNumber, final Integer remittanceMoney, final LocalDateTime createdAt, final LocalDateTime modifiedAt) {
+    private RemittanceCreateResponse(final Long remittanceId, final String memberName, final String financeName, final String remittanceName, final String remittanceNumber, final Integer remittanceMoney, final LocalDateTime createdAt, final LocalDateTime modifiedAt) {
         this.remittanceId = remittanceId;
         this.memberName = memberName;
         this.financeName = financeName;
@@ -69,7 +69,7 @@ public class RemittanceCreateResponse {
         private LocalDateTime createdAt;
         private LocalDateTime modifiedAt;
 
-        RemittanceCreateResponseBuilder() {
+        private RemittanceCreateResponseBuilder() {
         }
 
         public RemittanceCreateResponse.RemittanceCreateResponseBuilder remittanceId(final Long remittanceId) {
@@ -114,10 +114,6 @@ public class RemittanceCreateResponse {
 
         public RemittanceCreateResponse build() {
             return new RemittanceCreateResponse(this.remittanceId, this.memberName, this.financeName, this.remittanceName, this.remittanceNumber, this.remittanceMoney, this.createdAt, this.modifiedAt);
-        }
-
-        public String toString() {
-            return "RemittanceCreateResponse.RemittanceCreateResponseBuilder(remittanceId=" + this.remittanceId + ", memberName=" + this.memberName + ", financeName=" + this.financeName + ", remittanceName=" + this.remittanceName + ", remittanceNumber=" + this.remittanceNumber + ", remittanceMoney=" + this.remittanceMoney + ", createdAt=" + this.createdAt + ", modifiedAt=" + this.modifiedAt + ")";
         }
     }
 }

@@ -9,7 +9,7 @@ public class FinanceUpdateResponse {
     private final LocalDateTime createdAt;
     private final LocalDateTime modifiedAt;
 
-    FinanceUpdateResponse(final Long id, final String financeName, final String financeType, final LocalDateTime createdAt, final LocalDateTime modifiedAt) {
+    private FinanceUpdateResponse(final Long id, final String financeName, final String financeType, final LocalDateTime createdAt, final LocalDateTime modifiedAt) {
         this.id = id;
         this.financeName = financeName;
         this.financeType = financeType;
@@ -48,7 +48,7 @@ public class FinanceUpdateResponse {
         private LocalDateTime createdAt;
         private LocalDateTime modifiedAt;
 
-        FinanceUpdateResponseBuilder() {
+        private FinanceUpdateResponseBuilder() {
         }
 
         public FinanceUpdateResponse.FinanceUpdateResponseBuilder id(final Long id) {
@@ -78,10 +78,6 @@ public class FinanceUpdateResponse {
 
         public FinanceUpdateResponse build() {
             return new FinanceUpdateResponse(this.id, this.financeName, this.financeType, this.createdAt, this.modifiedAt);
-        }
-
-        public String toString() {
-            return "FinanceUpdateResponse.FinanceUpdateResponseBuilder(id=" + this.id + ", financeName=" + this.financeName + ", financeType=" + this.financeType + ", createdAt=" + this.createdAt + ", modifiedAt=" + this.modifiedAt + ")";
         }
     }
 }

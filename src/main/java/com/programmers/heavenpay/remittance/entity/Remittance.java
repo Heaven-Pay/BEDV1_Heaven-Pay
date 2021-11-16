@@ -95,7 +95,7 @@ public class Remittance extends BaseEntity<Long> {
         private String number;
         private Integer money;
 
-        RemittanceBuilder() {
+        private RemittanceBuilder() {
         }
 
         public Remittance.RemittanceBuilder id(final Long id) {
@@ -138,10 +138,6 @@ public class Remittance extends BaseEntity<Long> {
 
         public Remittance build() {
             return new Remittance(this.id, this.member, this.account, this.finance, this.name, this.number, this.money);
-        }
-
-        public String toString() {
-            return "Remittance.RemittanceBuilder(id=" + this.id + ", member=" + this.member + ", account=" + this.account + ", finance=" + this.finance + ", name=" + this.name + ", number=" + this.number + ", money=" + this.money + ")";
         }
     }
 }

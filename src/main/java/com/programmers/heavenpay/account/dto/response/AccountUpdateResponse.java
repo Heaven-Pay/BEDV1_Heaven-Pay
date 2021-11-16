@@ -10,7 +10,7 @@ public class AccountUpdateResponse {
     private final LocalDateTime createdAt;
     private final LocalDateTime modifiedAt;
 
-    AccountUpdateResponse(final Long id, final String title, final String description, final String number, final LocalDateTime createdAt, final LocalDateTime modifiedAt) {
+    private AccountUpdateResponse(final Long id, final String title, final String description, final String number, final LocalDateTime createdAt, final LocalDateTime modifiedAt) {
         this.id = id;
         this.title = title;
         this.description = description;
@@ -55,7 +55,7 @@ public class AccountUpdateResponse {
         private LocalDateTime createdAt;
         private LocalDateTime modifiedAt;
 
-        AccountUpdateResponseBuilder() {
+        private AccountUpdateResponseBuilder() {
         }
 
         public AccountUpdateResponse.AccountUpdateResponseBuilder id(final Long id) {
@@ -90,10 +90,6 @@ public class AccountUpdateResponse {
 
         public AccountUpdateResponse build() {
             return new AccountUpdateResponse(this.id, this.title, this.description, this.number, this.createdAt, this.modifiedAt);
-        }
-
-        public String toString() {
-            return "AccountUpdateResponse.AccountUpdateResponseBuilder(id=" + this.id + ", title=" + this.title + ", description=" + this.description + ", number=" + this.number + ", createdAt=" + this.createdAt + ", modifiedAt=" + this.modifiedAt + ")";
         }
     }
 }

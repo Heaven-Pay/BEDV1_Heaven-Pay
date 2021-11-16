@@ -9,7 +9,7 @@ public class AccountDetailAllResponse {
     private final LocalDateTime createdAt;
     private final LocalDateTime modifiedAt;
 
-    AccountDetailAllResponse(final Long id, final String title, final String number, final LocalDateTime createdAt, final LocalDateTime modifiedAt) {
+    private AccountDetailAllResponse(final Long id, final String title, final String number, final LocalDateTime createdAt, final LocalDateTime modifiedAt) {
         this.id = id;
         this.title = title;
         this.number = number;
@@ -48,7 +48,7 @@ public class AccountDetailAllResponse {
         private LocalDateTime createdAt;
         private LocalDateTime modifiedAt;
 
-        AccountDetailAllResponseBuilder() {
+        private AccountDetailAllResponseBuilder() {
         }
 
         public AccountDetailAllResponse.AccountDetailAllResponseBuilder id(final Long id) {
@@ -78,10 +78,6 @@ public class AccountDetailAllResponse {
 
         public AccountDetailAllResponse build() {
             return new AccountDetailAllResponse(this.id, this.title, this.number, this.createdAt, this.modifiedAt);
-        }
-
-        public String toString() {
-            return "AccountDetailAllResponse.AccountDetailAllResponseBuilder(id=" + this.id + ", title=" + this.title + ", number=" + this.number + ", createdAt=" + this.createdAt + ", modifiedAt=" + this.modifiedAt + ")";
         }
     }
 }

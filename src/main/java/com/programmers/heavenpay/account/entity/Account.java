@@ -87,7 +87,7 @@ public class Account extends BaseEntity<Long> {
         private Member member;
         private Finance finance;
 
-        AccountBuilder() {
+        private AccountBuilder() {
         }
 
         public Account.AccountBuilder id(final Long id) {
@@ -124,10 +124,6 @@ public class Account extends BaseEntity<Long> {
 
         public Account build() {
             return new Account(this.id, this.title, this.description, this.number, this.member, this.finance);
-        }
-
-        public String toString() {
-            return "Account.AccountBuilder(id=" + this.id + ", title=" + this.title + ", description=" + this.description + ", number=" + this.number + ", member=" + this.member + ", finance=" + this.finance + ")";
         }
     }
 }

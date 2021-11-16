@@ -48,7 +48,7 @@ public class FinanceDetailResponse {
         private LocalDateTime createdAt;
         private LocalDateTime modifiedAt;
 
-        FinanceDetailResponseBuilder() {
+        private FinanceDetailResponseBuilder() {
         }
 
         public FinanceDetailResponse.FinanceDetailResponseBuilder id(final Long id) {
@@ -78,10 +78,6 @@ public class FinanceDetailResponse {
 
         public FinanceDetailResponse build() {
             return new FinanceDetailResponse(this.id, this.financeName, this.financeType, this.createdAt, this.modifiedAt);
-        }
-
-        public String toString() {
-            return "FinanceDetailResponse.FinanceDetailResponseBuilder(id=" + this.id + ", financeName=" + this.financeName + ", financeType=" + this.financeType + ", createdAt=" + this.createdAt + ", modifiedAt=" + this.modifiedAt + ")";
         }
     }
 }

@@ -10,7 +10,7 @@ public class AccountDetailResponse {
     private final LocalDateTime createdAt;
     private final LocalDateTime modifiedAt;
 
-    AccountDetailResponse(final Long id, final String title, final String description, final String number, final LocalDateTime createdAt, final LocalDateTime modifiedAt) {
+    private AccountDetailResponse(final Long id, final String title, final String description, final String number, final LocalDateTime createdAt, final LocalDateTime modifiedAt) {
         this.id = id;
         this.title = title;
         this.description = description;
@@ -90,10 +90,6 @@ public class AccountDetailResponse {
 
         public AccountDetailResponse build() {
             return new AccountDetailResponse(this.id, this.title, this.description, this.number, this.createdAt, this.modifiedAt);
-        }
-
-        public String toString() {
-            return "AccountDetailResponse.AccountDetailResponseBuilder(id=" + this.id + ", title=" + this.title + ", description=" + this.description + ", number=" + this.number + ", createdAt=" + this.createdAt + ", modifiedAt=" + this.modifiedAt + ")";
         }
     }
 }

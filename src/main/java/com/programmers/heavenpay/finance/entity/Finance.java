@@ -56,7 +56,7 @@ public class Finance extends BaseEntity<Long> {
         private String name;
         private FinanceType financeType;
 
-        FinanceBuilder() {
+        private FinanceBuilder() {
         }
 
         public Finance.FinanceBuilder id(final Long id) {
@@ -76,10 +76,6 @@ public class Finance extends BaseEntity<Long> {
 
         public Finance build() {
             return new Finance(this.id, this.name, this.financeType);
-        }
-
-        public String toString() {
-            return "Finance.FinanceBuilder(id=" + this.id + ", name=" + this.name + ", financeType=" + this.financeType + ")";
         }
     }
 }
