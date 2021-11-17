@@ -4,14 +4,13 @@ import com.programmers.heavenpay.common.converter.ResponseConverter;
 import com.programmers.heavenpay.common.dto.LinkType;
 import com.programmers.heavenpay.common.dto.ResponseDto;
 import com.programmers.heavenpay.common.dto.ResponseMessage;
-import com.programmers.heavenpay.wish.dto.requset.WishCreateRequest;
+import com.programmers.heavenpay.wish.dto.request.WishCreateRequest;
 import com.programmers.heavenpay.wish.dto.response.WishCreateResponse;
 import com.programmers.heavenpay.wish.dto.response.WishDeleteResponse;
 import com.programmers.heavenpay.wish.dto.response.WishInfoResponse;
 import com.programmers.heavenpay.wish.service.WishService;
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiOperation;
-import lombok.RequiredArgsConstructor;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.hateoas.EntityModel;
@@ -27,12 +26,16 @@ import javax.validation.Valid;
 import static org.springframework.hateoas.server.mvc.WebMvcLinkBuilder.linkTo;
 
 @RestController
-@RequiredArgsConstructor
 @RequestMapping(value = "/api/v1", produces = MediaTypes.HAL_JSON_VALUE)
 @Api(tags = "Wish")
 public class WishController {
     private final WishService wishService;
     private final ResponseConverter responseConverter;
+
+    public WishController(WishService wishService, ResponseConverter responseConverter) {
+        this.wishService = wishService;
+        this.responseConverter = responseConverter;
+    }
 
     private WebMvcLinkBuilder getLinkToAddress() {
         return linkTo(WishController.class);

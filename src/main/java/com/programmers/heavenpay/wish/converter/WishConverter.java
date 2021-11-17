@@ -13,29 +13,18 @@ import java.time.LocalDateTime;
 @Component
 public class WishConverter {
     public Wish toWishEntity(Product product, Member member) {
-        return Wish.builder()
-                .member(member)
-                .product(product)
-                .build();
+        return new Wish(member, product);
     }
 
     public WishCreateResponse toWishCreateResponse(Long id, LocalDateTime createdAt) {
-        return WishCreateResponse.builder()
-                .id(id)
-                .createdAt(createdAt)
-                .build();
+        return new WishCreateResponse(id, createdAt);
     }
 
     public WishInfoResponse toWishInfoResponse(Wish wish) {
-        return WishInfoResponse.builder()
-                .productId(wish.getProduct().getId())
-                .id(wish.getId())
-                .build();
+        return new WishInfoResponse(wish.getProduct().getId(), wish.getId());
     }
 
     public WishDeleteResponse toWishDeleteResponse(Long id) {
-        return WishDeleteResponse.builder()
-                .id(id)
-                .build();
+        return new WishDeleteResponse(id);
     }
 }

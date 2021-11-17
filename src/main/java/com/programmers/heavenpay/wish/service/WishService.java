@@ -12,19 +12,24 @@ import com.programmers.heavenpay.wish.dto.response.WishDeleteResponse;
 import com.programmers.heavenpay.wish.dto.response.WishInfoResponse;
 import com.programmers.heavenpay.wish.entity.Wish;
 import com.programmers.heavenpay.wish.repository.WishRepository;
-import lombok.RequiredArgsConstructor;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 @Service
-@RequiredArgsConstructor
 public class WishService {
     private final WishRepository wishRepository;
     private final WishConverter wishConverter;
     private final MemberRepository memberRepository;
     private final ProductRepository productRepository;
+
+    public WishService(WishRepository wishRepository, WishConverter wishConverter, MemberRepository memberRepository, ProductRepository productRepository) {
+        this.wishRepository = wishRepository;
+        this.wishConverter = wishConverter;
+        this.memberRepository = memberRepository;
+        this.productRepository = productRepository;
+    }
 
     @Transactional
     public WishCreateResponse create(Long memberId, Long productId) {

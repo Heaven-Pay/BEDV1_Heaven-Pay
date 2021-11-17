@@ -1,10 +1,13 @@
 package com.programmers.heavenpay.wish.dto.response;
 
-import lombok.Builder;
-import lombok.Getter;
-
-@Builder
-@Getter
 public class WishDeleteResponse {
     private final Long id;
+
+    public WishDeleteResponse(Long id) {
+        this.id = id;
+    }
+
+    public Long getId() {
+        return id;
+    }
 }
