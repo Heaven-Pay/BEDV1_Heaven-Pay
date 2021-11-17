@@ -5,7 +5,7 @@ import com.programmers.heavenpay.member.repository.MemberRepository;
 import com.programmers.heavenpay.product.entitiy.Product;
 import com.programmers.heavenpay.product.repository.ProductRepository;
 import com.programmers.heavenpay.wish.converter.WishConverter;
-import com.programmers.heavenpay.wish.dto.requset.WishCreateRequest;
+import com.programmers.heavenpay.wish.dto.request.WishCreateRequest;
 import com.programmers.heavenpay.wish.dto.response.WishCreateResponse;
 import com.programmers.heavenpay.wish.dto.response.WishDeleteResponse;
 import com.programmers.heavenpay.wish.dto.response.WishInfoResponse;
@@ -62,32 +62,20 @@ class WishServiceTest {
     @Mock
     Page<WishInfoResponse> wishInfoResponsePage;
 
-    private WishCreateResponse wishCreateResponse = WishCreateResponse.builder()
-            .id(wishId)
-            .createdAt(createdAt)
-            .build();
+    private WishCreateResponse wishCreateResponse = new WishCreateResponse(wishId, createdAt);
 
-    private WishCreateRequest wishCreateRequest = WishCreateRequest.builder()
-            .memberId(memberId)
-            .productId(productId)
-            .build();
+    private WishCreateRequest wishCreateRequest = new WishCreateRequest(memberId, productId);
 
-    private WishDeleteResponse wishDeleteResponse = WishDeleteResponse.builder()
-            .id(wishId)
-            .build();
+    private WishDeleteResponse wishDeleteResponse = new WishDeleteResponse(wishId);
     // ### end of dto define area ### //
 
     private Member member = Member.builder().build();
 
     private Product product = Product.builder().build();
 
-    private Wish wish = Wish.builder()
-            .id(wishId)
-            .build();
+    private Wish wish = new Wish(wishId, member, product);
 
-    private Wish wishEntity = Wish.builder()
-            .id(wishId)
-            .build();
+    private Wish wishEntity = new Wish(wishId, member, product);
 
     @Test
     void 위시리스트_추가_성공_테스트() {

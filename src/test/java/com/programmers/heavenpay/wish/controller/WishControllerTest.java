@@ -5,7 +5,7 @@ import com.programmers.heavenpay.common.converter.ResponseConverter;
 import com.programmers.heavenpay.common.dto.LinkType;
 import com.programmers.heavenpay.common.dto.ResponseDto;
 import com.programmers.heavenpay.common.dto.ResponseMessage;
-import com.programmers.heavenpay.wish.dto.requset.WishCreateRequest;
+import com.programmers.heavenpay.wish.dto.request.WishCreateRequest;
 import com.programmers.heavenpay.wish.dto.response.WishCreateResponse;
 import com.programmers.heavenpay.wish.dto.response.WishDeleteResponse;
 import com.programmers.heavenpay.wish.dto.response.WishInfoResponse;
@@ -62,19 +62,11 @@ class WishControllerTest {
     @Mock
     Page<WishInfoResponse> wishInfoResponsePage;
 
-    private WishCreateResponse wishCreateResponse = WishCreateResponse.builder()
-            .id(wishId)
-            .createdAt(LocalDateTime.now())
-            .build();
+    private WishCreateResponse wishCreateResponse = new WishCreateResponse(wishId, LocalDateTime.now());
 
-    private WishCreateRequest wishCreateRequest = WishCreateRequest.builder()
-            .memberId(memberId)
-            .productId(productId)
-            .build();
+    private WishCreateRequest wishCreateRequest = new WishCreateRequest(memberId, productId);
 
-    private WishDeleteResponse wishDeleteResponse = WishDeleteResponse.builder()
-            .id(wishId)
-            .build();
+    private WishDeleteResponse wishDeleteResponse = new WishDeleteResponse(wishId);
     // ### end of dto define area ### //
 
     private WebMvcLinkBuilder getLinkToAddress() {
