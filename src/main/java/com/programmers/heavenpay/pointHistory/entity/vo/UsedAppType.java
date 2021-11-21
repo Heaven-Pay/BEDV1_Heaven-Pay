@@ -2,11 +2,9 @@ package com.programmers.heavenpay.pointHistory.entity.vo;
 
 import com.programmers.heavenpay.error.ErrorMessage;
 import com.programmers.heavenpay.error.exception.NotExistsException;
-import lombok.Getter;
 
 import java.util.Arrays;
 
-@Getter
 public enum UsedAppType {
     SERIES("시리즈"),
     WEBTOON("웹툰"),
@@ -26,5 +24,9 @@ public enum UsedAppType {
                 .filter(v -> v.typeStr.equals(usedAppType))
                 .findFirst()
                 .orElseThrow(() -> new NotExistsException(ErrorMessage.NOT_EXIST_USED_APP_TYPE));
+    }
+
+    public String getTypeStr() {
+        return typeStr;
     }
 }
