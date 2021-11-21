@@ -15,7 +15,6 @@ import com.programmers.heavenpay.pointHistory.dto.response.PointHistoryUpdateRes
 import com.programmers.heavenpay.pointHistory.service.PointHistoryService;
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiOperation;
-import lombok.RequiredArgsConstructor;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.hateoas.EntityModel;
@@ -33,10 +32,14 @@ import static org.springframework.hateoas.server.mvc.WebMvcLinkBuilder.linkTo;
 @Api(tags = "PointHistory")
 @RestController
 @RequestMapping(value = "/api/v1/point_histories", produces = MediaTypes.HAL_JSON_VALUE)
-@RequiredArgsConstructor
 public class PointHistoryController {
     private final PointHistoryService pointHistoryService;
     private final ResponseConverter responseConverter;
+
+    public PointHistoryController(PointHistoryService pointHistoryService, ResponseConverter responseConverter) {
+        this.pointHistoryService = pointHistoryService;
+        this.responseConverter = responseConverter;
+    }
 
     private WebMvcLinkBuilder getLinkToAddress() {
         return linkTo(PointHistoryController.class);
