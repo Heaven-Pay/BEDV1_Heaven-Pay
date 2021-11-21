@@ -13,7 +13,6 @@ import com.programmers.heavenpay.member.dto.response.MemberUpdateResponse;
 import com.programmers.heavenpay.member.service.MemberService;
 import io.swagger.annotations.ApiOperation;
 import io.swagger.models.HttpMethod;
-import lombok.RequiredArgsConstructor;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.hateoas.EntityModel;
@@ -28,11 +27,15 @@ import javax.validation.Valid;
 import static org.springframework.hateoas.server.mvc.WebMvcLinkBuilder.linkTo;
 
 @RestController
-@RequiredArgsConstructor
 @RequestMapping(value = "/api/v1/members", produces = MediaTypes.HAL_JSON_VALUE)
 public class MemberController {
     private final MemberService memberService;
     private final ResponseConverter responseConverter;
+
+    public MemberController(MemberService memberService, ResponseConverter responseConverter) {
+        this.memberService = memberService;
+        this.responseConverter = responseConverter;
+    }
 
     private WebMvcLinkBuilder getLinkToAddress() {
         return linkTo(MemberController.class);

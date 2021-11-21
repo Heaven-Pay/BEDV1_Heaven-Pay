@@ -16,10 +16,14 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 @Service
-@RequiredArgsConstructor
 public class MemberService {
     private final MemberRepository memberRepository;
     private final MemberConverter converter;
+
+    public MemberService(MemberRepository memberRepository, MemberConverter converter) {
+        this.memberRepository = memberRepository;
+        this.converter = converter;
+    }
 
     @Transactional
     public MemberCreateResponse create(String email, String name, String phoneNumber, String birth, String gender) {
