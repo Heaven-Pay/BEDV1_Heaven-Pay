@@ -6,7 +6,6 @@ import lombok.Getter;
 
 import java.util.Arrays;
 
-@Getter
 public enum GenderType {
     MALE("남성"),
     FEMALE("여성"),
@@ -23,5 +22,9 @@ public enum GenderType {
                 .filter(v -> v.typeStr.equals(genderType))
                 .findFirst()
                 .orElseThrow(() -> new NotExistsException(ErrorMessage.NOT_EXIST_GENDER_TYPE));
+    }
+
+    public String getTypeStr() {
+        return typeStr;
     }
 }
