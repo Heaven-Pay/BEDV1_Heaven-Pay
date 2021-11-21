@@ -1,21 +1,14 @@
 spring:
-  profiles:
-    active: local
-  datasource:
-    url: jdbc:mysql://localhost:3306/heavenpay?characterEncoding=UTF-8&serverTimezone=UTC&allowMultiQueries=true&autoReconnection=true
-    username: root
-    password: 1234
   jpa:
-    hibernate:
-      ddl-auto: create
+    # generate-ddl : Hibernate 초기화 옵션으로, 데이터를 근거로 서버 시작시 DDL문을 생성하여 DB에 적용한다.
+    # FK로 인한 테이블 순서가 꼬이지 않도록 미리 생성하도록 설정 값을 true로 함
+    generate-ddl: true
+    # show-sql : application 실행 시 동작되는 sql문을 console에 출력한다.
     show-sql: true
-    open-in-view: false
+    hibernate:
+      # ddl-auto : create/create-drop/udpate/none으로 application 실행 시 ddl을 어떤 방식으로 호출할지 상세 설정하는 옵션
+      ddl-auto: create
     properties:
       hibernate:
+        # format_sql : show-sql 되는 문자열을 줄 넘김으로 보기 편한 쿼리로 변경한다.
         format_sql : true
-server:
-  servlet:
-    encoding:
-      charset: UTF-8
-      enabled: true
-      force: true
