@@ -16,7 +16,6 @@ import com.programmers.heavenpay.pointWallet.service.PointWalletService;
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiOperation;
 import io.swagger.models.HttpMethod;
-import lombok.RequiredArgsConstructor;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.hateoas.EntityModel;
@@ -33,10 +32,14 @@ import static org.springframework.hateoas.server.mvc.WebMvcLinkBuilder.linkTo;
 @Api(tags = "PointWallet")
 @RestController
 @RequestMapping(value = "/api/v1/point_wallets", produces = MediaTypes.HAL_JSON_VALUE)
-@RequiredArgsConstructor
 public class PointWalletController {
     private final PointWalletService pointWalletService;
     private final ResponseConverter responseConverter;
+
+    public PointWalletController(PointWalletService pointWalletService, ResponseConverter responseConverter) {
+        this.pointWalletService = pointWalletService;
+        this.responseConverter = responseConverter;
+    }
 
     private WebMvcLinkBuilder getLinkToAddress() {
         return linkTo(PointWalletController.class);

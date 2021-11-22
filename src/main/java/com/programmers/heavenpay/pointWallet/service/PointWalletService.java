@@ -20,12 +20,18 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 @Service
-@RequiredArgsConstructor
 public class PointWalletService {
     private final PointWalletRepository pointWalletRepository;
     private final MemberRepository memberRepository;
     private final AccountRepository accountRepository;
     private final PointWalletConverter converter;
+
+    public PointWalletService(PointWalletRepository pointWalletRepository, MemberRepository memberRepository, AccountRepository accountRepository, PointWalletConverter converter) {
+        this.pointWalletRepository = pointWalletRepository;
+        this.memberRepository = memberRepository;
+        this.accountRepository = accountRepository;
+        this.converter = converter;
+    }
 
     @Transactional
     public PointWalletCreateResponse create(Long memberId, Long accountId, Integer walletPoint) {
