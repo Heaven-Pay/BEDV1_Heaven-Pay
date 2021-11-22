@@ -13,12 +13,10 @@ import com.programmers.heavenpay.pointWallet.entity.PointWallet;
 import com.programmers.heavenpay.pointWallet.repository.PointWalletRepository;
 import com.programmers.heavenpay.store.entity.Store;
 import com.programmers.heavenpay.store.repository.StoreRepository;
-import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 @Service
-@RequiredArgsConstructor
 public class PaymentService {
     private final PaymentRepository paymentRepository;
     private final MemberRepository memberRepository;
@@ -26,6 +24,14 @@ public class PaymentService {
     private final PointWalletRepository pointWalletRepository;
 
     private final PaymentConverter converter;
+
+    public PaymentService(PaymentRepository paymentRepository, MemberRepository memberRepository, StoreRepository storeRepository, PointWalletRepository pointWalletRepository, PaymentConverter converter) {
+        this.paymentRepository = paymentRepository;
+        this.memberRepository = memberRepository;
+        this.storeRepository = storeRepository;
+        this.pointWalletRepository = pointWalletRepository;
+        this.converter = converter;
+    }
 
     @Transactional
     public PaymentCreateResponse create(Long memberId, Long storeId, Long pointWalletId, Integer payPoint) {
