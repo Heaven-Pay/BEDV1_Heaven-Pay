@@ -46,4 +46,6 @@
 - aws
 
 ### 📄 UML
-![HeavenPay drawio](https://user-images.githubusercontent.com/50691225/138594678-271bb23c-da31-4f1c-a68f-0ad71236e5e1.png)
+
+![HeavenPay](https://user-images.githubusercontent.com/55920132/142803844-e7ac4a0d-d2de-4ef4-a891-1f9c2bf507d2.jpg)
+
