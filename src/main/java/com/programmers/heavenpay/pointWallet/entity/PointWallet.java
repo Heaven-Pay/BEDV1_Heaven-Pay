@@ -1,17 +1,11 @@
 package com.programmers.heavenpay.pointWallet.entity;
 
-import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.programmers.heavenpay.account.entity.Account;
 import com.programmers.heavenpay.member.entity.Member;
-import lombok.*;
 
 import javax.persistence.*;
 
 @Entity
-@Getter
-@Builder
-@NoArgsConstructor(access = AccessLevel.PROTECTED)
-@AllArgsConstructor
 public class PointWallet {
     @Id
     @GeneratedValue(strategy= GenerationType.AUTO)
@@ -29,8 +23,72 @@ public class PointWallet {
     @Column(name = "point_wallet_point", nullable = false)
     private Integer walletPoint;
 
+    protected PointWallet() {
+    }
+
+    public PointWallet(Long id, Member member, Account account, Integer walletPoint) {
+        this.id = id;
+        this.member = member;
+        this.account = account;
+        this.walletPoint = walletPoint;
+    }
+
+    public Long getId() {
+        return id;
+    }
+
+    public Member getMember() {
+        return member;
+    }
+
+    public Account getAccount() {
+        return account;
+    }
+
+    public Integer getWalletPoint() {
+        return walletPoint;
+    }
+
     public void updateData(Integer point, Account account) {
         this.walletPoint = point;
         this.account = account;
+    }
+
+    public static PointWallet.PointWalletBuilder builder() {
+        return new PointWallet.PointWalletBuilder();
+    }
+
+    public static class PointWalletBuilder {
+        private Long id;
+        private Member member;
+        private Account account;
+        private Integer walletPoint;
+
+        private PointWalletBuilder() {
+        }
+
+        public PointWallet.PointWalletBuilder id(final Long id) {
+            this.id = id;
+            return this;
+        }
+
+        public PointWallet.PointWalletBuilder member(final Member member) {
+            this.member = member;
+            return this;
+        }
+
+        public PointWallet.PointWalletBuilder account(final Account account) {
+            this.account = account;
+            return this;
+        }
+
+        public PointWallet.PointWalletBuilder walletPoint(final Integer walletPoint) {
+            this.walletPoint = walletPoint;
+            return this;
+        }
+
+        public PointWallet build() {
+            return new PointWallet(this.id, this.member, this.account, this.walletPoint);
+        }
     }
 }
