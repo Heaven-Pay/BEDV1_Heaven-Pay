@@ -1,16 +1,9 @@
 package com.programmers.heavenpay.pointWallet.dto.request;
 
 import com.programmers.heavenpay.annotation.ArbitraryAuthenticationPrincipal;
-import lombok.AccessLevel;
-import lombok.AllArgsConstructor;
-import lombok.Getter;
-import lombok.NoArgsConstructor;
 
 import javax.validation.constraints.NotNull;
 
-@Getter
-@NoArgsConstructor(access = AccessLevel.PROTECTED)
-@AllArgsConstructor
 public class PointWalletGetOneRequest {
     @NotNull(message = "고객 아이디를 입력하세요.")
     @ArbitraryAuthenticationPrincipal
@@ -18,4 +11,20 @@ public class PointWalletGetOneRequest {
 
     @NotNull(message = "계좌정보를 입력하세요.")
     private Long accountId;
+
+    protected PointWalletGetOneRequest() {
+    }
+
+    public PointWalletGetOneRequest(Long memberId, Long accountId) {
+        this.memberId = memberId;
+        this.accountId = accountId;
+    }
+
+    public Long getMemberId() {
+        return memberId;
+    }
+
+    public Long getAccountId() {
+        return accountId;
+    }
 }
