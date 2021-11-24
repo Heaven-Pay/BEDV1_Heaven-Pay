@@ -120,7 +120,7 @@ public class Product extends BaseEntity<Long> {
 
     public synchronized void subtractStock() {
         if (stock <= 0) {
-            throw new LackStockException(ErrorMessage.LACK_OF_STOCK);
+            throw new LackStockException(ErrorMessage.NOT_ENOUGH_STOCK);
         }
 
         stock--;

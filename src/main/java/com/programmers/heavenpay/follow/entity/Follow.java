@@ -25,12 +25,6 @@ public class Follow extends BaseEntity<Long> {
 
     }
 
-    public Follow(Long id, Member toMember, Member fromMember) {
-        this.id = id;
-        this.toMember = toMember;
-        this.fromMember = fromMember;
-    }
-
     public Follow(Member toMember, Member fromMember) {
         this.toMember = toMember;
         this.fromMember = fromMember;
